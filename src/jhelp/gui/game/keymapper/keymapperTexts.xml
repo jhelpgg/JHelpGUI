@@ -1,0 +1,17 @@
+<TEXTS>
+	<Text key="ACTION_ACTION">Action</Text>
+	<Text key="ACTION_CANCEL">Cancel</Text>
+	<Text key="ACTION_DOWN">Down</Text>
+	<Text key="ACTION_EXIT">Exit</Text>
+	<Text key="ACTION_FIRE">Fire 1</Text>
+	<Text key="ACTION_FIRE_2">Fire 2</Text>
+	<Text key="ACTION_LEFT">Left</Text>
+	<Text key="ACTION_MENU">Menu</Text>
+	<Text key="ACTION_NEXT">Next</Text>
+	<Text key="ACTION_PAUSE">Pause</Text>
+	<Text key="ACTION_PREVIOUS">Previous</Text>
+	<Text key="ACTION_RIGHT">Right</Text>
+	<Text key="ACTION_SPECIAL">Special</Text>
+	<Text key="ACTION_START">Start</Text>
+	<Text key="ACTION_UP">Up</Text>
+</TEXTS>
