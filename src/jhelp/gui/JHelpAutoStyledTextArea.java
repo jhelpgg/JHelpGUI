@@ -311,7 +311,6 @@ public class JHelpAutoStyledTextArea
             {
                style = JHelpAutoStyledTextArea.this.autoStyledDocument.getStyle(styleName);
                JHelpAutoStyledTextArea.this.autoStyledDocument.setCharacterAttributes(start, end - start, style, true);
-
             }
 
             start = end;
