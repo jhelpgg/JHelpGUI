@@ -2,8 +2,13 @@ package jhelp.gui.twoD;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.util.List;
 
+import jhelp.util.gui.JHelpFont;
 import jhelp.util.gui.JHelpImage;
+import jhelp.util.gui.JHelpTextAlign;
+import jhelp.util.gui.JHelpTextLine;
+import jhelp.util.list.Pair;
 
 /**
  * Label 2D that carry an image
@@ -13,6 +18,38 @@ import jhelp.util.gui.JHelpImage;
 public class JHelpLabelImage2D
       extends JHelpComponent2D
 {
+   /**
+    * Helper for create a label image initialized with a simple text
+    * 
+    * @param text
+    *           Text to write
+    * @param font
+    *           Font to use
+    * @param colorForeground
+    *           Foreground color
+    * @param colorBackground
+    *           Background color
+    * @param align
+    *           How text is aligned (right, left, center)
+    * @return Created label
+    */
+   public static JHelpLabelImage2D createTextLabel(final String text, final JHelpFont font, final int colorForeground, final int colorBackground, final JHelpTextAlign align)
+   {
+      final Pair<List<JHelpTextLine>, Dimension> textLines = font.computeTextLines(text, align);
+
+      final JHelpImage image = new JHelpImage(textLines.element2.width, textLines.element2.height, colorBackground);
+      image.startDrawMode();
+
+      for(final JHelpTextLine textLine : textLines.element1)
+      {
+         image.paintMask(textLine.getX(), textLine.getY(), textLine.getMask(), colorForeground, 0, true);
+      }
+
+      image.endDrawMode();
+
+      return new JHelpLabelImage2D(image);
+   }
+
    /** Carry image */
    private JHelpImage image;
    /** Preferred size */
