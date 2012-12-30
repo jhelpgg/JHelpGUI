@@ -65,7 +65,7 @@ public class JHelpTableLayout
    {
       /** Number cells take in height */
       final int cellHeight;
-      /** Number cells take in widtht */
+      /** Number cells take in width */
       final int cellWidth;
       /** Cell X */
       final int cellX;

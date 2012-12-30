@@ -33,6 +33,8 @@ public class JHelpFrame2D
 {
    /** serialVersionUID */
    private static final long              serialVersionUID     = 8861480138627452386L;
+   /** Default tips font */
+   public static final JHelpFont          DEFAULT_TIPS_FONT    = new JHelpFont("Arial", 14);
    /** Indicate if automatic refresh is running */
    private boolean                        automaticRefresh;
    /** Task that refresh automatically */
@@ -293,6 +295,14 @@ public class JHelpFrame2D
    }
 
    /**
+    * Hide the tips
+    */
+   public void hideTips()
+   {
+      this.printTips(0, 0, null);
+   }
+
+   /**
     * Indicates if automatic refresh is started
     * 
     * @return {@code true} if automatic refresh is started
@@ -494,11 +504,11 @@ public class JHelpFrame2D
     * @param y
     *           Y
     * @param tips
-    *           Tips text
+    *           Tips text ({@code null} for hide the tip)
     */
    public void printTips(final int x, final int y, final String tips)
    {
-      this.printTips(x, y, tips, new JHelpFont("Arial", 14), 0xFF000000, 0x80FFFF00, 0xFF000000, JHelpTextAlign.CENTER, true);
+      this.printTips(x, y, tips, JHelpFrame2D.DEFAULT_TIPS_FONT, 0xFF000000, 0x80FFFF00, 0xFF000000, JHelpTextAlign.CENTER, true);
    }
 
    /**
@@ -509,7 +519,7 @@ public class JHelpFrame2D
     * @param y
     *           Y
     * @param tips
-    *           Tips text
+    *           Tips text ({@code null} for hide the tip)
     * @param font
     *           Font to use
     * @param colorText
@@ -525,8 +535,18 @@ public class JHelpFrame2D
     */
    public void printTips(final int x, final int y, final String tips, final JHelpFont font, final int colorText, final int colorBackground, final int colorBorder, final JHelpTextAlign textAlign, final boolean borderLetter)
    {
-      final Pair<List<JHelpTextLine>, Dimension> pair = font.computeTextLines(tips, textAlign);
       final JHelpImage imageOver = this.getImageOver();
+
+      if(tips == null)
+      {
+         imageOver.startDrawMode();
+         imageOver.clear(0);
+         imageOver.endDrawMode();
+
+         return;
+      }
+
+      final Pair<List<JHelpTextLine>, Dimension> pair = font.computeTextLines(tips, textAlign);
 
       imageOver.startDrawMode();
 
