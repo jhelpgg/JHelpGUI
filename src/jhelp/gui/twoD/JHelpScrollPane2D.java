@@ -100,7 +100,11 @@ public class JHelpScrollPane2D
          return new Dimension(UtilMath.minIntegers(this.maxiumWidth, preferred.width), UtilMath.minIntegers(this.maxiumHeight, preferred.height));
       }
 
-      return new Dimension(UtilMath.minIntegers(this.maxiumWidth, parentWidth, preferred.width), UtilMath.minIntegers(this.maxiumHeight, parentHeight, preferred.height));
+      return new Dimension(UtilMath.minIntegers(this.maxiumWidth, parentWidth < 0
+            ? preferred.width
+            : parentWidth, preferred.width), UtilMath.minIntegers(this.maxiumHeight, parentHeight < 0
+            ? preferred.height
+            : parentHeight, preferred.height));
    }
 
    /**

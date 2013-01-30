@@ -42,7 +42,7 @@ import jhelp.util.thread.ThreadedVerySimpleTask;
  * 
  * @author JHelp
  */
-public class JHelpGame2D
+public abstract class JHelpGame2D
       extends JHelpFrameImage
 {
    /**
@@ -253,28 +253,28 @@ public class JHelpGame2D
    }
 
    /** serialVersionUID */
-   private static final long                            serialVersionUID = -229625270965052131L;
+   private static final long                            serialVersionUID    = -229625270965052131L;
    /** Actual action key state */
    private HashMap<ActionKey, Boolean>                  actionStates;
    /** Actual playing animations */
    private ArrayList<Pair<JHelpAnimation, JHelpSprite>> animations;
    /** Animate animations */
-   private final ThreadedVerySimpleTask                 animator         = new ThreadedVerySimpleTask()
-                                                                         {
-                                                                            /**
-                                                                             * Animate animations in separated thread <br>
-                                                                             * <br>
-                                                                             * <b>Parent documentation:</b><br>
-                                                                             * {@inheritDoc}
-                                                                             * 
-                                                                             * @see jhelp.util.thread.ThreadedVerySimpleTask#doVerySimpleAction()
-                                                                             */
-                                                                            @Override
-                                                                            protected void doVerySimpleAction()
+   private final ThreadedVerySimpleTask                 animator            = new ThreadedVerySimpleTask()
                                                                             {
-                                                                               JHelpGame2D.this.animate();
-                                                                            }
-                                                                         };
+                                                                               /**
+                                                                                * Animate animations in separated thread <br>
+                                                                                * <br>
+                                                                                * <b>Parent documentation:</b><br>
+                                                                                * {@inheritDoc}
+                                                                                * 
+                                                                                * @see jhelp.util.thread.ThreadedVerySimpleTask#doVerySimpleAction()
+                                                                                */
+                                                                               @Override
+                                                                               protected void doVerySimpleAction()
+                                                                               {
+                                                                                  JHelpGame2D.this.animate();
+                                                                               }
+                                                                            };
    /** Indicates if at least one animation is playing */
    private boolean                                      atLeastOneAnimationPlaying;
    /** Base name for external directory */
@@ -282,24 +282,53 @@ public class JHelpGame2D
    /** Event manager to react to actual action key state, mouse position and mouse buttons state */
    private EventManager                                 eventManager;
    /** Manage key and mouse events */
-   private final ThreadedVerySimpleTask                 eventManagerTask = new ThreadedVerySimpleTask()
-                                                                         {
-                                                                            /**
-                                                                             * Manage key and mouse events in separate thread <br>
-                                                                             * <br>
-                                                                             * <b>Parent documentation:</b><br>
-                                                                             * {@inheritDoc}
-                                                                             * 
-                                                                             * @see jhelp.util.thread.ThreadedVerySimpleTask#doVerySimpleAction()
-                                                                             */
-                                                                            @Override
-                                                                            protected void doVerySimpleAction()
+   private final ThreadedVerySimpleTask                 eventManagerTask    = new ThreadedVerySimpleTask()
                                                                             {
-                                                                               JHelpGame2D.this.manageEvents();
-                                                                            }
-                                                                         };
+                                                                               /**
+                                                                                * Manage key and mouse events in separate thread <br>
+                                                                                * <br>
+                                                                                * <b>Parent documentation:</b><br>
+                                                                                * {@inheritDoc}
+                                                                                * 
+                                                                                * @see jhelp.util.thread.ThreadedVerySimpleTask#doVerySimpleAction()
+                                                                                */
+                                                                               @Override
+                                                                               protected void doVerySimpleAction()
+                                                                               {
+                                                                                  JHelpGame2D.this.manageEvents();
+                                                                               }
+                                                                            };
+   /** Game FPS */
+   private int                                          fps;
+   /**
+    * Manage game image initialization/refresh
+    */
+   private final ThreadedVerySimpleTask                 gameImageManagement = new ThreadedVerySimpleTask()
+                                                                            {
+                                                                               /**
+                                                                                * Do the management <br>
+                                                                                * <br>
+                                                                                * <b>Parent documentation:</b><br>
+                                                                                * {@inheritDoc}
+                                                                                * 
+                                                                                * @see jhelp.util.thread.ThreadedVerySimpleTask#doVerySimpleAction()
+                                                                                */
+                                                                               @Override
+                                                                               protected void doVerySimpleAction()
+                                                                               {
+                                                                                  if(JHelpGame2D.this.gameInitialzed == true)
+                                                                                  {
+                                                                                     JHelpGame2D.this.refreshGame();
+                                                                                     return;
+                                                                                  }
+
+                                                                                  JHelpGame2D.this.initializeGame();
+                                                                               }
+                                                                            };
    /** Association of key code and action key */
    private HashMap<Integer, ActionKey>                  keyAssociations;
+   /** Last measured time */
+   private long                                         lastTime;
    /** Mouse and key listener */
    private MouseKeyListener                             mouseKeyListener;
    /** Listeners of mouse sensitive areas */
@@ -312,11 +341,11 @@ public class JHelpGame2D
    private Preferences                                  preferences;
    /** Recommended external directory where found external resources */
    private File                                         recommendedExternalDirectory;
+
    /** For synchronization */
    private ReentrantLock                                reentrantLock;
    /** Sprite that shows areas */
    private JHelpSprite                                  spriteShowAreas;
-
    /** Indicates if mouse button left is actually down */
    boolean                                              buttonLeft;
    /** Indicates if mouse button middle is actually down */
@@ -325,8 +354,11 @@ public class JHelpGame2D
    boolean                                              buttonRight;
    /** Listener that received the next pressed key code */
    CaptureKeyCodeListener                               captureKeyCodeListener;
+   /** Indicates if game is initialized */
+   boolean                                              gameInitialzed;
    /** Actual mouse X position */
    int                                                  mouseX;
+
    /** Actual mouse Y position */
    int                                                  mouseY;
 
@@ -359,6 +391,8 @@ public class JHelpGame2D
     */
    private void initialize(final String name)
    {
+      this.gameInitialzed = false;
+      this.fps = 25;
       this.baseName = name;
 
       if(this.baseName == null)
@@ -418,7 +452,8 @@ public class JHelpGame2D
       this.componentAddMouseListener(this.mouseKeyListener);
       this.componentAddMouseMotionListener(this.mouseKeyListener);
 
-      ThreadManager.THREAD_MANAGER.repeatThread(this.eventManagerTask, null, 1024, 32);
+      ThreadManager.THREAD_MANAGER.repeatThread(this.eventManagerTask, null, 1024, 1);
+      ThreadManager.THREAD_MANAGER.delayedThread(this.gameImageManagement, null, 512);
    }
 
    /**
@@ -492,6 +527,24 @@ public class JHelpGame2D
       {
          this.reentrantLock.unlock();
       }
+   }
+
+   /**
+    * Initialize the game
+    */
+   void initializeGame()
+   {
+      final JHelpImage image = this.getImage();
+
+      image.startDrawMode();
+      this.gameInitialize(image);
+      image.endDrawMode();
+
+      this.createGameSrpties();
+
+      this.gameInitialzed = true;
+
+      ThreadManager.THREAD_MANAGER.doThread(this.gameImageManagement, null);
    }
 
    /**
@@ -574,6 +627,45 @@ public class JHelpGame2D
          this.reentrantLock.unlock();
       }
    }
+
+   /**
+    * Refresh the game
+    */
+   void refreshGame()
+   {
+      this.lastTime = System.currentTimeMillis();
+      final JHelpImage image = this.getImage();
+
+      image.startDrawMode();
+      this.gameRefresh(image);
+      image.endDrawMode();
+
+      final long laps = System.currentTimeMillis() - this.lastTime;
+      final long delay = Math.max(1L, (1000L / this.fps) - laps);
+
+      ThreadManager.THREAD_MANAGER.delayedThread(this.gameImageManagement, null, delay);
+   }
+
+   /**
+    * Recommended moment for create main (all) game sprites
+    */
+   protected abstract void createGameSrpties();
+
+   /**
+    * Called when game initialization start
+    * 
+    * @param image
+    *           Game image where draw, already in draw mode
+    */
+   protected abstract void gameInitialize(JHelpImage image);
+
+   /**
+    * Call at each game frame.
+    * 
+    * @param image
+    *           Game image where draw, already in draw mode
+    */
+   protected abstract void gameRefresh(JHelpImage image);
 
    /**
     * add a mouse sensitive area
@@ -711,6 +803,16 @@ public class JHelpGame2D
    public EventManager getEventManager()
    {
       return this.eventManager;
+   }
+
+   /**
+    * Actual game FPS
+    * 
+    * @return Actual game FPS
+    */
+   public int getFps()
+   {
+      return this.fps;
    }
 
    /**
@@ -935,6 +1037,17 @@ public class JHelpGame2D
       {
          this.reentrantLock.unlock();
       }
+   }
+
+   /**
+    * Change game FPS
+    * 
+    * @param fps
+    *           New FPS
+    */
+   public void setFps(final int fps)
+   {
+      this.fps = Math.max(1, Math.min(1000, fps));
    }
 
    /**
