@@ -336,7 +336,7 @@ public class JHelpAutoStyledTextArea
    public static final String  DEFAULT_STYLE    = "jhelp.DEFAULT_STYLE";
 
    /**
-    * Indicates if a character is separator
+    * Indicates if a character is symbol
     * 
     * @param character
     *           Tested character

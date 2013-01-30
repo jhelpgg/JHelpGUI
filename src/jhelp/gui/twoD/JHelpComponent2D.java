@@ -147,9 +147,9 @@ public abstract class JHelpComponent2D
     * Compute the component preferred
     * 
     * @param parentWidth
-    *           Parent width, -1 if not already known
+    *           Parent width, <0 if not already known
     * @param parentHeight
-    *           Parent height, -1 if not already known
+    *           Parent height, <0 if not already known
     * @return Preferred size
     */
    protected abstract Dimension getPrefrerredSize(int parentWidth, int parentHeight);

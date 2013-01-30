@@ -1,0 +1,7 @@
+Add sample for choose color
+correct some potential issues
+Automatic management of game nitialization, create sprites and refresh
+JHelPGHame2D become abstract
+Add FPS management
+Sample of Snake game
+Update javadoc
