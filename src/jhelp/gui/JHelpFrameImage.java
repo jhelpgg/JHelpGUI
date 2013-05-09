@@ -1,7 +1,8 @@
 package jhelp.gui;
 
-import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Rectangle;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -148,7 +149,7 @@ public class JHelpFrameImage
    {
       final Rectangle bounds = UtilGUI.getScreenBounds(0);
 
-      this.componentJHelpImage = new ComponentJHelpImage(/* 1024, 1024);/ */bounds.width, bounds.height);
+      this.componentJHelpImage = new ComponentJHelpImage(bounds.width, bounds.height);
    }
 
    /**
@@ -162,9 +163,40 @@ public class JHelpFrameImage
    @Override
    protected final void layoutComponents()
    {
-      this.setLayout(new BorderLayout());
+      this.setLayout(null);
 
-      this.add(this.componentJHelpImage, BorderLayout.CENTER);
+      this.add(this.componentJHelpImage);
+   }
+
+   /**
+    * Called each time a component is modified on size and/or position and/or visiblity <br>
+    * <br>
+    * <b>Parent documentation:</b><br>
+    * {@inheritDoc}
+    * 
+    * @param componentEvent
+    *           Component event description
+    * @see java.awt.Component#processComponentEvent(java.awt.event.ComponentEvent)
+    */
+   @Override
+   protected void processComponentEvent(final ComponentEvent componentEvent)
+   {
+      switch(componentEvent.getID())
+      {
+         case ComponentEvent.COMPONENT_RESIZED:
+            final Component component = this.rootPane;
+            final Rectangle bounds = component != null
+                  ? component.getBounds()
+                  : null;
+            if((bounds != null) && (bounds.width > 0) && (bounds.height > 0) && (this.componentJHelpImage != null))
+            {
+               this.componentJHelpImage.setBounds(0, 0, bounds.width, bounds.height);
+               this.updateSize();
+            }
+         break;
+      }
+
+      super.processComponentEvent(componentEvent);
    }
 
    /**
@@ -211,6 +243,34 @@ public class JHelpFrameImage
    public final void refresh()
    {
       this.componentJHelpImage.getImage().update();
+   }
+
+   /**
+    * Called when frame size is defined <br>
+    * <br>
+    * <b>Parent documentation:</b><br>
+    * {@inheritDoc}
+    * 
+    * @param x
+    *           X position
+    * @param y
+    *           Y position
+    * @param width
+    *           Width
+    * @param height
+    *           Height
+    * @see java.awt.Window#setBounds(int, int, int, int)
+    */
+   @Override
+   public void setBounds(final int x, final int y, final int width, final int height)
+   {
+      if((width > 0) && (height > 0) && (this.componentJHelpImage != null))
+      {
+         this.componentJHelpImage.setBounds(0, 0, width, height);
+         this.updateSize();
+      }
+
+      super.setBounds(x, y, width, height);
    }
 
    /**

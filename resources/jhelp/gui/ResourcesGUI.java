@@ -46,6 +46,8 @@ public class ResourcesGUI
    public static final ImageIcon     ICON_HIDE_NORMAL;
    /** Hide over icon */
    public static final ImageIcon     ICON_HIDE_OVER;
+   /** Plus + icon */
+   public static final ImageIcon     ICON_PLUS;
    /** Show icon */
    public static final ImageIcon     ICON_SHOW_NORMAL;
    /** Show over icon */
@@ -85,6 +87,7 @@ public class ResourcesGUI
       ICON_HIDE_OVER = ResourcesGUI.RESOURCES.obtainImageIcon("HideOver.png");
       ICON_SHOW_NORMAL = ResourcesGUI.RESOURCES.obtainImageIcon("ShowNormal.png");
       ICON_SHOW_OVER = ResourcesGUI.RESOURCES.obtainImageIcon("ShowOver.png");
+      ICON_PLUS = ResourcesGUI.RESOURCES.obtainImageIcon("plus.gif");
 
       STANDARD_SMILEYS = new JHelpRichText(ResourcesGUI.RESOURCES);
 
