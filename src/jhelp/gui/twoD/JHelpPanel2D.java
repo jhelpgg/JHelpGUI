@@ -209,6 +209,7 @@ public class JHelpPanel2D
 
          if(child.element1.equals(component) == true)
          {
+            child.element1.willRemove();
             this.children.remove(i);
             child.element1.removeParent();
 

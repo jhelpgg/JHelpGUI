@@ -193,6 +193,13 @@ public abstract class JHelpComponent2D
    protected abstract void paint(int x, int y, JHelpImage parent);
 
    /**
+    * Called just before component removed, do nothing by default
+    */
+   protected void willRemove()
+   {
+   }
+
+   /**
     * X absolute position
     * 
     * @return X absolute position
