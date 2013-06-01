@@ -164,7 +164,7 @@ public class JHelpHorizontalLayout
                   width += this.spaceBetweenComponents;
                }
 
-               width += prefferedSize.height;
+               width += prefferedSize.width;
 
             break;
             case EXPANDED:
@@ -175,7 +175,7 @@ public class JHelpHorizontalLayout
                   width += this.spaceBetweenComponents;
                }
 
-               width += prefferedSize.height;
+               width += prefferedSize.width;
 
             break;
          }

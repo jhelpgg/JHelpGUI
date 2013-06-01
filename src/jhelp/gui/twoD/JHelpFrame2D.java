@@ -18,8 +18,8 @@ import jhelp.util.gui.JHelpTextAlign;
 import jhelp.util.gui.JHelpTextLine;
 import jhelp.util.list.Pair;
 import jhelp.util.list.Triplet;
-import jhelp.util.thread.Mutex;
 import jhelp.util.thread.ThreadManager;
+import jhelp.util.thread.ThreadedSimpleTask;
 import jhelp.util.thread.ThreadedVerySimpleTask;
 
 /**
@@ -32,40 +32,76 @@ public class JHelpFrame2D
       implements MouseListener, MouseMotionListener, MouseWheelListener
 {
    /** serialVersionUID */
-   private static final long              serialVersionUID     = 8861480138627452386L;
+   private static final long                                              serialVersionUID     = 8861480138627452386L;
    /** Default tips font */
-   public static final JHelpFont          DEFAULT_TIPS_FONT    = new JHelpFont("Arial", 14);
+   public static final JHelpFont                                          DEFAULT_TIPS_FONT    = new JHelpFont("Arial", 14);
    /** Indicate if automatic refresh is running */
-   private boolean                        automaticRefresh;
+   private boolean                                                        automaticRefresh;
    /** Task that refresh automatically */
-   private final ThreadedVerySimpleTask   automaticRefreshTask = new ThreadedVerySimpleTask()
-                                                               {
-                                                                  /**
-                                                                   * Refresh the frmae <br>
-                                                                   * <br>
-                                                                   * <b>Parent documentation:</b><br>
-                                                                   * {@inheritDoc}
-                                                                   * 
-                                                                   * @see jhelp.util.thread.ThreadedVerySimpleTask#doVerySimpleAction()
-                                                                   */
-                                                                  @Override
-                                                                  protected void doVerySimpleAction()
-                                                                  {
-                                                                     JHelpFrame2D.this.update();
-                                                                  }
-                                                               };
+   private final ThreadedVerySimpleTask                                   automaticRefreshTask = new ThreadedVerySimpleTask()
+                                                                                               {
+                                                                                                  /**
+                                                                                                   * Refresh the frmae <br>
+                                                                                                   * <br>
+                                                                                                   * <b>Parent
+                                                                                                   * documentation:</b><br>
+                                                                                                   * {@inheritDoc}
+                                                                                                   * 
+                                                                                                   * @see jhelp.util.thread.ThreadedVerySimpleTask#doVerySimpleAction()
+                                                                                                   */
+                                                                                                  @Override
+                                                                                                  protected void doVerySimpleAction()
+                                                                                                  {
+                                                                                                     JHelpFrame2D.this.update();
+                                                                                                  }
+                                                                                               };
    /** Background color */
-   private final int                      backgroundColor;
-   /** Synchronization mutex */
-   private final Mutex                    mutex;
+   private final int                                                      backgroundColor;
+   /** Synchronization lock */
+   private final Object                                                   lock                 = new Object();
    /** Actual component where lies the mouse */
-   private JHelpComponent2D               overComponent;
+   private JHelpComponent2D                                               overComponent;
    /** Main 2D panel */
-   private final JHelpPanel2D             panel;
+   private final JHelpPanel2D                                             panel;
+   /** Task for signal mouse events */
+   private final ThreadedSimpleTask<Pair<JHelpMouseListener, MouseEvent>> signalMouseEventTask = new ThreadedSimpleTask<Pair<JHelpMouseListener, MouseEvent>>()
+                                                                                               {
+                                                                                                  @Override
+                                                                                                  protected void doSimpleAction(final Pair<JHelpMouseListener, MouseEvent> parameter)
+                                                                                                  {
+                                                                                                     switch(parameter.element2.getID())
+                                                                                                     {
+                                                                                                        case MouseEvent.MOUSE_CLICKED:
+                                                                                                           parameter.element1.mouseClicked(parameter.element2);
+                                                                                                        break;
+                                                                                                        case MouseEvent.MOUSE_DRAGGED:
+                                                                                                           parameter.element1.mouseDragged(parameter.element2);
+                                                                                                        break;
+                                                                                                        case MouseEvent.MOUSE_ENTERED:
+                                                                                                           parameter.element1.mouseEntered(parameter.element2);
+                                                                                                        break;
+                                                                                                        case MouseEvent.MOUSE_EXITED:
+                                                                                                           parameter.element1.mouseExited(parameter.element2);
+                                                                                                        break;
+                                                                                                        case MouseEvent.MOUSE_MOVED:
+                                                                                                           parameter.element1.mouseMoved(parameter.element2);
+                                                                                                        break;
+                                                                                                        case MouseEvent.MOUSE_PRESSED:
+                                                                                                           parameter.element1.mousePressed(parameter.element2);
+                                                                                                        break;
+                                                                                                        case MouseEvent.MOUSE_RELEASED:
+                                                                                                           parameter.element1.mouseReleased(parameter.element2);
+                                                                                                        break;
+                                                                                                        case MouseEvent.MOUSE_WHEEL:
+                                                                                                           parameter.element1.mouseWheelMoved((MouseWheelEvent) parameter.element2);
+                                                                                                        break;
+                                                                                                     }
+                                                                                                  }
+                                                                                               };
    /** Dialogs stack */
-   private final ArrayList<JHelpDialog2D> stackDialog;
+   private final ArrayList<JHelpDialog2D>                                 stackDialog;
    /** Waiting time */
-   private int                            wait;
+   private int                                                            wait;
 
    /**
     * Create a new instance of JHelpFrame2D
@@ -93,7 +129,6 @@ public class JHelpFrame2D
       this.panel = new JHelpPanel2D(layout);
       this.backgroundColor = 0xFFFEDCBA;
       this.automaticRefresh = false;
-      this.mutex = new Mutex();
 
       this.componentAddMouseListener(this);
       this.componentAddMouseMotionListener(this);
@@ -181,7 +216,7 @@ public class JHelpFrame2D
                mouseEvent.getClickCount(), mouseEvent.isPopupTrigger());
          me.setSource(this.overComponent);
 
-         this.overComponent.getMouseListener().mouseExited(me);
+         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(this.overComponent.getMouseListener(), me));
       }
 
       if(component2d != null)
@@ -190,7 +225,7 @@ public class JHelpFrame2D
                mouseEvent.isPopupTrigger());
          me.setSource(component2d);
 
-         component2d.getMouseListener().mouseEntered(me);
+         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(component2d.getMouseListener(), me));
       }
 
       this.overComponent = component2d;
@@ -206,58 +241,55 @@ public class JHelpFrame2D
     */
    void setDialogVisible(final JHelpDialog2D dialog, final boolean visible)
    {
-      this.mutex.lock();
-
-      final int size = this.stackDialog.size();
-      final int index = this.stackDialog.indexOf(dialog);
-
-      if(visible == false)
+      synchronized(this.lock)
       {
-         if(index >= 0)
+
+         final int size = this.stackDialog.size();
+         final int index = this.stackDialog.indexOf(dialog);
+
+         if(visible == false)
          {
-            if(dialog.isVisible() == true)
+            if(index >= 0)
             {
-               dialog.updateVisible(false);
+               if(dialog.isVisible() == true)
+               {
+                  dialog.updateVisible(false);
+               }
+
+               this.stackDialog.remove(index);
+
+               if((index == (size - 1)) && (index > 0))
+               {
+                  this.stackDialog.get(index - 1).updateVisible(true);
+               }
             }
 
-            this.stackDialog.remove(index);
-
-            if((index == (size - 1)) && (index > 0))
-            {
-               this.stackDialog.get(index - 1).updateVisible(true);
-            }
+            return;
          }
 
-         this.mutex.unlock();
-         return;
-      }
-
-      if(index < 0)
-      {
-         if(size > 0)
+         if(index < 0)
          {
-            this.stackDialog.get(size - 1).updateVisible(false);
+            if(size > 0)
+            {
+               this.stackDialog.get(size - 1).updateVisible(false);
+            }
+
+            this.stackDialog.add(dialog);
+            dialog.updateVisible(true);
+
+            return;
          }
 
+         if(index == (size - 1))
+         {
+            return;
+         }
+
+         this.stackDialog.get(size - 1).updateVisible(false);
+         this.stackDialog.remove(index);
          this.stackDialog.add(dialog);
          dialog.updateVisible(true);
-
-         this.mutex.unlock();
-         return;
       }
-
-      if(index == (size - 1))
-      {
-         this.mutex.unlock();
-         return;
-      }
-
-      this.stackDialog.get(size - 1).updateVisible(false);
-      this.stackDialog.remove(index);
-      this.stackDialog.add(dialog);
-      dialog.updateVisible(true);
-
-      this.mutex.unlock();
    }
 
    /**
@@ -287,11 +319,12 @@ public class JHelpFrame2D
          throw new NullPointerException("component2d musn't be null");
       }
 
-      this.mutex.lock();
-      final JHelpDialog2D dialog2d = new JHelpDialog2D(component2d, this);
-      this.mutex.unlock();
+      synchronized(this.lock)
+      {
+         final JHelpDialog2D dialog2d = new JHelpDialog2D(component2d, this);
 
-      return dialog2d;
+         return dialog2d;
+      }
    }
 
    /**
@@ -329,7 +362,7 @@ public class JHelpFrame2D
 
       if(triplet != null)
       {
-         triplet.element2.mouseClicked(triplet.element3);
+         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
       }
    }
 
@@ -353,8 +386,8 @@ public class JHelpFrame2D
 
       if(triplet != null)
       {
-         triplet.element2.mouseDragged(triplet.element3);
          this.updateMousePosition(triplet.element1, mx, my, triplet.element3);
+         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
       }
       else
       {
@@ -379,7 +412,7 @@ public class JHelpFrame2D
 
       if(triplet != null)
       {
-         triplet.element2.mouseEntered(triplet.element3);
+         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
       }
    }
 
@@ -400,7 +433,7 @@ public class JHelpFrame2D
 
       if(triplet != null)
       {
-         triplet.element2.mouseExited(triplet.element3);
+         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
       }
    }
 
@@ -424,8 +457,8 @@ public class JHelpFrame2D
 
       if(triplet != null)
       {
-         triplet.element2.mouseMoved(triplet.element3);
          this.updateMousePosition(triplet.element1, mx, my, triplet.element3);
+         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
       }
       else
       {
@@ -450,7 +483,7 @@ public class JHelpFrame2D
 
       if(triplet != null)
       {
-         triplet.element2.mousePressed(triplet.element3);
+         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
       }
    }
 
@@ -471,7 +504,7 @@ public class JHelpFrame2D
 
       if(triplet != null)
       {
-         triplet.element2.mouseReleased(triplet.element3);
+         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
       }
    }
 
@@ -492,7 +525,7 @@ public class JHelpFrame2D
 
       if(triplet != null)
       {
-         triplet.element2.mouseWheelMoved((MouseWheelEvent) triplet.element3);
+         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
       }
    }
 
@@ -533,7 +566,7 @@ public class JHelpFrame2D
     * @param borderLetter
     *           Indicates if draw border letters
     */
-   public void printTips(final int x, final int y, final String tips, final JHelpFont font, final int colorText, final int colorBackground, final int colorBorder, final JHelpTextAlign textAlign, final boolean borderLetter)
+   public synchronized void printTips(int x, int y, final String tips, final JHelpFont font, final int colorText, final int colorBackground, final int colorBorder, final JHelpTextAlign textAlign, final boolean borderLetter)
    {
       final JHelpImage imageOver = this.getImageOver();
 
@@ -552,7 +585,13 @@ public class JHelpFrame2D
 
       imageOver.clear(0);
 
-      imageOver.fillRectangle(x, y, pair.element2.width + 6, pair.element2.height + 6, colorBackground);
+      final int width = pair.element2.width + 6;
+      final int height = pair.element2.height + 6;
+
+      x = Math.max(0, Math.min(x, imageOver.getWidth() - width - 1));
+      y = Math.max(0, Math.min(y, imageOver.getHeight() - height - 1));
+
+      imageOver.fillRectangle(x, y, width, height, colorBackground);
 
       final int col = colorText ^ 0x00FFFFFF;
 
@@ -572,7 +611,7 @@ public class JHelpFrame2D
          imageOver.paintMask(x + textLine.getX() + 3, y + textLine.getY() + 3, textLine.getMask(), colorText, 0, true);
       }
 
-      imageOver.drawRectangle(x, y, pair.element2.width + 6, pair.element2.height + 6, colorBorder);
+      imageOver.drawRectangle(x, y, width, height, colorBorder);
 
       imageOver.endDrawMode();
    }
@@ -604,34 +643,33 @@ public class JHelpFrame2D
     */
    public void update()
    {
-      this.mutex.lock();
-
-      this.updateSize();
-
-      final JHelpImage image = this.getImage();
-
-      this.panel.getPrefrerredSize(image.getWidth(), image.getHeight());
-
-      image.startDrawMode();
-
-      image.clear(this.backgroundColor);
-
-      this.panel.paintInternal(0, 0, image);
-
-      image.endDrawMode();
-
-      final int size = this.stackDialog.size();
-      if(size > 0)
+      synchronized(this.lock)
       {
-         this.stackDialog.get(size - 1).updateImage();
-      }
+         this.updateSize();
 
-      if(this.automaticRefresh == true)
-      {
-         ThreadManager.THREAD_MANAGER.delayedThread(this.automaticRefreshTask, null, this.wait);
-         this.wait = 32;
-      }
+         final JHelpImage image = this.getImage();
 
-      this.mutex.unlock();
+         this.panel.getPrefrerredSize(image.getWidth(), image.getHeight());
+
+         image.startDrawMode();
+
+         image.clear(this.backgroundColor);
+
+         this.panel.paintInternal(0, 0, image);
+
+         image.endDrawMode();
+
+         final int size = this.stackDialog.size();
+         if(size > 0)
+         {
+            this.stackDialog.get(size - 1).updateImage();
+         }
+
+         if(this.automaticRefresh == true)
+         {
+            ThreadManager.THREAD_MANAGER.delayedThread(this.automaticRefreshTask, null, this.wait);
+            this.wait = 32;
+         }
+      }
    }
 }

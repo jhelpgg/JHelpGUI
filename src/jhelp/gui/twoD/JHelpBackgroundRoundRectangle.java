@@ -11,7 +11,7 @@ public class JHelpBackgroundRoundRectangle
       extends JHelpBackground2D
 {
    /** Background color */
-   private final int colorBackground;
+   private int colorBackground;
 
    /**
     * Create a new instance of JHelpBackgroundRoundRectangle
@@ -84,5 +84,26 @@ public class JHelpBackgroundRoundRectangle
    protected void paintBackground(final int x, final int y, final int width, final int height, final JHelpImage parent, final int top, final int left, final int right, final int bottom)
    {
       parent.fillRoundRectangle(x, y, width, height, top + bottom, left + right, this.colorBackground);
+   }
+
+   /**
+    * Backgound color
+    * 
+    * @return Backgound color
+    */
+   public int getColorBackground()
+   {
+      return this.colorBackground;
+   }
+
+   /**
+    * Change backgound color
+    * 
+    * @param colorBackground
+    *           New backgound color
+    */
+   public void setColorBackground(final int colorBackground)
+   {
+      this.colorBackground = colorBackground;
    }
 }

@@ -19,6 +19,78 @@ public class JHelpLabelImage2D
       extends JHelpComponent2D
 {
    /**
+    * Image location inside the component
+    * 
+    * @author JHelp
+    */
+   public enum PlaceImage
+   {
+      /** Place image at bottom and center in horizontal of the component */
+      BOTTOM_CENTER(JHelpLabelImage2D.VALUE_BOTTOM_RIGHT, JHelpLabelImage2D.VALUE_CENTER),
+      /** Place image at bottom left of the component */
+      BOTTOM_LEFT(JHelpLabelImage2D.VALUE_BOTTOM_RIGHT, JHelpLabelImage2D.VALUE_TOP_LEFT),
+      /** Place image at bottom right of the component */
+      BOTTOM_RIGHT(JHelpLabelImage2D.VALUE_BOTTOM_RIGHT, JHelpLabelImage2D.VALUE_BOTTOM_RIGHT),
+      /** Place the image at center of the component */
+      CENTER_CENTER(JHelpLabelImage2D.VALUE_CENTER, JHelpLabelImage2D.VALUE_CENTER),
+      /** Place the image at verical center and left of the component */
+      CENTER_LEFT(JHelpLabelImage2D.VALUE_CENTER, JHelpLabelImage2D.VALUE_TOP_LEFT),
+      /** Place the image at vertical center and right of the component */
+      CENTER_RIGHT(JHelpLabelImage2D.VALUE_CENTER, JHelpLabelImage2D.VALUE_BOTTOM_RIGHT),
+      /** Place the image at top and horizontal center of the component */
+      TOP_CENTER(JHelpLabelImage2D.VALUE_TOP_LEFT, JHelpLabelImage2D.VALUE_CENTER),
+      /** Place the image at top left of the component */
+      TOP_LEFT(JHelpLabelImage2D.VALUE_TOP_LEFT, JHelpLabelImage2D.VALUE_TOP_LEFT),
+      /** Place the image at top right of the component */
+      TOP_RIGHT(JHelpLabelImage2D.VALUE_TOP_LEFT, JHelpLabelImage2D.VALUE_BOTTOM_RIGHT);
+      /** Horizontal policy */
+      private int horizontal;
+      /** Vertical policy */
+      private int vertical;
+
+      /**
+       * Create a new instance of PlaceImage
+       * 
+       * @param vertical
+       *           Vertical policy
+       * @param horizontal
+       *           Horizontal policy
+       */
+      PlaceImage(final int vertical, final int horizontal)
+      {
+         this.horizontal = horizontal;
+         this.vertical = vertical;
+      }
+
+      /**
+       * Horizontal policy
+       * 
+       * @return Horizontal policy
+       */
+      public int getHorizontal()
+      {
+         return this.horizontal;
+      }
+
+      /**
+       * Vertical policy
+       * 
+       * @return Vertical policy
+       */
+      public int getVertical()
+      {
+         return this.vertical;
+      }
+   }
+
+   /** Vertical policy bottom. Horizontal policy right */
+   public static final int VALUE_BOTTOM_RIGHT = 1;
+   /** Vertical or horizontal policy center */
+   public static final int VALUE_CENTER       = 0;
+   /** Vertical policy top. Horizontal policy left */
+   public static final int VALUE_TOP_LEFT     = -1;
+
+   /**
     * Helper for create a label image initialized with a simple text
     * 
     * @param text
@@ -52,6 +124,8 @@ public class JHelpLabelImage2D
 
    /** Carry image */
    private JHelpImage image;
+   /** Image location */
+   private PlaceImage placeImage;
    /** Preferred size */
    private Dimension  preferredSize;
 
@@ -64,8 +138,8 @@ public class JHelpLabelImage2D
    public JHelpLabelImage2D(final JHelpImage image)
    {
       this.image = image;
-
       this.preferredSize = new Dimension(image.getWidth(), image.getHeight());
+      this.placeImage = PlaceImage.CENTER_CENTER;
    }
 
    /**
@@ -106,8 +180,36 @@ public class JHelpLabelImage2D
    {
       final Rectangle bounds = this.getBounds();
 
-      parent.drawImage(x + ((bounds.width - this.preferredSize.width) >> 1),//
-            y + ((bounds.height - this.preferredSize.height) >> 1), this.image);
+      int xx = x;
+      int yy = y;
+
+      switch(this.placeImage.getVertical())
+      {
+         case VALUE_BOTTOM_RIGHT:
+            yy = (y + bounds.height) - this.preferredSize.height;
+         break;
+         case VALUE_CENTER:
+            yy = y + ((bounds.height - this.preferredSize.height) >> 1);
+         break;
+         case VALUE_TOP_LEFT:
+            yy = y;
+         break;
+      }
+
+      switch(this.placeImage.getHorizontal())
+      {
+         case VALUE_BOTTOM_RIGHT:
+            xx = (x + bounds.width) - this.preferredSize.width;
+         break;
+         case VALUE_CENTER:
+            xx = x + ((bounds.width - this.preferredSize.width) >> 1);
+         break;
+         case VALUE_TOP_LEFT:
+            xx = x;
+         break;
+      }
+
+      parent.drawImage(xx, yy, this.image);
    }
 
    /**
@@ -121,6 +223,16 @@ public class JHelpLabelImage2D
    }
 
    /**
+    * Image location in component
+    * 
+    * @return Image location in component
+    */
+   public PlaceImage getPlaceImage()
+   {
+      return this.placeImage;
+   }
+
+   /**
     * Change the image
     * 
     * @param image
@@ -131,5 +243,21 @@ public class JHelpLabelImage2D
       this.image = image;
 
       this.preferredSize = new Dimension(image.getWidth(), image.getHeight());
+   }
+
+   /**
+    * Change image location in component
+    * 
+    * @param placeImage
+    *           New image location
+    */
+   public void setPlaceImage(final PlaceImage placeImage)
+   {
+      if(placeImage == null)
+      {
+         throw new NullPointerException("placeImage musn't be null");
+      }
+
+      this.placeImage = placeImage;
    }
 }

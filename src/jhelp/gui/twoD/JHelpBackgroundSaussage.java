@@ -11,7 +11,7 @@ public class JHelpBackgroundSaussage
       extends JHelpBackground2D
 {
    /** Background color */
-   private final int colorBackground;
+   private int colorBackground;
 
    /**
     * Create a new instance of JHelpBackgroundSaussage
@@ -86,5 +86,26 @@ public class JHelpBackgroundSaussage
       final int arc = Math.min(width, height);
 
       parent.fillRoundRectangle(x, y, width, height, arc, arc, this.colorBackground);
+   }
+
+   /**
+    * Background color
+    * 
+    * @return Background color
+    */
+   public int getColorBackground()
+   {
+      return this.colorBackground;
+   }
+
+   /**
+    * Change background color
+    * 
+    * @param colorBackground
+    *           New background color
+    */
+   public void setColorBackground(final int colorBackground)
+   {
+      this.colorBackground = colorBackground;
    }
 }

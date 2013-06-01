@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 
 import jhelp.gui.JHelpMouseListener;
 import jhelp.util.gui.JHelpImage;
+import jhelp.util.gui.UtilGUI;
 import jhelp.util.list.Pair;
 import jhelp.util.math.UtilMath;
 
@@ -100,11 +101,17 @@ public class JHelpScrollPane2D
          return new Dimension(UtilMath.minIntegers(this.maxiumWidth, preferred.width), UtilMath.minIntegers(this.maxiumHeight, preferred.height));
       }
 
-      return new Dimension(UtilMath.minIntegers(this.maxiumWidth, parentWidth < 0
-            ? preferred.width
-            : parentWidth, preferred.width), UtilMath.minIntegers(this.maxiumHeight, parentHeight < 0
-            ? preferred.height
-            : parentHeight, preferred.height));
+      return new Dimension(UtilMath.minIntegers(this.maxiumWidth, parentWidth, preferred.width), UtilMath.minIntegers(this.maxiumHeight, parentHeight, preferred.height));
+   }
+
+   /**
+    * Scrolled view
+    * 
+    * @return Scrolled view
+    */
+   protected final JHelpComponent2D getScrollView()
+   {
+      return this.scrollView;
    }
 
    /**
@@ -246,7 +253,7 @@ public class JHelpScrollPane2D
    public void mouseClicked(final MouseEvent e)
    {
       JHelpMouseListener mouseListener = null;
-      final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(e.getX(), e.getY());
+      final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(e.getX() - this.scrollX, e.getY() - this.scrollY);
 
       if(pair != null)
       {
@@ -535,5 +542,57 @@ public class JHelpScrollPane2D
    public void setOnlyOnRightClick(final boolean onlyOnRightClick)
    {
       this.onlyOnRightClick = onlyOnRightClick;
+   }
+
+   /**
+    * Try make a specific rectangle area visible on automatic scrolling
+    * 
+    * @param rectangle
+    *           Recangle area try to be visible
+    */
+   public void tryMakeVisible(final Rectangle rectangle)
+   {
+      final Rectangle bounds = this.getBounds();
+      if((this.scrollView.isVisible() == false) || (bounds.width < 1) || (bounds.height < 1))
+      {
+         return;
+      }
+
+      if(UtilGUI.computeIntresectedArea(rectangle, bounds) > ((rectangle.width * rectangle.height) >> 2))
+      {
+         return;
+      }
+
+      int sx = -rectangle.x;
+      int sy = -rectangle.y;
+
+      final Rectangle view = this.scrollView.getBounds();
+
+      final int w = bounds.width - view.width;
+      final int h = bounds.height - view.height;
+
+      if(sx < w)
+      {
+         sx = w;
+      }
+
+      if(sx > 0)
+      {
+         sx = 0;
+      }
+
+      if(sy < h)
+      {
+         sy = h;
+      }
+
+      if(sy > 0)
+      {
+         sy = 0;
+      }
+
+      this.scrollX = sx;
+      this.scrollY = sy;
+      this.dx = this.dy = 0;
    }
 }

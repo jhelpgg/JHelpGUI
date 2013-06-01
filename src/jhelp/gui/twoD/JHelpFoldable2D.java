@@ -516,7 +516,7 @@ public class JHelpFoldable2D
    protected void paint(final int x, final int y, final JHelpImage parent)
    {
       final Rectangle bounds = this.getBounds();
-
+      parent.startDrawMode();
       int xPanel = 0;
       int yPanel = 0;
       int xx = 0;

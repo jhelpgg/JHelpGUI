@@ -49,8 +49,12 @@ public abstract class JHelpComponent2D
       return true;
    }
 
+   /** Developer additional information */
+   private Object             aditionalInformation;
    /** Last computed bounds */
    private final Rectangle    bounds;
+   /** Comonent developer ID */
+   private int                id;
    /** Associated mouse listener */
    private JHelpMouseListener mouseListener;
    /** Actual parent */
@@ -120,6 +124,8 @@ public abstract class JHelpComponent2D
       this.bounds.y = y;
       this.bounds.width = width;
       this.bounds.height = height;
+
+      this.onBoundsChanged(this.getBounds());
    }
 
    /**
@@ -181,6 +187,17 @@ public abstract class JHelpComponent2D
    }
 
    /**
+    * Called when component bounds changed.<br>
+    * Do nothing by default
+    * 
+    * @param bounds
+    *           New bounds
+    */
+   protected void onBoundsChanged(final Rectangle bounds)
+   {
+   }
+
+   /**
     * Draw the component itself
     * 
     * @param x
@@ -204,7 +221,7 @@ public abstract class JHelpComponent2D
     * 
     * @return X absolute position
     */
-   public int getAbsoluteX()
+   public final int getAbsoluteX()
    {
       return this.xAbsolute;
    }
@@ -214,9 +231,19 @@ public abstract class JHelpComponent2D
     * 
     * @return Y absolute position
     */
-   public int getAbsoluteY()
+   public final int getAbsoluteY()
    {
       return this.yAbsolute;
+   }
+
+   /**
+    * Developer additional information
+    * 
+    * @return Developer additional information
+    */
+   public final Object getAditionalInformation()
+   {
+      return this.aditionalInformation;
    }
 
    /**
@@ -230,11 +257,21 @@ public abstract class JHelpComponent2D
    }
 
    /**
+    * Comonent developer ID
+    * 
+    * @return Comonent developer ID
+    */
+   public final int getId()
+   {
+      return this.id;
+   }
+
+   /**
     * Associated mouse listener
     * 
     * @return Associated mouse listener
     */
-   public JHelpMouseListener getMouseListener()
+   public final JHelpMouseListener getMouseListener()
    {
       return this.mouseListener;
    }
@@ -244,7 +281,7 @@ public abstract class JHelpComponent2D
     * 
     * @return Container parent
     */
-   public JHelpContainer2D getParent()
+   public final JHelpContainer2D getParent()
    {
       return this.parent;
    }
@@ -254,9 +291,31 @@ public abstract class JHelpComponent2D
     * 
     * @return {@code true} if component is visible
     */
-   public boolean isVisible()
+   public final boolean isVisible()
    {
       return this.visible;
+   }
+
+   /**
+    * Change developer additional information
+    * 
+    * @param aditionalInformation
+    *           New developer additional information
+    */
+   public final void setAditionalInformation(final Object aditionalInformation)
+   {
+      this.aditionalInformation = aditionalInformation;
+   }
+
+   /**
+    * Change comonent developer ID
+    * 
+    * @param id
+    *           New comonent developer ID
+    */
+   public final void setId(final int id)
+   {
+      this.id = id;
    }
 
    /**
@@ -276,7 +335,7 @@ public abstract class JHelpComponent2D
     * @param visible
     *           New visibility state
     */
-   public void setVisible(final boolean visible)
+   public final void setVisible(final boolean visible)
    {
       this.visible = visible;
    }

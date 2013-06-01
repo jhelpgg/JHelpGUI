@@ -8,6 +8,7 @@ import java.util.List;
 
 import jhelp.gui.JHelpMouseListener;
 import jhelp.util.gui.JHelpImage;
+import jhelp.util.gui.UtilGUI;
 import jhelp.util.list.Pair;
 
 /**
@@ -69,7 +70,9 @@ public class JHelpPanel2D
          return new Dimension();
       }
 
-      return this.layout.computeBounds(this.children, parentWidth, parentHeight).getSize();
+      final Rectangle bounds = this.layout.computeBounds(this.children, parentWidth, parentHeight);
+      this.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
+      return bounds.getSize();
    }
 
    /**
@@ -161,6 +164,23 @@ public class JHelpPanel2D
    }
 
    /**
+    * Remove all components from the panel
+    */
+   public void clearComponents()
+   {
+      final int size = this.children.size();
+      Pair<JHelpComponent2D, JHelpConstraints> child;
+
+      for(int i = size - 1; i >= 0; i--)
+      {
+         child = this.children.get(i);
+         child.element1.willRemove();
+         this.children.remove(i);
+         child.element1.removeParent();
+      }
+   }
+
+   /**
     * Draw the panel <br>
     * <br>
     * <b>Parent documentation:</b><br>
@@ -177,6 +197,7 @@ public class JHelpPanel2D
    @Override
    public void paint(final int x, final int y, final JHelpImage parent)
    {
+      final Rectangle panelBounds = this.getBounds();
       Rectangle bounds;
 
       for(final Pair<JHelpComponent2D, JHelpConstraints> child : this.children)
@@ -187,8 +208,13 @@ public class JHelpPanel2D
          }
 
          bounds = child.element1.getBounds();
+         bounds.x += x;
+         bounds.y += y;
 
-         child.element1.paintInternal(x + bounds.x, y + bounds.y, parent);
+         if(UtilGUI.computeIntresectedArea(panelBounds, bounds) > 0)
+         {
+            child.element1.paintInternal(bounds.x, bounds.y, parent);
+         }
       }
    }
 
