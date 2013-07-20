@@ -523,6 +523,31 @@ public class JHelpTree2D<INFORMATION>
       }
 
       this.treeImage = image;
+      this.invalidate();
+   }
+
+   /**
+    * Compute tree preferred size <br>
+    * <br>
+    * <b>Parent documentation:</b><br>
+    * {@inheritDoc}
+    * 
+    * @param parentWidth
+    *           Parent width
+    * @param parentHeight
+    *           Parent height
+    * @return Preferred size
+    * @see jhelp.gui.twoD.JHelpComponent2D#computePreferredSize(int, int)
+    */
+   @Override
+   protected Dimension computePreferredSize(final int parentWidth, final int parentHeight)
+   {
+      if(this.treeImage != null)
+      {
+         return new Dimension(this.treeImage.getWidth(), this.treeImage.getHeight());
+      }
+
+      return new Dimension(128, 128);
    }
 
    /**
@@ -541,30 +566,6 @@ public class JHelpTree2D<INFORMATION>
       this.treeModel.unregisterTreeModelListener(this.eventManager);
 
       super.finalize();
-   }
-
-   /**
-    * Compute tree preferred size <br>
-    * <br>
-    * <b>Parent documentation:</b><br>
-    * {@inheritDoc}
-    * 
-    * @param parentWidth
-    *           Parent width
-    * @param parentHeight
-    *           Parent height
-    * @return Preferred size
-    * @see jhelp.gui.twoD.JHelpComponent2D#getPrefrerredSize(int, int)
-    */
-   @Override
-   protected Dimension getPrefrerredSize(final int parentWidth, final int parentHeight)
-   {
-      if(this.treeImage != null)
-      {
-         return new Dimension(this.treeImage.getWidth(), this.treeImage.getHeight());
-      }
-
-      return new Dimension(128, 128);
    }
 
    /**

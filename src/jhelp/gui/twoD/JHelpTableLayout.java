@@ -221,7 +221,7 @@ public class JHelpTableLayout
             continue;
          }
 
-         preferred = child.element1.getPrefrerredSize(-1, -1);
+         preferred = child.element1.getPreferredSize(-1, -1);
          constraints = (JHelpTableLayoutConstraints) child.element2;
 
          xmin = Math.min(xmin, constraints.cellX);

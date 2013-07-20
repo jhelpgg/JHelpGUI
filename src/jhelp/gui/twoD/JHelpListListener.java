@@ -18,6 +18,8 @@ public interface JHelpListListener<INFORMATION>
     *           New selected value (-1 means that nothing is selected)
     * @param information
     *           Selected information (If nothing is selected, {@code null})
+    * @param clickCount
+    *           NumberOfClick
     */
-   public void listSelectionChanged(JHelpList2D<INFORMATION> list2d, int selecttedIndex, INFORMATION information);
+   public void listSelectionChanged(JHelpList2D<INFORMATION> list2d, int selecttedIndex, INFORMATION information, int clickCount);
 }

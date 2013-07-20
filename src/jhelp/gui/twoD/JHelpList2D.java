@@ -1,17 +1,27 @@
 package jhelp.gui.twoD;
 
+import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import jhelp.gui.JHelpMouseListener;
+import jhelp.gui.ResourcesGUI;
 import jhelp.gui.twoD.JHelpHorizontalLayout.JHelpHorizontalLayoutConstraints;
 import jhelp.gui.twoD.JHelpVerticalLayout.JHelpVerticalLayoutConstraints;
+import jhelp.util.Utilities;
+import jhelp.util.debug.Debug;
+import jhelp.util.gui.GIF;
 import jhelp.util.gui.JHelpFont;
 import jhelp.util.gui.JHelpImage;
 import jhelp.util.gui.JHelpMask;
 
 /**
- * A list od elements
+ * A list od elements.<br>
+ * Its possible to navigate inside list by up,down button page-up/page-down (Quick scroll), Enter launch a
+ * {@link JHelpListListener#listSelectionChanged(JHelpList2D, int, Object, int)} like if double click
  * 
  * @author JHelp
  * @param <INFORMATION>
@@ -26,12 +36,122 @@ public class JHelpList2D<INFORMATION>
     * @author JHelp
     */
    class EventManager
-         implements JHelpListModelListener<INFORMATION>, JHelpMouseListener
+         implements JHelpListModelListener<INFORMATION>, JHelpMouseListener, KeyListener
    {
       /**
        * Create a new instance of EventManager
        */
       EventManager()
+      {
+      }
+
+      /**
+       * Called when key pressed <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       * 
+       * @param e
+       *           Key event description
+       * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+       */
+      @Override
+      public void keyPressed(final KeyEvent e)
+      {
+         int selection = JHelpList2D.this.selectedIndex;
+         final int size = JHelpList2D.this.listModel.numberOfElement();
+
+         try
+         {
+            switch(e.getKeyCode())
+            {
+               case KeyEvent.VK_UP:
+                  if(selection > 0)
+                  {
+                     JHelpList2D.this.setSelectedIndex(selection - 1, 0);
+                  }
+               break;
+               case KeyEvent.VK_DOWN:
+                  if(selection < (size - 1))
+                  {
+                     JHelpList2D.this.setSelectedIndex(selection + 1, 0);
+                  }
+               break;
+               case KeyEvent.VK_PAGE_UP:
+                  if(selection > 0)
+                  {
+                     JHelpList2D.this.setSelectedIndex(Math.max(selection - 10, 0), 0);
+                  }
+               break;
+               case KeyEvent.VK_PAGE_DOWN:
+                  if(selection < (size - 1))
+                  {
+                     JHelpList2D.this.setSelectedIndex(Math.min(selection + 10, size - 1), 0);
+                  }
+               break;
+               case KeyEvent.VK_ENTER:
+                  if(selection >= 0)
+                  {
+                     JHelpList2D.this.setSelectedIndex(selection, 2);
+                  }
+               break;
+               default:
+                  JHelpList2D.this.keyDown(e.getKeyCode());
+               break;
+            }
+         }
+         catch(final Exception exception)
+         {
+            try
+            {
+               Utilities.sleep(128);
+
+               selection = JHelpList2D.this.selectedIndex;
+
+               if(selection > 0)
+               {
+                  JHelpList2D.this.setSelectedIndex(selection - 1, 0);
+               }
+               else if(selection < (size - 1))
+               {
+                  JHelpList2D.this.setSelectedIndex(selection + 1, 0);
+               }
+
+               JHelpList2D.this.setSelectedIndex(selection, 0);
+            }
+            catch(final Exception exception2)
+            {
+            }
+         }
+      }
+
+      /**
+       * Called when key released <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       * 
+       * @param e
+       *           Key event
+       * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+       */
+      @Override
+      public void keyReleased(final KeyEvent e)
+      {
+      }
+
+      /**
+       * Called when key typed <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       * 
+       * @param e
+       *           Key event
+       * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+       */
+      @Override
+      public void keyTyped(final KeyEvent e)
       {
       }
 
@@ -65,7 +185,7 @@ public class JHelpList2D<INFORMATION>
       public void mouseClicked(final MouseEvent e)
       {
          final JHelpComponent2D component2d = UtilTwoD.getComponent2DFromMouseEvent(e);
-         JHelpList2D.this.setSelectedIndex(component2d.getId());
+         JHelpList2D.this.setSelectedIndex(component2d.getId(), e.getClickCount());
       }
 
       /**
@@ -174,32 +294,187 @@ public class JHelpList2D<INFORMATION>
       }
    }
 
+   /**
+    * Item in the list
+    * 
+    * @author JHelp
+    */
+   class ListItem
+         extends JHelpComponent2D
+   {
+      /** Item size */
+      private final Dimension   dimension;
+      /** Carry information */
+      private final INFORMATION information;
+
+      /**
+       * Create a new instance of ListItem
+       * 
+       * @param information
+       *           Carry information
+       */
+      ListItem(final INFORMATION information)
+      {
+         this.information = information;
+         final Dimension size = JHelpList2D.this.listModel.getCellSize(information);
+         if(size == null)
+         {
+            final JHelpImage image = this.computeImage();
+            this.dimension = new Dimension(image.getWidth(), image.getHeight());
+         }
+         else
+         {
+            this.dimension = size;
+         }
+
+         this.setBounds(0, 0, this.dimension.width, this.dimension.height);
+      }
+
+      /**
+       * Compute item image representation
+       * 
+       * @return Item image representation
+       */
+      synchronized JHelpImage computeImage()
+      {
+         JHelpImage image = null;
+         String text = null;
+
+         if(JHelpList2D.this.listModel.useImageRepresentation(this.information) == true)
+         {
+            image = JHelpList2D.this.listModel.obtainImageRepresentation(this.information);
+         }
+
+         if(image == null)
+         {
+            text = JHelpList2D.this.listModel.obtainTextRepresentation(this.information);
+
+            if(text == null)
+            {
+               text = "null";
+            }
+
+            final JHelpMask mask = JHelpList2D.this.font.createMask(text);
+            image = new JHelpImage(mask.getWidth(), mask.getHeight());
+            image.startDrawMode();
+            image.paintMask(0, 0, mask, JHelpList2D.this.foreground, 0, false);
+            image.endDrawMode();
+         }
+
+         return image;
+      }
+
+      /**
+       * Compute item preferred size <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       * 
+       * @param parentWidth
+       *           Parent width
+       * @param parentHeight
+       *           Parent height
+       * @return Preferred size
+       * @see jhelp.gui.twoD.JHelpComponent2D#computePreferredSize(int, int)
+       */
+      @Override
+      protected Dimension computePreferredSize(final int parentWidth, final int parentHeight)
+      {
+         return this.dimension;
+      }
+
+      /**
+       * Paint the item <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       * 
+       * @param x
+       *           X in parent
+       * @param y
+       *           Y in parent
+       * @param parent
+       *           Parent where draw
+       * @see jhelp.gui.twoD.JHelpComponent2D#paint(int, int, jhelp.util.gui.JHelpImage)
+       */
+      @Override
+      protected void paint(final int x, final int y, final JHelpImage parent)
+      {
+         parent.drawImage(x, y, this.computeImage());
+      }
+   }
+
+   /** Loading animation images */
+   private static final JHelpImage[]      LOADING;
+   /** Loading animation height */
+   private static final int               LOADING_HEIGHT;
+   /** Loading animation number of images */
+   private static final int               LOADING_LENGTH;
+   /** Loading animation width */
+   private static final int               LOADING_WIDH;
    /** Default background color */
-   public static final int                   BACKGROUND = 0xFFFFFFFF;
+   public static final int                BACKGROUND         = 0xFFFFFFFF;
    /** Default font for texts */
-   public static final JHelpFont             FONT       = new JHelpFont("Arial", 16);
+   public static final JHelpFont          FONT               = new JHelpFont("Arial", 16);
    /** Default foreground color */
-   public static final int                   FOREGROUND = 0xFF000000;
+   public static final int                FOREGROUND         = 0xFF000000;
    /** Defult selection color */
-   public static final int                   SELECTION  = 0xFFC0C0FF;
-   /** Actual background color */
-   private int                               background;
-   /** Event manager */
-   private final EventManager                eventManager;
-   /** Actual font for texts */
-   private JHelpFont                         font;
-   /** Actual foreground color */
-   private int                               foreground;
+   public static final int                SELECTION          = 0xFFC0C0FF;
+   static
+   {
+      JHelpImage[] loading = null;
+      int length = 0;
+      int width = 0;
+      int height = 0;
+      try
+      {
+         final GIF gif = new GIF(ResourcesGUI.RESOURCES.obtainResourceStream("loader.gif"));
+         length = gif.numberOfImage();
+         width = gif.getWidth();
+         height = gif.getHeight();
+         loading = new JHelpImage[length];
+         for(int i = 0; i < length; i++)
+         {
+            loading[i] = gif.getImage(i);
+         }
+         gif.destroy();
+      }
+      catch(final Exception exception)
+      {
+         Debug.printException(exception, "Failed to get loading image");
+      }
+
+      LOADING = loading;
+      LOADING_LENGTH = length;
+      LOADING_WIDH = width;
+      LOADING_HEIGHT = height;
+   }
+   /** Indicates if refresh can continue */
+   private final AtomicBoolean            canContinueRefresh = new AtomicBoolean(false);
    /** Indicates if the list is horizontal or vertical */
-   private final boolean                     horizontal;
+   private final boolean                  horizontal;
    /** Listener of list events */
-   private JHelpListListener<INFORMATION>    listListener;
+   private JHelpListListener<INFORMATION> listListener;
+   /** Loading animation current index */
+   private int                            loadingIndex       = 0;
+   /** Loading percent */
+   private int                            percent;
+   /** Indicates if refresh is processing */
+   private boolean                        refreshing;
+   /** Actual background color */
+   int                                    background;
+   /** Event manager */
+   final EventManager                     eventManager;
+   /** Actual font for texts */
+   JHelpFont                              font;
+   /** Actual foreground color */
+   int                                    foreground;
    /** Embed model */
-   private final JHelpListModel<INFORMATION> listModel;
-   /** Current selection color */
-   private int                               selection;
+   final JHelpListModel<INFORMATION>      listModel;
    /** Selected index */
-   int                                       selectedIndex;
+   int                                    selectedIndex;
+   /** Current selection color */
+   int                                    selection;
 
    /**
     * Create a new instance of JHelpList2D
@@ -226,13 +501,81 @@ public class JHelpList2D<INFORMATION>
       this.listModel = listModel;
       this.updateList();
       listModel.registerJHelpListModelListener(this.eventManager);
+      this.setKeyListener(this.eventManager);
    }
 
    /**
-    * Update the list content
+    * Slect an item index
+    * 
+    * @param selectedIndex
+    *           Selected index
+    * @param clickCount
+    *           Number of click for selection
+    */
+   void setSelectedIndex(final int selectedIndex, final int clickCount)
+   {
+      final int size = this.listModel.numberOfElement();
+      final int newSelectedIndex = (selectedIndex >= 0) && (selectedIndex < size)
+            ? selectedIndex
+            : -1;
+
+      if((newSelectedIndex == this.selectedIndex) && (clickCount <= 1))
+      {
+         return;
+      }
+
+      final JHelpPanel2D panel2d = (JHelpPanel2D) this.getScrollView();
+
+      if(this.selectedIndex >= 0)
+      {
+         final JHelpBackgroundRoundRectangle roundRectangle = (JHelpBackgroundRoundRectangle) panel2d.children().get(this.selectedIndex);
+         roundRectangle.setColorBackground(this.background);
+      }
+
+      this.selectedIndex = newSelectedIndex;
+      INFORMATION information = null;
+
+      if(this.selectedIndex >= 0)
+      {
+         final JHelpBackgroundRoundRectangle roundRectangle = (JHelpBackgroundRoundRectangle) panel2d.children().get(this.selectedIndex);
+         roundRectangle.setColorBackground(this.selection);
+
+         this.tryMakeVisible(roundRectangle.getBounds());
+
+         information = this.listModel.getElement(this.selectedIndex);
+      }
+
+      if(this.listListener != null)
+      {
+         this.listListener.listSelectionChanged(this, this.selectedIndex, information, clickCount);
+      }
+   }
+
+   /**
+    * Update the list (Called when model changed)
     */
    void updateList()
    {
+      synchronized(this.canContinueRefresh)
+      {
+         while(this.refreshing == true)
+         {
+            this.canContinueRefresh.set(false);
+
+            try
+            {
+               this.canContinueRefresh.wait();
+            }
+            catch(final Exception exception)
+            {
+            }
+         }
+      }
+
+      this.canContinueRefresh.set(true);
+      this.refreshing = true;
+      this.percent = 0;
+
       final JHelpPanel2D panel2d = (JHelpPanel2D) this.getScrollView();
       panel2d.clearComponents();
 
@@ -241,49 +584,109 @@ public class JHelpList2D<INFORMATION>
             ? this.selectedIndex
             : -1;
       INFORMATION information;
-      JHelpImage image;
-      String text;
       JHelpBackgroundRoundRectangle backgroundRoundRectangle;
-      JHelpLabelImage2D labelImage2D;
+      ListItem listItem;
       final JHelpConstraints constraints = this.horizontal == true
             ? JHelpHorizontalLayoutConstraints.EXPANDED
             : JHelpVerticalLayoutConstraints.EXPANDED;
 
-      for(int i = 0; i < size; i++)
+      int mod = 1;
+
+      for(int i = 0; (i < size) && (this.canContinueRefresh.get() == true); i++)
       {
-         image = null;
-         text = null;
          information = this.listModel.getElement(i);
 
-         if(this.listModel.useImageRepresentation(information) == true)
+         final String tips = this.listModel.getToolTip(information);
+         listItem = new ListItem(information);
+         listItem.setId(i);
+         listItem.setMouseListener(this.eventManager);
+         listItem.setToolTip(tips);
+         backgroundRoundRectangle = new JHelpBackgroundRoundRectangle(listItem,//
+               i == this.selectedIndex
+                     ? this.selection
+                     : this.background);
+         backgroundRoundRectangle.setId(i);
+         backgroundRoundRectangle.setMouseListener(this.eventManager);
+         backgroundRoundRectangle.setToolTip(tips);
+         panel2d.addComponent2D(backgroundRoundRectangle, constraints, i >= mod);
+         if(i >= mod)
          {
-            image = this.listModel.obtainImageRepresentation(information);
+            mod += 1 + (mod >> 3);
          }
 
-         if(image == null)
-         {
-            text = this.listModel.obtainTextRepresentation(information);
-
-            if(text == null)
-            {
-               text = "null";
-            }
-
-            final JHelpMask mask = this.font.createMask(text);
-            image = new JHelpImage(mask.getWidth(), mask.getHeight());
-            image.startDrawMode();
-            image.paintMask(0, 0, mask, this.foreground, 0, false);
-            image.endDrawMode();
-         }
-
-         labelImage2D = new JHelpLabelImage2D(image);
-         labelImage2D.setId(i);
-         labelImage2D.setMouseListener(this.eventManager);
-         backgroundRoundRectangle = new JHelpBackgroundRoundRectangle(labelImage2D, i == this.selectedIndex
-               ? this.selection
-               : this.background);
-         panel2d.addComponent2D(backgroundRoundRectangle, constraints);
+         this.percent = (i * 100) / size;
       }
+
+      synchronized(this.canContinueRefresh)
+      {
+         if(this.canContinueRefresh.get() == true)
+         {
+            panel2d.invalidate();
+            this.updateFinished();
+            this.invalidate();
+
+            this.percent = 100;
+         }
+         else
+         {
+            this.canContinueRefresh.notify();
+         }
+      }
+
+      this.refreshing = false;
+   }
+
+   /**
+    * Called when key down (Other than Up, down, page-u, page-down, or Enter/Return) to do specific things.<br>
+    * Do nothing by default
+    * 
+    * @param keyCode
+    *           Key code down
+    */
+   protected void keyDown(final int keyCode)
+   {
+      // Do nothing by default;
+   }
+
+   /**
+    * Paint the list <br>
+    * <br>
+    * <b>Parent documentation:</b><br>
+    * {@inheritDoc}
+    * 
+    * @param x
+    *           X on parent
+    * @param y
+    *           Y on parent
+    * @param parent
+    *           Parent where draw
+    * @see jhelp.gui.twoD.JHelpScrollPane2D#paint(int, int, jhelp.util.gui.JHelpImage)
+    */
+   @Override
+   protected void paint(final int x, final int y, final JHelpImage parent)
+   {
+      super.paint(x, y, parent);
+
+      if((this.refreshing == true) && (JHelpList2D.LOADING_LENGTH > 0))
+      {
+         this.getBounds();
+         final int xx = x + 3;
+         final int yy = y + 3;
+
+         parent.drawImage(xx, yy, JHelpList2D.LOADING[this.loadingIndex]);
+         parent.drawStringCenter(xx + (JHelpList2D.LOADING_WIDH >> 1), yy + (JHelpList2D.LOADING_HEIGHT >> 1), this.percent + "%", JHelpList2D.FONT, 0xFF000000);
+
+         this.loadingIndex = (this.loadingIndex + 1) % JHelpList2D.LOADING_LENGTH;
+      }
+   }
+
+   /**
+    * Called when update is finished.<br>
+    * Do nothing by default
+    */
+   protected void updateFinished()
+   {
+      // Do nothing by default;
    }
 
    /**
@@ -373,6 +776,42 @@ public class JHelpList2D<INFORMATION>
    }
 
    /**
+    * Get list tooltip for a specific position.<br>
+    * It look for the item under this position in the list and give its tool tips. If no item found default tolltip is returned <br>
+    * <br>
+    * <b>Parent documentation:</b><br>
+    * {@inheritDoc}
+    * 
+    * @param x
+    *           X position
+    * @param y
+    *           Y position
+    * @return The tootltip or {@code null} if no tooltip
+    * @see jhelp.gui.twoD.JHelpComponent2D#getToolTip(int, int)
+    */
+   @Override
+   public String getToolTip(final int x, final int y)
+   {
+      final JHelpComponent2D component2d = this.getComponent(x, y);
+      if(component2d == null)
+      {
+         return this.getToolTip();
+      }
+
+      return component2d.getToolTip(x, y);
+   }
+
+   /**
+    * Number of elements in the list
+    * 
+    * @return Number of elements in the list
+    */
+   public int numberOfComponents()
+   {
+      return ((JHelpPanel2D) this.getScrollView()).children().size();
+   }
+
+   /**
     * Change background color
     * 
     * @param background
@@ -448,41 +887,7 @@ public class JHelpList2D<INFORMATION>
     */
    public void setSelectedIndex(final int selectedIndex)
    {
-      final int size = this.listModel.numberOfElement();
-      final int newSelectedIndex = (selectedIndex >= 0) && (selectedIndex < size)
-            ? selectedIndex
-            : -1;
-
-      if(newSelectedIndex == this.selectedIndex)
-      {
-         return;
-      }
-
-      final JHelpPanel2D panel2d = (JHelpPanel2D) this.getScrollView();
-
-      if(this.selectedIndex >= 0)
-      {
-         final JHelpBackgroundRoundRectangle roundRectangle = (JHelpBackgroundRoundRectangle) panel2d.children().get(this.selectedIndex);
-         roundRectangle.setColorBackground(this.background);
-      }
-
-      this.selectedIndex = newSelectedIndex;
-      INFORMATION information = null;
-
-      if(this.selectedIndex >= 0)
-      {
-         final JHelpBackgroundRoundRectangle roundRectangle = (JHelpBackgroundRoundRectangle) panel2d.children().get(this.selectedIndex);
-         roundRectangle.setColorBackground(this.selection);
-
-         this.tryMakeVisible(roundRectangle.getBounds());
-
-         information = this.listModel.getElement(this.selectedIndex);
-      }
-
-      if(this.listListener != null)
-      {
-         this.listListener.listSelectionChanged(this, this.selectedIndex, information);
-      }
+      this.setSelectedIndex(selectedIndex, 0);
    }
 
    /**

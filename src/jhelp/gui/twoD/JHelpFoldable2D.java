@@ -258,6 +258,7 @@ public class JHelpFoldable2D
                                                                 JHelpFoldable2D.this.fireFoldChanged();
                                                              }
 
+                                                             JHelpFoldable2D.this.invalidate();
                                                              JHelpFoldable2D.this.mutex.unlock();
                                                           }
                                                        };
@@ -381,17 +382,17 @@ public class JHelpFoldable2D
     * @param parentHeight
     *           Container height
     * @return Component preferred size
-    * @see jhelp.gui.twoD.JHelpComponent2D#getPrefrerredSize(int, int)
+    * @see jhelp.gui.twoD.JHelpComponent2D#getPreferredSize(int, int)
     */
    @Override
-   protected Dimension getPrefrerredSize(final int parentWidth, final int parentHeight)
+   protected Dimension computePreferredSize(final int parentWidth, final int parentHeight)
    {
       if(this.isVisible() == false)
       {
          return new Dimension();
       }
 
-      final Dimension dimension = this.component2d.getPrefrerredSize(parentWidth, parentHeight);
+      final Dimension dimension = this.component2d.getPreferredSize(parentWidth, parentHeight);
       final Dimension minimum = this.foldingArea.minimumSize();
 
       int x = 0;

@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 
 import jhelp.util.Utilities;
 import jhelp.util.gui.GIF;
+import jhelp.util.gui.JHelpImage;
 
 /**
  * Glass pane you can add for draw something over a frame while a long operation waiting to finish before give the hand to the
@@ -106,7 +107,7 @@ public class WaitingGlassPane
    /** Synchronization lock */
    private final ReentrantLock lock;
    /** Animation images */
-   ArrayList<BufferedImage>    arrayListWaitingImage;
+   ArrayList<JHelpImage>       arrayListWaitingImage;
    /** Actual refresh FPS */
    int                         fps;
    /** Animation index */
@@ -132,7 +133,7 @@ public class WaitingGlassPane
       this.setDoubleBuffered(false);
       this.setIgnoreRepaint(true);
       this.frame.setGlassPane(this);
-      this.arrayListWaitingImage = new ArrayList<BufferedImage>();
+      this.arrayListWaitingImage = new ArrayList<JHelpImage>();
       this.fps = 25;
       this.index = 0;
    }
@@ -146,7 +147,7 @@ public class WaitingGlassPane
    public void addWaitingImage(final BufferedImage bufferedImage)
    {
       bufferedImage.flush();
-      this.arrayListWaitingImage.add(bufferedImage);
+      this.arrayListWaitingImage.add(JHelpImage.createImage(bufferedImage));
    }
 
    /**
@@ -207,8 +208,8 @@ public class WaitingGlassPane
          return;
       }
 
-      BufferedImage bufferedImage = this.arrayListWaitingImage.get(this.index);
-      g.drawImage(bufferedImage, (width - bufferedImage.getWidth()) >> 1, (height - bufferedImage.getHeight()) >> 1, null);
+      JHelpImage bufferedImage = this.arrayListWaitingImage.get(this.index);
+      g.drawImage(bufferedImage.getImage(), (width - bufferedImage.getWidth()) >> 1, (height - bufferedImage.getHeight()) >> 1, null);
       bufferedImage = null;
 
       this.ready = true;

@@ -1,7 +1,7 @@
 /**
  * Project : JHelpGUI<br>
  * Package : jhelp.gui<br>
- * Class : FontChooser<br>
+ * Class : FontChooserSample<br>
  * Date : 12 mai 2009<br>
  * By JHelp
  */
@@ -68,7 +68,7 @@ public class FontChooser
          extends JDialog
          implements ActionListener, FontChooserListener
    {
-      /** FontChooser.java [long] : TODO Explain what represents the filed FontChooser.java in jhelp.gui [JHelpGUI] */
+      /** FontChooserSample.java [long] : TODO Explain what represents the filed FontChooserSample.java in jhelp.gui [JHelpGUI] */
       private static final long serialVersionUID = -4915503511936091332L;
       /** Cancel button */
       private JButton           buttonCancel;
@@ -257,7 +257,7 @@ public class FontChooser
    /** Preview text */
    private static final String PREVIEW          = "0123456789\nabcedfghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\n,;.#:!/*-+&([{<?>}])@";
 
-   /** FontChooser.java [long] : TODO Explain what represents the filed FontChooser.java in jhelp.gui [JHelpGUI] */
+   /** FontChooserSample.java [long] : TODO Explain what represents the filed FontChooserSample.java in jhelp.gui [JHelpGUI] */
    private static final long   serialVersionUID = 8124184522278375118L;
 
    /**
@@ -324,7 +324,7 @@ public class FontChooser
    JList<String>     listFont;
 
    /**
-    * Constructs FontChooser
+    * Constructs FontChooserSample
     */
    public FontChooser()
    {

@@ -140,7 +140,7 @@ public class JHelpVerticalLayout
             continue;
          }
 
-         prefferedSize = child.element1.getPrefrerredSize(-1, -1);
+         prefferedSize = child.element1.getPreferredSize(-1, -1);
 
          switch((JHelpVerticalLayoutConstraints) child.element2)
          {
@@ -191,7 +191,7 @@ public class JHelpVerticalLayout
             continue;
          }
 
-         prefferedSize = child.element1.getPrefrerredSize(-1, -1);
+         prefferedSize = child.element1.getPreferredSize(-1, -1);
 
          switch((JHelpVerticalLayoutConstraints) child.element2)
          {

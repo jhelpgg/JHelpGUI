@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 
 import jhelp.util.debug.Debug;
 import jhelp.util.gui.GIF;
+import jhelp.util.gui.JHelpImage;
 
 /**
  * Label with a buffered image.<br>
@@ -95,7 +96,7 @@ public class LabelBufferedImage
    private Rectangle          rectangle;
 
    /** Buffered image carry */
-   BufferedImage              bufferedImage;
+   JHelpImage                 bufferedImage;
 
    /** {@link GIF} animation */
    GIF                        gif;
@@ -124,7 +125,7 @@ public class LabelBufferedImage
       {
          throw new NullPointerException("The bufferedImage couldn't be null");
       }
-      this.bufferedImage = bufferedImage;
+      this.bufferedImage = JHelpImage.createImage(bufferedImage);
       bufferedImage.flush();
       final Dimension dimension = new Dimension(bufferedImage.getWidth(), bufferedImage.getHeight());
       this.setSize(dimension);
@@ -192,7 +193,7 @@ public class LabelBufferedImage
 
       if(this.bufferedImage != null)
       {
-         g.drawImage(this.bufferedImage, 0, 0, width, height, this);
+         g.drawImage(this.bufferedImage.getImage(), 0, 0, width, height, this);
       }
 
       if((this.rectangle != null) && (this.color != null) && (this.colorBack != null))
@@ -230,7 +231,7 @@ public class LabelBufferedImage
     * 
     * @return bufferedImage
     */
-   public BufferedImage getBufferedImage()
+   public JHelpImage getBufferedImage()
    {
       return this.bufferedImage;
    }
@@ -241,11 +242,6 @@ public class LabelBufferedImage
    public void refresh()
    {
       LabelBufferedImage.reentrantLock.lock();
-
-      if(this.bufferedImage != null)
-      {
-         this.bufferedImage.flush();
-      }
 
       this.repaint();
 
@@ -314,7 +310,7 @@ public class LabelBufferedImage
          this.timer = null;
       }
 
-      this.bufferedImage = bufferedImage;
+      this.bufferedImage = JHelpImage.createImage(bufferedImage);
       final Dimension dimension = new Dimension(Math.min(bufferedImage.getWidth(), this.maxWidth), Math.min(bufferedImage.getHeight(), this.maxHeight));
       this.setSize(dimension);
       this.setPreferredSize(dimension);

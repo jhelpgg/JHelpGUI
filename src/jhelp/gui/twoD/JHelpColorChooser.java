@@ -12,13 +12,13 @@ public class JHelpColorChooser
       implements JHelpSpinner2DListener<Integer>
 {
    /** Spinner blue part ID */
-   private static final int          ID_SPINNER_BLUE  = 0x1;
+   private static final int          ID_SPINNER_BLUE  = JHelpConstants2D.ID_COLOR_CHOOSER_BLUE;
    /** Spinner green part ID */
-   private static final int          ID_SPINNER_GREEN = 0x2;
+   private static final int          ID_SPINNER_GREEN = JHelpConstants2D.ID_COLOR_CHOOSER_GREEN;
    /** Spinner red part ID */
-   private static final int          ID_SPINNER_RED   = 0x3;
+   private static final int          ID_SPINNER_RED   = JHelpConstants2D.ID_COLOR_CHOOSER_RED;
    /** Pressed time betewwen repetition */
-   private static final int          REAPEAT_TIME     = 210;
+   private static final int          REPEAT_TIME      = 210;
    /** Actual color */
    private int                       color;
    /** Listener of color changed */
@@ -51,19 +51,19 @@ public class JHelpColorChooser
 
       JHelpSpinner2D<Integer> spinner2d = new JHelpSpinner2D<Integer>(new JHelpSpinerModelInteger(0, 255, (color >> 16) & 0xFF));
       spinner2d.setId(JHelpColorChooser.ID_SPINNER_RED);
-      spinner2d.setReapeatDelay(JHelpColorChooser.REAPEAT_TIME);
+      spinner2d.setReapeatDelay(JHelpColorChooser.REPEAT_TIME);
       spinner2d.setSpinner2dListener(this);
       this.addComponent2D(spinner2d, new JHelpTableLayout.JHelpTableLayoutConstraints(0, 1));
 
       spinner2d = new JHelpSpinner2D<Integer>(new JHelpSpinerModelInteger(0, 255, (color >> 8) & 0xFF));
       spinner2d.setId(JHelpColorChooser.ID_SPINNER_GREEN);
-      spinner2d.setReapeatDelay(JHelpColorChooser.REAPEAT_TIME);
+      spinner2d.setReapeatDelay(JHelpColorChooser.REPEAT_TIME);
       spinner2d.setSpinner2dListener(this);
       this.addComponent2D(spinner2d, new JHelpTableLayout.JHelpTableLayoutConstraints(1, 1));
 
       spinner2d = new JHelpSpinner2D<Integer>(new JHelpSpinerModelInteger(0, 255, color & 0xFF));
       spinner2d.setId(JHelpColorChooser.ID_SPINNER_BLUE);
-      spinner2d.setReapeatDelay(JHelpColorChooser.REAPEAT_TIME);
+      spinner2d.setReapeatDelay(JHelpColorChooser.REPEAT_TIME);
       spinner2d.setSpinner2dListener(this);
       this.addComponent2D(spinner2d, new JHelpTableLayout.JHelpTableLayoutConstraints(2, 1));
    }
@@ -86,6 +86,31 @@ public class JHelpColorChooser
    public JHelpColorChooserListener getColorChooserListener()
    {
       return this.colorChooserListener;
+   }
+
+   /**
+    * Change the current color
+    * 
+    * @param color
+    *           New current color
+    */
+   @SuppressWarnings("unchecked")
+   public void setColor(final int color)
+   {
+      this.color = color;
+
+      ((JHelpSpinner2D<Integer>) UtilTwoD.findComponentByID(this, JHelpColorChooser.ID_SPINNER_RED)).setValue((color >> 16) & 0xFF, false);
+      ((JHelpSpinner2D<Integer>) UtilTwoD.findComponentByID(this, JHelpColorChooser.ID_SPINNER_GREEN)).setValue((color >> 8) & 0xFF, false);
+      ((JHelpSpinner2D<Integer>) UtilTwoD.findComponentByID(this, JHelpColorChooser.ID_SPINNER_BLUE)).setValue(color & 0xFF, false);
+
+      this.imageColor.startDrawMode();
+      this.imageColor.clear(this.color);
+      this.imageColor.endDrawMode();
+
+      if(this.colorChooserListener != null)
+      {
+         this.colorChooserListener.colorChanged(this, this.color);
+      }
    }
 
    /**

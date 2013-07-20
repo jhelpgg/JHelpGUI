@@ -82,17 +82,17 @@ public class JHelpScrollPane2D
     * @param parentHeight
     *           Parent height
     * @return Preferred dimension
-    * @see jhelp.gui.twoD.JHelpComponent2D#getPrefrerredSize(int, int)
+    * @see jhelp.gui.twoD.JHelpComponent2D#computePreferredSize(int, int)
     */
    @Override
-   protected Dimension getPrefrerredSize(final int parentWidth, final int parentHeight)
+   protected Dimension computePreferredSize(final int parentWidth, final int parentHeight)
    {
       if((this.isVisible() == false) || (this.scrollView.isVisible() == false))
       {
          return new Dimension();
       }
 
-      final Dimension preferred = this.scrollView.getPrefrerredSize(parentWidth, parentHeight);
+      final Dimension preferred = this.scrollView.getPreferredSize(parentWidth, parentHeight);
 
       this.scrollView.setBounds(0, 0, preferred.width, preferred.height);
 
@@ -142,9 +142,6 @@ public class JHelpScrollPane2D
       final int w = bounds.width - view.width;
       final int h = bounds.height - view.height;
 
-      final JHelpImage image = new JHelpImage(bounds.width, bounds.height);
-      image.startDrawMode();
-
       this.scrollX += this.dx;
       this.scrollY += this.dy;
 
@@ -175,10 +172,15 @@ public class JHelpScrollPane2D
       this.dx = (this.dx * this.inertiaFactor) / this.inertia;
       this.dy = (this.dy * this.inertiaFactor) / this.inertia;
 
-      this.scrollView.paintInternal(this.scrollX, this.scrollY, image);
-      image.endDrawMode();
+      // final JHelpImage image = new JHelpImage(bounds.width, bounds.height);
+      // image.startDrawMode();
+      //
+      // this.scrollView.paintInternal(this.scrollX, this.scrollY, image);
+      // image.endDrawMode();
+      //
+      // parent.drawImage(x, y, image);
 
-      parent.drawImage(x, y, image);
+      this.scrollView.paintInternal(this.scrollX + x, this.scrollY + y, parent, x, y, bounds.width, bounds.height);
    }
 
    /**
@@ -197,6 +199,26 @@ public class JHelpScrollPane2D
       children.add(this.scrollView);
 
       return Collections.unmodifiableList(children);
+   }
+
+   /**
+    * Obtain component at a position
+    * 
+    * @param x
+    *           X
+    * @param y
+    *           Y
+    * @return Found component
+    */
+   public JHelpComponent2D getComponent(final int x, final int y)
+   {
+      final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(x - this.scrollX, y - this.scrollY);
+      if(pair == null)
+      {
+         return null;
+      }
+
+      return pair.element1;
    }
 
    /**
@@ -496,7 +518,7 @@ public class JHelpScrollPane2D
    @Override
    public void mouseWheelMoved(final MouseWheelEvent e)
    {
-      this.dy += e.getUnitsToScroll() * 5;
+      this.dy -= e.getUnitsToScroll() * 5;
    }
 
    /**
@@ -520,6 +542,7 @@ public class JHelpScrollPane2D
    public void setMaxiumHeight(final int maxiumHeight)
    {
       this.maxiumHeight = Math.max(256, maxiumHeight);
+      this.invalidate();
    }
 
    /**
@@ -531,6 +554,7 @@ public class JHelpScrollPane2D
    public void setMaxiumWidth(final int maxiumWidth)
    {
       this.maxiumWidth = Math.max(256, maxiumWidth);
+      this.invalidate();
    }
 
    /**
@@ -558,13 +582,24 @@ public class JHelpScrollPane2D
          return;
       }
 
-      if(UtilGUI.computeIntresectedArea(rectangle, bounds) > ((rectangle.width * rectangle.height) >> 2))
+      rectangle.x += this.scrollX;
+      rectangle.y += this.scrollY;
+      if(UtilGUI.computeIntresectedArea(rectangle, bounds) > ((rectangle.width * rectangle.height * 3) >> 2))
       {
          return;
       }
 
-      int sx = -rectangle.x;
-      int sy = -rectangle.y;
+      int x = rectangle.x;
+      int y = rectangle.y;
+
+      if(bounds.contains(x, y) == true)
+      {
+         x = rectangle.width;
+         y = rectangle.height;
+      }
+
+      int sx = this.scrollX - x;
+      int sy = this.scrollY - y;
 
       final Rectangle view = this.scrollView.getBounds();
 

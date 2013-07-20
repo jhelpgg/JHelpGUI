@@ -127,7 +127,7 @@ public class JHelpBorderLayout
             continue;
          }
 
-         prefferedSize = child.element1.getPrefrerredSize(-1, -1);
+         prefferedSize = child.element1.getPreferredSize(-1, -1);
 
          switch((JHelpBorderLayoutConstraints) child.element2)
          {

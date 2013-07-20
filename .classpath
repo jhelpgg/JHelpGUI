@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/plugin.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JHelpSecurity"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JHelpXML"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/JHelpSound"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

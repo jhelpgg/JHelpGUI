@@ -20,6 +20,8 @@ public abstract class JHelpFrame
 {
    /** serialVersionUID */
    private static final long serialVersionUID = 9154375270442341171L;
+   /** Indicates if have to dispose frame on close */
+   private boolean           disposeOnClose;
    /** Indicates if closing the frame, will also stop all process and the current application */
    private boolean           exitAllOnClose;
 
@@ -98,6 +100,7 @@ public abstract class JHelpFrame
       }
 
       this.exitAllOnClose = true;
+      this.disposeOnClose = true;
    }
 
    /**
@@ -164,12 +167,27 @@ public abstract class JHelpFrame
       }
 
       this.setVisible(false);
-      this.dispose();
+
+      if((this.disposeOnClose == true) || (this.exitAllOnClose == true))
+      {
+         this.dispose();
+      }
 
       if(this.exitAllOnClose == true)
       {
          MemorySweeper.exit(0);
       }
+   }
+
+   /**
+    * Indicates if frame will be dispose on close.<br>
+    * A disposed frame can't be showed again
+    * 
+    * @return {@code true} if frame is dispose on close
+    */
+   public boolean isDisposeOnClose()
+   {
+      return this.disposeOnClose;
    }
 
    /**
@@ -180,6 +198,18 @@ public abstract class JHelpFrame
    public final boolean isExitAllOnClose()
    {
       return this.exitAllOnClose;
+   }
+
+   /**
+    * Change dispose on close status.<br>
+    * A disposed frame can't be showed again
+    * 
+    * @param disposeOnClose
+    *           New dispose status
+    */
+   public void setDisposeOnClose(final boolean disposeOnClose)
+   {
+      this.disposeOnClose = disposeOnClose;
    }
 
    /**

@@ -2,6 +2,7 @@ package jhelp.gui.twoD;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.event.KeyListener;
 
 import jhelp.gui.JHelpMouseListener;
 import jhelp.util.gui.JHelpImage;
@@ -53,14 +54,28 @@ public abstract class JHelpComponent2D
    private Object             aditionalInformation;
    /** Last computed bounds */
    private final Rectangle    bounds;
+   /** Indicates if the component i s focusable */
+   private boolean            focusable;
+   /** Indicates if the component have the focus */
+   private boolean            haveFocus;
    /** Comonent developer ID */
    private int                id;
+   /** Current key listener */
+   private KeyListener        keyListener;
    /** Associated mouse listener */
    private JHelpMouseListener mouseListener;
    /** Actual parent */
    private JHelpContainer2D   parent;
+   /** Computed preferred size */
+   private Dimension          preferred;
+   /** Tooltip to print if mouse go over the component */
+   private String             toolTip;
+   /** Indicates if component size still valid */
+   private boolean            valid;
    /** Indicates if component is visible */
    private boolean            visible;
+   /** Owner window */
+   private JHelpWindow2D      window2d;
    /** X absolute position */
    private int                xAbsolute;
    /** Y absolute position */
@@ -73,6 +88,17 @@ public abstract class JHelpComponent2D
    {
       this.bounds = new Rectangle();
       this.visible = true;
+      this.focusable = false;
+      this.haveFocus = false;
+      this.valid = false;
+   }
+
+   /**
+    * Invalidate only the component, not its ancestors
+    */
+   final void fastInvalidate()
+   {
+      this.valid = false;
    }
 
    /**
@@ -87,6 +113,29 @@ public abstract class JHelpComponent2D
     */
    final void paintInternal(final int x, final int y, final JHelpImage parent)
    {
+      this.paintInternal(x, y, parent, x, y, this.bounds.width, this.bounds.height);
+   }
+
+   /**
+    * Paint the component it self inside a clip
+    * 
+    * @param x
+    *           X location on parent
+    * @param y
+    *           Y location on parent
+    * @param parent
+    *           Parent where draw
+    * @param clipX
+    *           Clip up-left corner X
+    * @param clipY
+    *           Clip up-left corner Y
+    * @param clipWidth
+    *           Clip width
+    * @param clipHeight
+    *           Clip height
+    */
+   final void paintInternal(final int x, final int y, final JHelpImage parent, final int clipX, final int clipY, final int clipWidth, final int clipHeight)
+   {
       if(this.visible == false)
       {
          return;
@@ -95,7 +144,9 @@ public abstract class JHelpComponent2D
       this.xAbsolute = x;
       this.yAbsolute = y;
 
+      parent.pushClipIntersect(clipX, clipY, clipWidth, clipHeight);
       this.paint(x, y, parent);
+      parent.popClip();
    }
 
    /**
@@ -129,6 +180,28 @@ public abstract class JHelpComponent2D
    }
 
    /**
+    * Change focus status
+    * 
+    * @param hasFocus
+    *           New focus status
+    */
+   void setHaveFocus(final boolean hasFocus)
+   {
+      this.haveFocus = hasFocus;
+   }
+
+   /**
+    * Givewindow owner to the component
+    * 
+    * @param window2d
+    *           Window owner
+    */
+   final void setOwner(final JHelpWindow2D window2d)
+   {
+      this.window2d = window2d;
+   }
+
+   /**
     * Define the parent.Can only be called once
     * 
     * @param parent
@@ -158,7 +231,44 @@ public abstract class JHelpComponent2D
     *           Parent height, <0 if not already known
     * @return Preferred size
     */
-   protected abstract Dimension getPrefrerredSize(int parentWidth, int parentHeight);
+   protected abstract Dimension computePreferredSize(int parentWidth, int parentHeight);
+
+   /**
+    * Obtain component preferered size
+    * 
+    * @param parrentWidth
+    *           Parent width, <0 if not already known
+    * @param parentHeight
+    *           Parent height, <0 if not already known
+    * @return Preferred size
+    */
+   protected final Dimension getPreferredSize(final int parrentWidth, final int parentHeight)
+   {
+      if((this.preferred != null) && (this.valid == true))
+      {
+         return this.preferred;
+      }
+
+      this.preferred = this.computePreferredSize(parrentWidth, parentHeight);
+      this.valid = true;
+
+      return this.preferred;
+   }
+
+   /**
+    * Invalidate the component and all of its ancestors
+    */
+   protected final void invalidate()
+   {
+      JHelpComponent2D component = this;
+
+      while(component != null)
+      {
+         component.valid = false;
+
+         component = component.parent;
+      }
+   }
 
    /**
     * Test if mouse is over the component.<br>
@@ -208,6 +318,14 @@ public abstract class JHelpComponent2D
     *           Parent where draw
     */
    protected abstract void paint(int x, int y, JHelpImage parent);
+
+   /**
+    * Validate the component
+    */
+   protected final void validate()
+   {
+      this.valid = true;
+   }
 
    /**
     * Called just before component removed, do nothing by default
@@ -267,6 +385,16 @@ public abstract class JHelpComponent2D
    }
 
    /**
+    * Associated key listener
+    * 
+    * @return Associated key listener
+    */
+   public KeyListener getKeyListener()
+   {
+      return this.keyListener;
+   }
+
+   /**
     * Associated mouse listener
     * 
     * @return Associated mouse listener
@@ -287,6 +415,61 @@ public abstract class JHelpComponent2D
    }
 
    /**
+    * Tooltip to show when mouse is over the component
+    * 
+    * @return Tooltip to show when mouse is over the component
+    */
+   public String getToolTip()
+   {
+      return this.toolTip;
+   }
+
+   /**
+    * Get tooltip for a specific position inside the component.<br>
+    * By defaut it calls {@link #getToolTip()}, that is to say all the same tooltip any any X,Y
+    * 
+    * @param x
+    *           X mouse position
+    * @param y
+    *           Y mouse position
+    * @return Tooltip to use
+    */
+   public String getToolTip(final int x, final int y)
+   {
+      return this.getToolTip();
+   }
+
+   /**
+    * Indicates if component is focusable
+    * 
+    * @return {@code true} if component is focusable
+    */
+   public boolean isFocusable()
+   {
+      return this.focusable;
+   }
+
+   /**
+    * Indicates if component have the focus
+    * 
+    * @return {@code true} if component have the focus
+    */
+   public boolean isHaveFocus()
+   {
+      return this.haveFocus;
+   }
+
+   /**
+    * Indicates if component is valid
+    * 
+    * @return {@code true} if component is valid
+    */
+   public boolean isValid()
+   {
+      return this.valid;
+   }
+
+   /**
     * Indicates if component is visible
     * 
     * @return {@code true} if component is visible
@@ -294,6 +477,26 @@ public abstract class JHelpComponent2D
    public final boolean isVisible()
    {
       return this.visible;
+   }
+
+   /**
+    * Obtain the window owner
+    * 
+    * @return Windo owner or {@code null} if component not attcach directly or indirectly to a window
+    */
+   public JHelpWindow2D obtainOwner()
+   {
+      if(this.window2d != null)
+      {
+         return this.window2d;
+      }
+
+      if(this.parent == null)
+      {
+         return null;
+      }
+
+      return this.parent.obtainOwner();
    }
 
    /**
@@ -319,6 +522,20 @@ public abstract class JHelpComponent2D
    }
 
    /**
+    * Define the key listener.<br>
+    * Use {@code null} for no keylistener
+    * 
+    * @param keyListener
+    *           New key listaner
+    */
+   public void setKeyListener(final KeyListener keyListener)
+   {
+      this.keyListener = keyListener;
+
+      this.focusable = keyListener != null;
+   }
+
+   /**
     * Define, change, or remove (On using {@code null}) the mouse listener
     * 
     * @param mouseListener
@@ -330,6 +547,17 @@ public abstract class JHelpComponent2D
    }
 
    /**
+    * Change component tooltip
+    * 
+    * @param toolTip
+    *           New tooltip, use {@code null} for no tooltip
+    */
+   public void setToolTip(final String toolTip)
+   {
+      this.toolTip = toolTip;
+   }
+
+   /**
     * Change component visibility
     * 
     * @param visible
@@ -337,6 +565,462 @@ public abstract class JHelpComponent2D
     */
    public final void setVisible(final boolean visible)
    {
+      if(this.visible == visible)
+      {
+         return;
+      }
+
       this.visible = visible;
+      this.invalidate();
+   }
+
+   /**
+    * Show a dialog for get some text from user<br>
+    * If the component is not attach directly or indirectly in a frame or a diloag nothing append
+    * 
+    * @param optionPaneMessageType
+    *           Message type
+    * @param message
+    *           Message to show to the user, to explain him what type of text he have to type
+    * @param hasCancel
+    *           Indicates if theire a cancel button in the option pane
+    * @param hasNo
+    *           Indicates if theire a no button in the option pane
+    * @param optionPaneListener
+    *           Listner to call back when user click yes/ok, cancel or no
+    * @param actionID
+    *           Action ID, its an integer give back to the listener when user answers
+    * @param developerInformation
+    *           Parameter give back to the listener when user answers
+    */
+   public void showOptionPaneInput(final OptionPaneMessageType optionPaneMessageType, final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID,
+         final Object developerInformation)
+   {
+      final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
+      if(frame == null)
+      {
+         return;
+      }
+
+      frame.showOptionPaneInput(optionPaneMessageType, message, hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
+   }
+
+   /**
+    * Show a dialog for get some text from user<br>
+    * If the component is not attach directly or indirectly in a frame or a diloag nothing append
+    * 
+    * @param optionPaneMessageType
+    *           Message type
+    * @param message
+    *           Message to show to the user, to explain him what type of text he have to type
+    * @param editText
+    *           Start message
+    * @param hasCancel
+    *           Indicates if theire a cancel button in the option pane
+    * @param hasNo
+    *           Indicates if theire a no button in the option pane
+    * @param optionPaneListener
+    *           Listner to call back when user click yes/ok, cancel or no
+    * @param actionID
+    *           Action ID, its an integer give back to the listener when user answers
+    * @param developerInformation
+    *           Parameter give back to the listener when user answers
+    */
+   public void showOptionPaneInput(final OptionPaneMessageType optionPaneMessageType, final String message, final String editText, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener,
+         final int actionID, final Object developerInformation)
+   {
+      final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
+      if(frame == null)
+      {
+         return;
+      }
+
+      frame.showOptionPaneInput(optionPaneMessageType, message, editText, hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
+   }
+
+   /**
+    * Show a dialog for get some text from user<br>
+    * If the component is not attach directly or indirectly in a frame or a diloag nothing append
+    * 
+    * @param optionPaneMessageType
+    *           Message type
+    * @param title
+    *           Dialog title
+    * @param message
+    *           Message to show to the user, to explain him what type of text he have to type
+    * @param editText
+    *           Start message
+    * @param hasCancel
+    *           Indicates if theire a cancel button in the option pane
+    * @param hasNo
+    *           Indicates if theire a no button in the option pane
+    * @param optionPaneListener
+    *           Listner to call back when user click yes/ok, cancel or no
+    * @param actionID
+    *           Action ID, its an integer give back to the listener when user answers
+    * @param developerInformation
+    *           Parameter give back to the listener when user answers
+    */
+   public void showOptionPaneInput(final OptionPaneMessageType optionPaneMessageType, final String title, final String message, final String editText, final boolean hasCancel, final boolean hasNo,
+         final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   {
+      final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
+      if(frame == null)
+      {
+         return;
+      }
+
+      frame.showOptionPaneInput(optionPaneMessageType, title, message, editText, hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
+   }
+
+   /**
+    * Show a dialog for get some text from user<br>
+    * If the component is not attach directly or indirectly in a frame or a diloag nothing append
+    * 
+    * @param message
+    *           Message to show to the user, to explain him what type of text he have to type
+    * @param hasCancel
+    *           Indicates if theire a cancel button in the option pane
+    * @param hasNo
+    *           Indicates if theire a no button in the option pane
+    * @param optionPaneListener
+    *           Listner to call back when user click yes/ok, cancel or no
+    * @param actionID
+    *           Action ID, its an integer give back to the listener when user answers
+    * @param developerInformation
+    *           Parameter give back to the listener when user answers
+    */
+   public void showOptionPaneInput(final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   {
+      final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
+      if(frame == null)
+      {
+         return;
+      }
+
+      frame.showOptionPaneInput(message, hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
+   }
+
+   /**
+    * Show a dialog for get some text from user<br>
+    * If the component is not attach directly or indirectly in a frame or a diloag nothing append
+    * 
+    * @param message
+    *           Message to show to the user, to explain him what type of text he have to type
+    * @param editText
+    *           Start edit text
+    * @param hasCancel
+    *           Indicates if theire a cancel button in the option pane
+    * @param hasNo
+    *           Indicates if theire a no button in the option pane
+    * @param optionPaneListener
+    *           Listner to call back when user click yes/ok, cancel or no
+    * @param actionID
+    *           Action ID, its an integer give back to the listener when user answers
+    * @param developerInformation
+    *           Parameter give back to the listener when user answers
+    */
+   public void showOptionPaneInput(final String message, final String editText, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   {
+      final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
+      if(frame == null)
+      {
+         return;
+      }
+
+      frame.showOptionPaneInput(message, editText, hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
+   }
+
+   /**
+    * Show a dialog for get some text from user<br>
+    * If the component is not attach directly or indirectly in a frame or a diloag nothing append
+    * 
+    * @param title
+    *           Dialog title
+    * @param message
+    *           Message to show to the user, to explain him what type of text he have to type
+    * @param editText
+    *           Start edit text
+    * @param hasCancel
+    *           Indicates if theire a cancel button in the option pane
+    * @param hasNo
+    *           Indicates if theire a no button in the option pane
+    * @param optionPaneListener
+    *           Listner to call back when user click yes/ok, cancel or no
+    * @param actionID
+    *           Action ID, its an integer give back to the listener when user answers
+    * @param developerInformation
+    *           Parameter give back to the listener when user answers
+    */
+   public void showOptionPaneInput(final String title, final String message, final String editText, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID,
+         final Object developerInformation)
+   {
+      final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
+      if(frame == null)
+      {
+         return;
+      }
+
+      frame.showOptionPaneInput(title, message, editText, hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
+   }
+
+   /**
+    * Show a dialog for show a message to the user<br>
+    * If the component is not attach directly or indirectly in a frame or a diloag nothing append
+    * 
+    * @param optionPaneMessageType
+    *           Message type
+    * @param message
+    *           Message to show
+    */
+   public void showOptionPaneMessage(final OptionPaneMessageType optionPaneMessageType, final String message)
+   {
+      final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
+      if(frame == null)
+      {
+         return;
+      }
+
+      frame.showOptionPaneMessage(optionPaneMessageType, message);
+   }
+
+   /**
+    * Show a dialog for show a message to the user<br>
+    * If the component is not attach directly or indirectly in a frame or a diloag nothing append
+    * 
+    * @param optionPaneMessageType
+    *           Message type
+    * @param message
+    *           Message to show
+    * @param optionPaneListener
+    *           Listener to call back when ok button is pressed
+    * @param actionID
+    *           Action id give back to the listener
+    * @param developerInformation
+    *           Object give back to the listener
+    */
+   public void showOptionPaneMessage(final OptionPaneMessageType optionPaneMessageType, final String message, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   {
+      final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
+      if(frame == null)
+      {
+         return;
+      }
+
+      frame.showOptionPaneMessage(optionPaneMessageType, message, optionPaneListener, actionID, developerInformation);
+   }
+
+   /**
+    * Show a dialog for show a message to the user<br>
+    * If the component is not attach directly or indirectly in a frame or a diloag nothing append
+    * 
+    * @param optionPaneMessageType
+    *           Message type
+    * @param title
+    *           Dialog title
+    * @param message
+    *           Message to show
+    */
+   public void showOptionPaneMessage(final OptionPaneMessageType optionPaneMessageType, final String title, final String message)
+   {
+      final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
+      if(frame == null)
+      {
+         return;
+      }
+
+      frame.showOptionPaneMessage(optionPaneMessageType, title, message);
+   }
+
+   /**
+    * Show a dialog for show a message to the user<br>
+    * If the component is not attach directly or indirectly in a frame or a diloag nothing append
+    * 
+    * @param optionPaneMessageType
+    *           Message type
+    * @param title
+    *           Dialog title
+    * @param message
+    *           Message to show
+    * @param optionPaneListener
+    *           Listener to call back when ok button is pressed
+    * @param actionID
+    *           Action id give back to the listener
+    * @param developerInformation
+    *           Object give back to the listener
+    */
+   public void showOptionPaneMessage(final OptionPaneMessageType optionPaneMessageType, final String title, final String message, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   {
+      final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
+      if(frame == null)
+      {
+         return;
+      }
+
+      frame.showOptionPaneMessage(optionPaneMessageType, title, message, optionPaneListener, actionID, developerInformation);
+   }
+
+   /**
+    * Show a dialog for show a message to the user<br>
+    * If the component is not attach directly or indirectly in a frame or a diloag nothing append
+    * 
+    * @param message
+    *           Message to show
+    */
+   public void showOptionPaneMessage(final String message)
+   {
+      final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
+      if(frame == null)
+      {
+         return;
+      }
+
+      frame.showOptionPaneMessage(message);
+   }
+
+   /**
+    * Show a dialog for show a message to the user<br>
+    * If the component is not attach directly or indirectly in a frame or a diloag nothing append
+    * 
+    * @param message
+    *           Message to show
+    * @param optionPaneListener
+    *           Listener to call back when ok button is pressed
+    * @param actionID
+    *           Action id give back to the listener
+    * @param developerInformation
+    *           Object give back to the listener
+    */
+   public void showOptionPaneMessage(final String message, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   {
+      final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
+      if(frame == null)
+      {
+         return;
+      }
+
+      frame.showOptionPaneMessage(message, optionPaneListener, actionID, developerInformation);
+   }
+
+   /**
+    * Show a dialog for ask a question to the user<br>
+    * If the component is not attach directly or indirectly in a frame or a diloag nothing append
+    * 
+    * @param optionPaneMessageType
+    *           Message type
+    * @param message
+    *           Question to the user
+    * @param hasCancel
+    *           Indicates if theire are a cancel button
+    * @param hasNo
+    *           Indicate if theire are a no button
+    * @param optionPaneListener
+    *           Listener to call back when a button is pressed
+    * @param actionID
+    *           Action id give back to the listener
+    * @param developerInformation
+    *           Object give back to the listener
+    */
+   public void showOptionPaneQuestion(final OptionPaneMessageType optionPaneMessageType, final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID,
+         final Object developerInformation)
+   {
+      final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
+      if(frame == null)
+      {
+         return;
+      }
+
+      frame.showOptionPaneQuestion(optionPaneMessageType, message, hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
+   }
+
+   /**
+    * Show a dialog for ask a question to the user<br>
+    * If the component is not attach directly or indirectly in a frame or a diloag nothing append
+    * 
+    * @param optionPaneMessageType
+    *           Message type
+    * @param title
+    *           Dialog title
+    * @param message
+    *           Question to the user
+    * @param hasCancel
+    *           Indicates if theire are a cancel button
+    * @param hasNo
+    *           Indicate if theire are a no button
+    * @param optionPaneListener
+    *           Listener to call back when a button is pressed
+    * @param actionID
+    *           Action id give back to the listener
+    * @param developerInformation
+    *           Object give back to the listener
+    */
+   public void showOptionPaneQuestion(final OptionPaneMessageType optionPaneMessageType, final String title, final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener,
+         final int actionID, final Object developerInformation)
+   {
+      final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
+      if(frame == null)
+      {
+         return;
+      }
+
+      frame.showOptionPaneQuestion(optionPaneMessageType, title, message, hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
+   }
+
+   /**
+    * Show a dialog for ask a question to the user<br>
+    * If the component is not attach directly or indirectly in a frame or a diloag nothing append
+    * 
+    * @param message
+    *           Question to the user
+    * @param hasCancel
+    *           Indicates if theire are a cancel button
+    * @param hasNo
+    *           Indicate if theire are a no button
+    * @param optionPaneListener
+    *           Listener to call back when a button is pressed
+    * @param actionID
+    *           Action id give back to the listener
+    * @param developerInformation
+    *           Object give back to the listener
+    */
+   public void showOptionPaneQuestion(final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   {
+      final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
+      if(frame == null)
+      {
+         return;
+      }
+
+      frame.showOptionPaneQuestion(message, hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
+   }
+
+   /**
+    * Show a dialog for ask a question to the user<br>
+    * If the component is not attach directly or indirectly in a frame or a diloag nothing append
+    * 
+    * @param title
+    *           Dialog title
+    * @param message
+    *           Question to the user
+    * @param hasCancel
+    *           Indicates if theire are a cancel button
+    * @param hasNo
+    *           Indicate if theire are a no button
+    * @param optionPaneListener
+    *           Listener to call back when a button is pressed
+    * @param actionID
+    *           Action id give back to the listener
+    * @param developerInformation
+    *           Object give back to the listener
+    */
+   public void showOptionPaneQuestion(final String title, final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   {
+      final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
+      if(frame == null)
+      {
+         return;
+      }
+
+      frame.showOptionPaneQuestion(title, message, hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
    }
 }

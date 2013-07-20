@@ -45,17 +45,17 @@ public class JHelpCenterComponent
     * @param parentHeight
     *           Parent height
     * @return Preferred size
-    * @see jhelp.gui.twoD.JHelpComponent2D#getPrefrerredSize(int, int)
+    * @see jhelp.gui.twoD.JHelpComponent2D#computePreferredSize(int, int)
     */
    @Override
-   protected Dimension getPrefrerredSize(final int parentWidth, final int parentHeight)
+   protected Dimension computePreferredSize(final int parentWidth, final int parentHeight)
    {
       if(this.component2d.isVisible() == false)
       {
          return new Dimension();
       }
 
-      return this.component2d.getPrefrerredSize(parentWidth, parentHeight);
+      return this.component2d.getPreferredSize(parentWidth, parentHeight);
    }
 
    /**
@@ -106,7 +106,7 @@ public class JHelpCenterComponent
       }
 
       final Rectangle bounds = this.getBounds();
-      final Dimension prefrerred = this.component2d.getPrefrerredSize(bounds.width, bounds.height);
+      final Dimension prefrerred = this.component2d.getPreferredSize(bounds.width, bounds.height);
 
       final int xx = (bounds.width - prefrerred.width) >> 1;
       final int yy = (bounds.height - prefrerred.height) >> 1;

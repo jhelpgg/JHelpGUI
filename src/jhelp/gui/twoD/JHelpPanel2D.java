@@ -8,7 +8,6 @@ import java.util.List;
 
 import jhelp.gui.JHelpMouseListener;
 import jhelp.util.gui.JHelpImage;
-import jhelp.util.gui.UtilGUI;
 import jhelp.util.list.Pair;
 
 /**
@@ -19,10 +18,10 @@ import jhelp.util.list.Pair;
 public class JHelpPanel2D
       extends JHelpContainer2D
 {
-   /** Children associated */
-   private final ArrayList<Pair<JHelpComponent2D, JHelpConstraints>> children;
    /** Layout to use */
-   private final JHelpLayout                                         layout;
+   private final JHelpLayout                                           layout;
+   /** Children associated */
+   protected final ArrayList<Pair<JHelpComponent2D, JHelpConstraints>> children;
 
    /**
     * Create a new instance of JHelpPanel2D with {@link JHelpBorderLayout}
@@ -50,6 +49,36 @@ public class JHelpPanel2D
    }
 
    /**
+    * Add component inside the panel
+    * 
+    * @param component
+    *           Component to add
+    * @param constraints
+    *           Layout constraints to place the component
+    * @param invalidate
+    *           Indicates if this add invalidate the panel
+    */
+   void addComponent2D(final JHelpComponent2D component, final JHelpConstraints constraints, final boolean invalidate)
+   {
+      if(this.layout.compatible(constraints) == false)
+      {
+         throw new IllegalArgumentException("The constraints " + constraints + " not compatible with layout " + this.layout);
+      }
+
+      component.setParent(this);
+
+      synchronized(this.children)
+      {
+         this.children.add(new Pair<JHelpComponent2D, JHelpConstraints>(component, constraints));
+      }
+
+      if(invalidate == true)
+      {
+         this.invalidate();
+      }
+   }
+
+   /**
     * Compute panel preferred size <br>
     * <br>
     * <b>Parent documentation:</b><br>
@@ -60,17 +89,20 @@ public class JHelpPanel2D
     * @param parentHeight
     *           Parent height, -1 if unknown
     * @return Preferred size
-    * @see jhelp.gui.twoD.JHelpComponent2D#getPrefrerredSize(int, int)
+    * @see jhelp.gui.twoD.JHelpComponent2D#computePreferredSize(int, int)
     */
    @Override
-   protected Dimension getPrefrerredSize(final int parentWidth, final int parentHeight)
+   protected Dimension computePreferredSize(final int parentWidth, final int parentHeight)
    {
       if(this.isVisible() == false)
       {
          return new Dimension();
       }
-
-      final Rectangle bounds = this.layout.computeBounds(this.children, parentWidth, parentHeight);
+      Rectangle bounds = null;
+      synchronized(this.children)
+      {
+         bounds = this.layout.computeBounds(this.children, parentWidth, parentHeight);
+      }
       this.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
       return bounds.getSize();
    }
@@ -101,20 +133,23 @@ public class JHelpPanel2D
       Rectangle bounds;
       Pair<JHelpComponent2D, JHelpMouseListener> pair;
 
-      for(final Pair<JHelpComponent2D, JHelpConstraints> child : this.children)
+      synchronized(this.children)
       {
-         if(child.element1.isVisible() == false)
+         for(final Pair<JHelpComponent2D, JHelpConstraints> child : this.children)
          {
-            continue;
-         }
+            if(child.element1.isVisible() == false)
+            {
+               continue;
+            }
 
-         bounds = child.element1.getBounds();
+            bounds = child.element1.getBounds();
 
-         pair = child.element1.mouseOver(x - bounds.x, y - bounds.y);
+            pair = child.element1.mouseOver(x - bounds.x, y - bounds.y);
 
-         if(pair != null)
-         {
-            return pair;
+            if(pair != null)
+            {
+               return pair;
+            }
          }
       }
 
@@ -131,14 +166,7 @@ public class JHelpPanel2D
     */
    public void addComponent2D(final JHelpComponent2D component, final JHelpConstraints constraints)
    {
-      if(this.layout.compatible(constraints) == false)
-      {
-         throw new IllegalArgumentException("The constraints " + constraints + " not compatible with layout " + this.layout);
-      }
-
-      component.setParent(this);
-
-      this.children.add(new Pair<JHelpComponent2D, JHelpConstraints>(component, constraints));
+      this.addComponent2D(component, constraints, true);
    }
 
    /**
@@ -155,9 +183,12 @@ public class JHelpPanel2D
    {
       final ArrayList<JHelpComponent2D> children = new ArrayList<JHelpComponent2D>();
 
-      for(final Pair<JHelpComponent2D, JHelpConstraints> child : this.children)
+      synchronized(this.children)
       {
-         children.add(child.element1);
+         for(final Pair<JHelpComponent2D, JHelpConstraints> child : this.children)
+         {
+            children.add(child.element1);
+         }
       }
 
       return Collections.unmodifiableList(children);
@@ -168,15 +199,18 @@ public class JHelpPanel2D
     */
    public void clearComponents()
    {
-      final int size = this.children.size();
-      Pair<JHelpComponent2D, JHelpConstraints> child;
-
-      for(int i = size - 1; i >= 0; i--)
+      synchronized(this.children)
       {
-         child = this.children.get(i);
-         child.element1.willRemove();
-         this.children.remove(i);
-         child.element1.removeParent();
+         final int size = this.children.size();
+         Pair<JHelpComponent2D, JHelpConstraints> child;
+
+         for(int i = size - 1; i >= 0; i--)
+         {
+            child = this.children.get(i);
+            child.element1.willRemove();
+            this.children.remove(i);
+            child.element1.removeParent();
+         }
       }
    }
 
@@ -199,21 +233,28 @@ public class JHelpPanel2D
    {
       final Rectangle panelBounds = this.getBounds();
       Rectangle bounds;
-
-      for(final Pair<JHelpComponent2D, JHelpConstraints> child : this.children)
+      int bx, by;
+      final int x0 = panelBounds.x;
+      final int y0 = panelBounds.y;
+      final int xx = Math.min(parent.getWidth(), panelBounds.x + panelBounds.width);
+      final int yy = Math.min(parent.getHeight(), panelBounds.y + panelBounds.height);
+      synchronized(this.children)
       {
-         if(child.element1.isVisible() == false)
+         for(final Pair<JHelpComponent2D, JHelpConstraints> child : this.children)
          {
-            continue;
-         }
+            if(child.element1.isVisible() == false)
+            {
+               continue;
+            }
 
-         bounds = child.element1.getBounds();
-         bounds.x += x;
-         bounds.y += y;
+            bounds = child.element1.getBounds();
+            bx = bounds.x + x;
+            by = bounds.y + y;
 
-         if(UtilGUI.computeIntresectedArea(panelBounds, bounds) > 0)
-         {
-            child.element1.paintInternal(bounds.x, bounds.y, parent);
+            if((y0 < (by + bounds.height)) && (by < yy) && (x0 < (bx + bounds.width)) && (bx < xx))
+            {
+               child.element1.paintInternal(bx, by, parent, x, y, panelBounds.width, panelBounds.height);
+            }
          }
       }
    }
@@ -226,20 +267,23 @@ public class JHelpPanel2D
     */
    public void removeComponent2D(final JHelpComponent2D component)
    {
-      final int size = this.children.size();
-      Pair<JHelpComponent2D, JHelpConstraints> child;
-
-      for(int i = 0; i < size; i++)
+      synchronized(this.children)
       {
-         child = this.children.get(i);
+         final int size = this.children.size();
+         Pair<JHelpComponent2D, JHelpConstraints> child;
 
-         if(child.element1.equals(component) == true)
+         for(int i = 0; i < size; i++)
          {
-            child.element1.willRemove();
-            this.children.remove(i);
-            child.element1.removeParent();
+            child = this.children.get(i);
 
-            break;
+            if(child.element1.equals(component) == true)
+            {
+               child.element1.willRemove();
+               this.children.remove(i);
+               child.element1.removeParent();
+
+               break;
+            }
          }
       }
    }

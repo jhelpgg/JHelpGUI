@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 
 import jhelp.util.debug.Debug;
 import jhelp.util.gui.JHelpRichText;
+import jhelp.util.resources.ResourceText;
 import jhelp.util.resources.Resources;
 
 /**
@@ -20,18 +21,51 @@ import jhelp.util.resources.Resources;
 public class ResourcesGUI
 {
    /** Base name for "Can drop" cursor */
-   private static final String       BASE_NAME_CAN_DROP  = "canDrop";
+   private static final String       BASE_NAME_CAN_DROP                     = "canDrop";
    /** Base name for "Can't drop" cursor */
-   private static final String       BASE_NAME_CANT_DROP = "cantDrop";
+   private static final String       BASE_NAME_CANT_DROP                    = "cantDrop";
    /** End file name for 16x16 cursors */
-   private static final String       SIZE_16x16          = "16x16.png";
+   private static final String       SIZE_16x16                             = "16x16.png";
    /** End file name for 32x32 cursors */
-   private static final String       SIZE_32x32          = "32x32.png";
-
+   private static final String       SIZE_32x32                             = "32x32.png";
    /** Can drop cursor */
    public static final Cursor        CAN_DROP_CURSOR;
    /** Can't drop cursor */
    public static final Cursor        CANT_DROP_CURSOR;
+   /** File chooser title header */
+   public static final String        FILE_CHOOSER_TITLE_HEADER              = "FileChooserTitleHeader";
+   /**
+    * Delete file/directory message <br>
+    * {0} : File to delete path
+    */
+   public static final String        FILE_EXPLORER_DELETE_FILE_MESSAGE      = "FileExplorerDeleteFileMessage";
+   /** Delete file/directory title */
+   public static final String        FILE_EXPLORER_DELETE_FILE_TITLE        = "FileExplorerDeleteFileTitle";
+   /**
+    * Error text for indicates that a rename file failed. <br>
+    * {0} : source fila path <br>
+    * {1} : destination file path
+    */
+   public static final String        FILE_EXPLORER_ERROR_FAILED_TO_RENAME   = "FileExplorerErrorFailedToRename";
+   /** Ask to choose a new directory name on creation of a new directory */
+   public static final String        FILE_EXPLORER_NEW_DIRECTORY_NAME       = "FileExplorerNewDirectoryName";
+   /** Ask to choose a new name on file renaming */
+   public static final String        FILE_EXPLORER_OTHER_NAME               = "FileExplorerOtherName";
+   /**
+    * Alert user that the renaming will overwrite an already existing file/directory message <br>
+    * {0} : File/directory will be overwrite path
+    */
+   public static final String        FILE_EXPLORER_OVERWRITE_FILE_MESSAGE   = "FileExplorerOverwriteFileMessage";
+
+   /** Alert user that the renaming will overwrite an already existing file/directory title */
+   public static final String        FILE_EXPLORER_OVERWRITE_FILE_TITLE     = "FileExplorerOverwriteFileTitle";
+   /** Alert user that the renaming can't append, the overwriting is not possible */
+   public static final String        FILE_EXPLORER_OVERWRITE_IMPOSSIBLE     = "FileExplorerOverwriteImpossible";
+   /**
+    * Alert user that the directory already exists, so the creation have failed <br>
+    * {0} : Already existing directory path
+    */
+   public static final String        FILE_EXPLORER_WARNING_DIRECTORY_EXISTS = "FileExplorerWarningDirectoryExists";
    /** Attach window icon */
    public static final ImageIcon     ICON_ATTACH_WINDOW;
    /** Over close icon */
@@ -39,21 +73,32 @@ public class ResourcesGUI
 
    /** Close icon */
    public static final ImageIcon     ICON_COSE_NORMAL;
-
    /** Detach window icon */
    public static final ImageIcon     ICON_DETACH_WINDOW;
    /** Hide icon */
    public static final ImageIcon     ICON_HIDE_NORMAL;
    /** Hide over icon */
    public static final ImageIcon     ICON_HIDE_OVER;
+
    /** Plus + icon */
    public static final ImageIcon     ICON_PLUS;
+
    /** Show icon */
    public static final ImageIcon     ICON_SHOW_NORMAL;
    /** Show over icon */
    public static final ImageIcon     ICON_SHOW_OVER;
    /** Indicates if we use 32x32 cursors */
    public static final boolean       IS_CURSOR_SIZE_32x32;
+   /** Cancel button text on option pane */
+   public static final String        OPTION_PANE_CANCEL                     = "OptionPaneCancel";
+   /** No button text on option pane */
+   public static final String        OPTION_PANE_NO                         = "OptionPaneNo";
+   /** Ok button text on option pane */
+   public static final String        OPTION_PANE_OK                         = "OptionPaneOk";
+   /** Yes button text on option pane */
+   public static final String        OPTION_PANE_YES                        = "OptionPaneYes";
+   /** GUI texts resources */
+   public static final ResourceText  RESOURCE_TEXT;
    /** "Free" access to GUI resources */
    public static final Resources     RESOURCES;
    /** Rich text with standard smiley replacement */
@@ -126,6 +171,8 @@ public class ResourcesGUI
       ResourcesGUI.STANDARD_SMILEYS.associate(":o", "surpris.png");
       ResourcesGUI.STANDARD_SMILEYS.associate(":-(", "triste.png");
       ResourcesGUI.STANDARD_SMILEYS.associate(":(", "triste.png");
+
+      RESOURCE_TEXT = ResourcesGUI.RESOURCES.obtainResourceText("TextsGUI");
    }
 
    /**

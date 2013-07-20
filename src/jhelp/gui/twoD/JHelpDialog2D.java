@@ -16,6 +16,7 @@ import jhelp.util.list.Pair;
  * @author JHelp
  */
 public class JHelpDialog2D
+      implements JHelpWindow2D
 {
    /** Indicates if clicking outside the dialog, it's close it */
    private boolean                clikOutClose;
@@ -24,7 +25,7 @@ public class JHelpDialog2D
    /** Frame parent where dialog draw */
    private final JHelpFrame2D     parent;
    /** Sprite for draw the dialog */
-   private final JHelpSprite      sprite;
+   private JHelpSprite            sprite;
 
    /**
     * Create a new instance of JHelpDialog2D
@@ -40,7 +41,8 @@ public class JHelpDialog2D
       this.parent = parent;
       this.clikOutClose = true;
 
-      final Dimension preferred = component2d.getPrefrerredSize(-1, -1);
+      component2d.setOwner(this);
+      final Dimension preferred = component2d.getPreferredSize(-1, -1);
 
       final JHelpImage parentImage = parent.getImage();
 
@@ -74,19 +76,42 @@ public class JHelpDialog2D
          this.sprite.setVisible(false);
       }
 
-      final JHelpImage image = this.sprite.getImage();
+      JHelpImage image = this.sprite.getImage();
       image.startDrawMode();
-
       image.clear(0);
+      image.endDrawMode();
 
       if(this.component2d.isVisible() == true)
       {
-         final Dimension preferred = this.component2d.getPrefrerredSize(-1, -1);
+         final Dimension preferred = this.component2d.getPreferredSize(-1, -1);
          this.component2d.setBounds(0, 0, preferred.width, preferred.height);
-         this.component2d.paintInternal(0, 0, image);
-      }
 
-      image.endDrawMode();
+         if((this.sprite.getWidth() != preferred.width) || (this.sprite.getHeight() != preferred.getHeight()))
+         {
+            final JHelpImage parentImage = this.parent.getImage();
+            synchronized(parentImage)
+            {
+               final boolean drawMode = parentImage.isDrawMode();
+
+               if(drawMode == true)
+               {
+                  parentImage.endDrawMode();
+               }
+               parentImage.removeSprite(this.sprite);
+               this.sprite = parentImage.createSprite((parentImage.getWidth() - preferred.width) >> 1, (parentImage.getHeight() - preferred.height) >> 1, preferred.width, preferred.height);
+               if(drawMode == true)
+               {
+                  parentImage.startDrawMode();
+               }
+
+               image = this.sprite.getImage();
+            }
+         }
+
+         image.startDrawMode();
+         this.component2d.paintInternal(0, 0, image);
+         image.endDrawMode();
+      }
 
       if(visible == true)
       {
@@ -112,13 +137,23 @@ public class JHelpDialog2D
    }
 
    /**
+    * Dialog root component
+    * 
+    * @return Dialog root component
+    */
+   protected JHelpComponent2D getRoot()
+   {
+      return this.component2d;
+   }
+
+   /**
     * Compute dialog main component size
     * 
     * @return Dialog main component size
     */
    public Dimension componentIternSize()
    {
-      return new Dimension(this.component2d.getPrefrerredSize(-1, -1));
+      return new Dimension(this.component2d.getPreferredSize(-1, -1));
    }
 
    /**
@@ -129,6 +164,16 @@ public class JHelpDialog2D
    public int getHeight()
    {
       return this.sprite.getHeight();
+   }
+
+   /**
+    * Dialog's frame owner
+    * 
+    * @return Dialog's frame owner
+    */
+   public JHelpFrame2D getOwner()
+   {
+      return this.parent;
    }
 
    /**

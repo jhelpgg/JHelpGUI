@@ -1,5 +1,6 @@
 package jhelp.gui.twoD;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import jhelp.util.gui.JHelpImage;
@@ -57,6 +58,20 @@ public abstract class JHelpListModel<INFORMATION>
    }
 
    /**
+    * List item size.<br>
+    * If need to create the item itself before know the size, just return {@code null}.<br>
+    * Return {@code null} by default
+    * 
+    * @param information
+    *           Information to get its size
+    * @return List item size, if known without create item itself
+    */
+   public Dimension getCellSize(final INFORMATION information)
+   {
+      return null;
+   }
+
+   /**
     * Obtain a list element
     * 
     * @param index
@@ -64,6 +79,16 @@ public abstract class JHelpListModel<INFORMATION>
     * @return Element asked
     */
    public abstract INFORMATION getElement(int index);
+
+   /**
+    * Obtain item tooltip.<br>
+    * Return {@code null} if no tooltip
+    * 
+    * @param information
+    *           Item information
+    * @return Associated tooltip
+    */
+   public abstract String getToolTip(INFORMATION information);
 
    /**
     * Number of elements

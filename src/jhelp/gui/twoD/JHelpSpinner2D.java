@@ -214,9 +214,9 @@ public class JHelpSpinner2D<VALUE>
    /** Text font */
    private static final JHelpFont FONT    = new JHelpFont("Arial", 14, true);
    /** Compnent ID for "down" the value */
-   private static final int       ID_LESS = 0x1;
+   private static final int       ID_LESS = JHelpConstants2D.ID_SPINNER_LESS;
    /** Compnent ID for "up" the value */
-   private static final int       ID_MORE = 0x2;
+   private static final int       ID_MORE = JHelpConstants2D.ID_SPINNER_MORE;
 
    /**
     * Create a spinner for choose an integer
@@ -411,6 +411,44 @@ public class JHelpSpinner2D<VALUE>
    public JHelpSpinner2DListener<VALUE> getSpinner2dListener()
    {
       return this.spinner2dListener;
+   }
+
+   /**
+    * Draw the panel <br>
+    * <br>
+    * <b>Parent documentation:</b><br>
+    * {@inheritDoc}
+    * 
+    * @param x
+    *           X location in parent
+    * @param y
+    *           Y location in parent
+    * @param parent
+    *           Parent where draw
+    * @see jhelp.gui.twoD.JHelpComponent2D#paint(int, int, jhelp.util.gui.JHelpImage)
+    */
+   @Override
+   public void paint(final int x, final int y, final JHelpImage parent)
+   {
+      this.getBounds();
+      Rectangle bounds;
+
+      synchronized(this.children)
+      {
+         for(final Pair<JHelpComponent2D, JHelpConstraints> child : this.children)
+         {
+            if(child.element1.isVisible() == false)
+            {
+               continue;
+            }
+
+            bounds = child.element1.getBounds();
+            bounds.x += x;
+            bounds.y += y;
+
+            child.element1.paintInternal(bounds.x, bounds.y, parent);
+         }
+      }
    }
 
    /**

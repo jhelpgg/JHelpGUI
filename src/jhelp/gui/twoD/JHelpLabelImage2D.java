@@ -2,12 +2,16 @@ package jhelp.gui.twoD;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 
+import jhelp.util.gui.GIF;
 import jhelp.util.gui.JHelpFont;
 import jhelp.util.gui.JHelpImage;
 import jhelp.util.gui.JHelpTextAlign;
 import jhelp.util.gui.JHelpTextLine;
+import jhelp.util.io.FileImageInformation;
 import jhelp.util.list.Pair;
 
 /**
@@ -122,6 +126,8 @@ public class JHelpLabelImage2D
       return new JHelpLabelImage2D(image);
    }
 
+   /** Gif animation */
+   private GIF        gif;
    /** Carry image */
    private JHelpImage image;
    /** Image location */
@@ -153,10 +159,10 @@ public class JHelpLabelImage2D
     * @param parentHeight
     *           Ignore here
     * @return Label preferred size
-    * @see jhelp.gui.twoD.JHelpComponent2D#getPrefrerredSize(int, int)
+    * @see jhelp.gui.twoD.JHelpComponent2D#getPreferredSize(int, int)
     */
    @Override
-   protected Dimension getPrefrerredSize(final int parentWidth, final int parentHeight)
+   protected Dimension computePreferredSize(final int parentWidth, final int parentHeight)
    {
       return new Dimension(this.preferredSize);
    }
@@ -209,7 +215,24 @@ public class JHelpLabelImage2D
          break;
       }
 
-      parent.drawImage(xx, yy, this.image);
+      if(this.gif == null)
+      {
+         parent.drawImage(xx, yy, this.image);
+      }
+      else
+      {
+         parent.drawImage(xx, yy, this.gif.getImageFromStartAnimation());
+      }
+   }
+
+   /**
+    * Associated GIF animation
+    * 
+    * @return Associated GIF animation
+    */
+   public GIF getGIF()
+   {
+      return this.gif;
    }
 
    /**
@@ -219,6 +242,11 @@ public class JHelpLabelImage2D
     */
    public JHelpImage getImage()
    {
+      if(this.image == null)
+      {
+         return this.gif.getImageFromStartAnimation();
+      }
+
       return this.image;
    }
 
@@ -233,6 +261,69 @@ public class JHelpLabelImage2D
    }
 
    /**
+    * Change image from a file.<br>
+    * If the file is not an image, the label have the dummy image.<br>
+    * If the file is an animated gif, the animation will be played on the label
+    * 
+    * @param fileImage
+    *           File to get the image
+    */
+   public void setFile(final File fileImage)
+   {
+      final FileImageInformation fileImageInformation = new FileImageInformation(fileImage);
+
+      if((fileImageInformation.getWidth() < 1) || (fileImageInformation.getHeight() < 1))
+      {
+         this.setImage(JHelpImage.DUMMY);
+         return;
+      }
+
+      if(fileImageInformation.getFormatName().equalsIgnoreCase("GIF") == true)
+      {
+         try
+         {
+            final GIF gif = new GIF(new FileInputStream(fileImage));
+            this.setGIF(gif);
+            return;
+         }
+         catch(final Exception exception)
+         {
+         }
+      }
+
+      try
+      {
+         this.setImage(JHelpImage.loadImage(fileImage));
+      }
+      catch(final Exception exception)
+      {
+         this.setImage(JHelpImage.DUMMY);
+      }
+   }
+
+   /**
+    * Give animated gif to the label.<br>
+    * The animation will be played on it
+    * 
+    * @param gif
+    *           GIF animation
+    */
+   public void setGIF(final GIF gif)
+   {
+      if(gif == null)
+      {
+         throw new NullPointerException("gif musn't be null");
+      }
+
+      this.gif = gif;
+      this.image = null;
+
+      gif.startAnimation();
+      this.preferredSize = new Dimension(gif.getWidth(), gif.getHeight());
+      this.invalidate();
+   }
+
+   /**
     * Change the image
     * 
     * @param image
@@ -240,9 +331,16 @@ public class JHelpLabelImage2D
     */
    public void setImage(final JHelpImage image)
    {
+      if(image == null)
+      {
+         throw new NullPointerException("image musn't be null");
+      }
+
+      this.gif = null;
       this.image = image;
 
       this.preferredSize = new Dimension(image.getWidth(), image.getHeight());
+      this.invalidate();
    }
 
    /**

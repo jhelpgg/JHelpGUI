@@ -75,17 +75,17 @@ public abstract class JHelpBackground2D
     * @param parentHeight
     *           Parent height
     * @return Computed size
-    * @see jhelp.gui.twoD.JHelpComponent2D#getPrefrerredSize(int, int)
+    * @see jhelp.gui.twoD.JHelpComponent2D#computePreferredSize(int, int)
     */
    @Override
-   protected final Dimension getPrefrerredSize(final int parentWidth, final int parentHeight)
+   protected final Dimension computePreferredSize(final int parentWidth, final int parentHeight)
    {
       if(this.carryComponent.isVisible() == false)
       {
          return new Dimension(this.left + this.right, this.top + this.bottom);
       }
 
-      final Dimension dimension = this.carryComponent.getPrefrerredSize(parentWidth - this.left - this.right, parentHeight - this.top - this.bottom);
+      final Dimension dimension = this.carryComponent.getPreferredSize(parentWidth - this.left - this.right, parentHeight - this.top - this.bottom);
 
       return new Dimension(dimension.width + this.left + this.right, dimension.height + this.top + this.bottom);
    }

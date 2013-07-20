@@ -49,6 +49,12 @@ public class ListModelSample
       return ListModelSample.LINES[index];
    }
 
+   @Override
+   public String getToolTip(final String information)
+   {
+      return null;
+   }
+
    /**
     * Number of element <br>
     * <br>
