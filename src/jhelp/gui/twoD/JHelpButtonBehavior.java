@@ -13,6 +13,22 @@ import jhelp.gui.JHelpMouseListener;
 public class JHelpButtonBehavior
       implements JHelpMouseListener
 {
+   /**
+    * Give to a component the button behavior
+    * 
+    * @param identifier
+    *           Behavior identifier
+    * @param component2d
+    *           Component to add the behavior
+    * @param actionListener
+    *           Listener to call if component id pressed
+    * @return The behavior instance
+    */
+   public static JHelpButtonBehavior giveButtonBehavior(final int identifier, final JHelpComponent2D component2d, final JHelpActionListener actionListener)
+   {
+      return new JHelpButtonBehavior(identifier, component2d, actionListener);
+   }
+
    /** Listener to call if component id pressed */
    private final JHelpActionListener actionListener;
    /** Component with the added behavior */
@@ -30,7 +46,7 @@ public class JHelpButtonBehavior
     * @param actionListener
     *           Listener to call if component id pressed
     */
-   public JHelpButtonBehavior(final int identifier, final JHelpComponent2D component2d, final JHelpActionListener actionListener)
+   private JHelpButtonBehavior(final int identifier, final JHelpComponent2D component2d, final JHelpActionListener actionListener)
    {
       if(component2d == null)
       {

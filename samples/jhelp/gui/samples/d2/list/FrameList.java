@@ -33,7 +33,7 @@ public class FrameList
       this.addComponent2D(this.list2d, JHelpBorderLayoutConstraints.CENTER);
 
       final JHelpLabelImage2D labelImage2D = JHelpLabelImage2D.createTextLabel("GO 23", JHelpList2D.FONT, 0xFF000000, 0xFFFFFFFF, JHelpTextAlign.CENTER);
-      new JHelpButtonBehavior(42, labelImage2D, this);
+      JHelpButtonBehavior.giveButtonBehavior(42, labelImage2D, this);
       this.addComponent2D(labelImage2D, JHelpBorderLayoutConstraints.BOTTOM_EXPANDED);
    }
 

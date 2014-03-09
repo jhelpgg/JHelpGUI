@@ -58,6 +58,14 @@ public abstract class JHelpListModel<INFORMATION>
    }
 
    /**
+    * Force the model to refresh
+    */
+   public void forceRefresh()
+   {
+      this.fireModelChanged();
+   }
+
+   /**
     * List item size.<br>
     * If need to create the item itself before know the size, just return {@code null}.<br>
     * Return {@code null} by default

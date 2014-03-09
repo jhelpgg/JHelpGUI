@@ -1,0 +1,14 @@
+Change the way to give button behavior in 2D components
+Avoid no necessary refresh in LabelJHelpImage
+Make more thread safe the refresh in JHelpGame2D
+Remove stupid and buggy test in FoldingAreaTitle
+Manage mouse event with new bounds notion in JHelpUtil, to have a perfect mouse detection in 2D
+Add the capacity to limit JHelpFoldable2D inside component size (Aim : limit size deployement for list and scroll pane) in 2D
+Null pointer exception correction in JHelpFrame2D
+Correction of tool tip computing in JHelpFrame2D
+Add posibility to capture special keys (shifted, controled, alted or combinasion) in JHelpList2D
+Better refresh in JHelpList2D
+Add possiblity to force refresh a list model
+Add possibility to detect the user has clicked on tree element
+Better size computing in vertical layout
+

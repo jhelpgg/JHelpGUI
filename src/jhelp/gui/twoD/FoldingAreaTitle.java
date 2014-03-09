@@ -181,7 +181,7 @@ public class FoldingAreaTitle
          {
             parent.fillString(x + 3 + (((width - 6 - tri) - stringWidth) >> 1), y, this.title, this.font, this.colorText);
          }
-         else if(this.paintText == null)
+         else
          {
             parent.fillString(x + 3 + (((width - 6 - tri) - stringWidth) >> 1), y, this.title, this.font, this.paintText, this.colorText);
          }

@@ -147,38 +147,21 @@ public class JHelpVerticalLayout
             case ALIGN_LEFT:
             case ALIGN_RIGHT:
                width = Math.max(width, prefferedSize.width + this.borderWidth);
-
-               if(height > 0)
-               {
-                  height += this.spaceBetweenComponents;
-               }
-
-               height += prefferedSize.height;
-
             break;
             case CENTER:
                width = Math.max(width, prefferedSize.width + (this.borderWidth * 2));
-
-               if(height > 0)
-               {
-                  height += this.spaceBetweenComponents;
-               }
-
-               height += prefferedSize.height;
-
             break;
             case EXPANDED:
                width = Math.max(width, prefferedSize.width + (this.borderWidth * 2));
-
-               if(height > 0)
-               {
-                  height += this.spaceBetweenComponents;
-               }
-
-               height += prefferedSize.height;
-
             break;
          }
+
+         if(height > 0)
+         {
+            height += this.spaceBetweenComponents;
+         }
+
+         height += prefferedSize.height;
       }
 
       width = Math.max(width, parentWidth);

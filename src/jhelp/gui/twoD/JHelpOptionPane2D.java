@@ -72,9 +72,9 @@ class JHelpOptionPane2D
       panel.addComponent2D(new JHelpBackgroundSaussage(this.labelTextButtonNo, 0xFFFFDDDD), new JHelpTableLayout.JHelpTableLayoutConstraints(6, 0, 2, 1));
       this.addComponent2D(panel, JHelpBorderLayoutConstraints.BOTTOM_EXPANDED);
 
-      new JHelpButtonBehavior(JHelpOptionPane2D.OK_YES, this.labelTextButtonOkYes, this);
-      new JHelpButtonBehavior(JHelpOptionPane2D.CANCEL, this.labelTextButtonCancel, this);
-      new JHelpButtonBehavior(JHelpOptionPane2D.NO, this.labelTextButtonNo, this);
+      JHelpButtonBehavior.giveButtonBehavior(JHelpOptionPane2D.OK_YES, this.labelTextButtonOkYes, this);
+      JHelpButtonBehavior.giveButtonBehavior(JHelpOptionPane2D.CANCEL, this.labelTextButtonCancel, this);
+      JHelpButtonBehavior.giveButtonBehavior(JHelpOptionPane2D.NO, this.labelTextButtonNo, this);
    }
 
    /**

@@ -130,7 +130,6 @@ public class JHelpPanel2D
          return null;
       }
 
-      Rectangle bounds;
       Pair<JHelpComponent2D, JHelpMouseListener> pair;
 
       synchronized(this.children)
@@ -142,9 +141,7 @@ public class JHelpPanel2D
                continue;
             }
 
-            bounds = child.element1.getBounds();
-
-            pair = child.element1.mouseOver(x - bounds.x, y - bounds.y);
+            pair = child.element1.mouseOver(x, y);
 
             if(pair != null)
             {

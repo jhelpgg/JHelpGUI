@@ -79,8 +79,7 @@ public class JHelpCenterComponent
          return null;
       }
 
-      final Rectangle bounds = this.component2d.getBounds();
-      return this.component2d.mouseOver(x - bounds.x, y - bounds.y);
+      return this.component2d.mouseOver(x, y);
    }
 
    /**

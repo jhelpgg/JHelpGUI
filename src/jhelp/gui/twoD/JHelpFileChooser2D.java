@@ -525,16 +525,16 @@ public class JHelpFileChooser2D
 
       JHelpLabelText2D button = new JHelpLabelText2D(JHelpFileChooser2D.FONT, "Ok", JHelpTextAlign.CENTER, 0xFF000000, 0);
       button.linkToResourceText(ResourcesGUI.RESOURCE_TEXT, ResourcesGUI.OPTION_PANE_OK);
-      new JHelpButtonBehavior(JHelpFileChooser2D.ID_OK_BUTTON, button, this);
+      JHelpButtonBehavior.giveButtonBehavior(JHelpFileChooser2D.ID_OK_BUTTON, button, this);
       this.backGroundOk = new JHelpBackgroundSaussage(button, 0x80808080);
-      new JHelpButtonBehavior(JHelpFileChooser2D.ID_OK_BUTTON, this.backGroundOk, this);
+      JHelpButtonBehavior.giveButtonBehavior(JHelpFileChooser2D.ID_OK_BUTTON, this.backGroundOk, this);
       panel2d.addComponent2D(this.backGroundOk, new JHelpTableLayout.JHelpTableLayoutConstraints(0, 0));
 
       button = new JHelpLabelText2D(JHelpFileChooser2D.FONT, "Cancel", JHelpTextAlign.CENTER, 0xFF000000, 0);
       button.linkToResourceText(ResourcesGUI.RESOURCE_TEXT, ResourcesGUI.OPTION_PANE_CANCEL);
-      new JHelpButtonBehavior(JHelpFileChooser2D.ID_CANCEL_BUTTON, button, this);
+      JHelpButtonBehavior.giveButtonBehavior(JHelpFileChooser2D.ID_CANCEL_BUTTON, button, this);
       final JHelpBackgroundSaussage saussage = new JHelpBackgroundSaussage(button, 0xFFFFFFFF);
-      new JHelpButtonBehavior(JHelpFileChooser2D.ID_CANCEL_BUTTON, saussage, this);
+      JHelpButtonBehavior.giveButtonBehavior(JHelpFileChooser2D.ID_CANCEL_BUTTON, saussage, this);
       panel2d.addComponent2D(saussage, new JHelpTableLayout.JHelpTableLayoutConstraints(2, 0));
 
       this.addComponent2D(panel2d, JHelpBorderLayoutConstraints.BOTTOM);
@@ -734,7 +734,6 @@ public class JHelpFileChooser2D
 
          return;
       }
-
       this.loadSound.setSound(JHelpFileChooser2D.NO_SOUND);
       this.loadImage.setImage(selectedFile);
    }

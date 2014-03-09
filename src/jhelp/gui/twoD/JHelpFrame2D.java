@@ -1,7 +1,7 @@
 package jhelp.gui.twoD;
 
 import java.awt.Dimension;
-import java.awt.Rectangle;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -15,6 +15,8 @@ import java.util.Stack;
 
 import jhelp.gui.JHelpFrameImage;
 import jhelp.gui.JHelpMouseListener;
+import jhelp.util.debug.Debug;
+import jhelp.util.debug.DebugLevel;
 import jhelp.util.gui.JHelpFont;
 import jhelp.util.gui.JHelpImage;
 import jhelp.util.gui.JHelpTextAlign;
@@ -158,6 +160,11 @@ public class JHelpFrame2D
                                                                                                   @Override
                                                                                                   protected void doSimpleAction(final Pair<JHelpMouseListener, MouseEvent> parameter)
                                                                                                   {
+                                                                                                     if((parameter == null) || (parameter.element1 == null) || (parameter.element2 == null))
+                                                                                                     {
+                                                                                                        return;
+                                                                                                     }
+
                                                                                                      switch(parameter.element2.getID())
                                                                                                      {
                                                                                                         case MouseEvent.MOUSE_CLICKED:
@@ -273,8 +280,6 @@ public class JHelpFrame2D
          return null;
       }
 
-      final Rectangle bounds = pair.element1.getBounds();
-      event.translatePoint(xx - bounds.x, yy - bounds.y);
       event.setSource(pair.element1);
 
       return new Triplet<JHelpComponent2D, JHelpMouseListener, MouseEvent>(pair.element1, pair.element2, event);
@@ -357,14 +362,14 @@ public class JHelpFrame2D
       {
          if(this.overComponent == component2d)
          {
-            final String tips = this.overComponent.getToolTip(mx, my);
+            final Point position = component2d.getAbsolutePosition();
+            final String tips = this.overComponent.getToolTip(mx - position.x, my - position.y);
             this.printTips(mx + 16, my - 16, tips);
 
             return;
          }
 
-         final MouseEvent me = new MouseEvent(this, MouseEvent.MOUSE_EXITED, System.currentTimeMillis(), mouseEvent.getModifiers(), mx - this.overComponent.getAbsoluteX(), my - this.overComponent.getAbsoluteY(),
-               mouseEvent.getClickCount(), mouseEvent.isPopupTrigger());
+         final MouseEvent me = new MouseEvent(this, MouseEvent.MOUSE_EXITED, System.currentTimeMillis(), mouseEvent.getModifiers(), mx, my, mouseEvent.getClickCount(), mouseEvent.isPopupTrigger());
          me.setSource(this.overComponent);
 
          ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(this.overComponent.getMouseListener(), me));
@@ -372,8 +377,7 @@ public class JHelpFrame2D
 
       if(component2d != null)
       {
-         final MouseEvent me = new MouseEvent(this, MouseEvent.MOUSE_ENTERED, System.currentTimeMillis(), mouseEvent.getModifiers(), mx - component2d.getAbsoluteX(), my - component2d.getAbsoluteY(), mouseEvent.getClickCount(),
-               mouseEvent.isPopupTrigger());
+         final MouseEvent me = new MouseEvent(this, MouseEvent.MOUSE_ENTERED, System.currentTimeMillis(), mouseEvent.getModifiers(), mx, my, mouseEvent.getClickCount(), mouseEvent.isPopupTrigger());
          me.setSource(component2d);
 
          ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(component2d.getMouseListener(), me));
@@ -647,12 +651,17 @@ public class JHelpFrame2D
    @Override
    public void mouseClicked(final MouseEvent e)
    {
+      Debug.println(DebugLevel.DEBUG, "Click  : ", e);
       final Triplet<JHelpComponent2D, JHelpMouseListener, MouseEvent> triplet = this.obtainMouseArea(e);
 
       if(triplet != null)
       {
+         Debug.println(DebugLevel.DEBUG, "Click on : ", triplet);
+
          if(triplet.element1.isFocusable() == true)
          {
+            Debug.println(DebugLevel.DEBUG, "Focus on : ", triplet.element1);
+
             if(this.focusedComponent != null)
             {
                this.focusedComponent.setHaveFocus(false);
@@ -661,7 +670,11 @@ public class JHelpFrame2D
             this.focusedComponent = triplet.element1;
             this.focusedComponent.setHaveFocus(true);
          }
-         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
+
+         if(triplet.element2 != null)
+         {
+            ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
+         }
       }
    }
 
@@ -686,7 +699,11 @@ public class JHelpFrame2D
       if(triplet != null)
       {
          this.updateMousePosition(triplet.element1, mx, my, triplet.element3);
-         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
+
+         if(triplet.element2 != null)
+         {
+            ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
+         }
       }
       else
       {
@@ -711,7 +728,10 @@ public class JHelpFrame2D
 
       if(triplet != null)
       {
-         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
+         if(triplet.element2 != null)
+         {
+            ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
+         }
       }
    }
 
@@ -732,7 +752,10 @@ public class JHelpFrame2D
 
       if(triplet != null)
       {
-         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
+         if(triplet.element2 != null)
+         {
+            ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
+         }
       }
    }
 
@@ -757,7 +780,11 @@ public class JHelpFrame2D
       if(triplet != null)
       {
          this.updateMousePosition(triplet.element1, mx, my, triplet.element3);
-         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
+
+         if(triplet.element2 != null)
+         {
+            ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
+         }
       }
       else
       {
@@ -782,7 +809,10 @@ public class JHelpFrame2D
 
       if(triplet != null)
       {
-         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
+         if(triplet.element2 != null)
+         {
+            ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
+         }
       }
    }
 
@@ -803,7 +833,10 @@ public class JHelpFrame2D
 
       if(triplet != null)
       {
-         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
+         if(triplet.element2 != null)
+         {
+            ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
+         }
       }
    }
 
@@ -824,7 +857,10 @@ public class JHelpFrame2D
 
       if(triplet != null)
       {
-         ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
+         if(triplet.element2 != null)
+         {
+            ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(triplet.element2, triplet.element3));
+         }
       }
    }
 

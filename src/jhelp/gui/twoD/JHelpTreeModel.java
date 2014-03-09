@@ -59,6 +59,14 @@ public abstract class JHelpTreeModel<INFORMATION>
    }
 
    /**
+    * Force refresh the model
+    */
+   public void forceRefresh()
+   {
+      this.fireModelChanged();
+   }
+
+   /**
     * Obtain a child of a parent
     * 
     * @param parent

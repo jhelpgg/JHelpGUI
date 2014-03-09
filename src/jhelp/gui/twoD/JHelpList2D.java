@@ -58,6 +58,23 @@ public class JHelpList2D<INFORMATION>
       @Override
       public void keyPressed(final KeyEvent e)
       {
+         final boolean shift = e.isShiftDown();
+         final boolean control = e.isControlDown();
+         final boolean alt = e.isAltDown();
+
+         if((JHelpList2D.this.specialKeyListener != null) && ((shift == true) || (control == true) || (alt == true)))
+         {
+            INFORMATION information = null;
+
+            if(JHelpList2D.this.selectedIndex >= 0)
+            {
+               information = JHelpList2D.this.getListModel().getElement(JHelpList2D.this.selectedIndex);
+            }
+
+            JHelpList2D.this.specialKeyListener.specialKeyClicked(e.getKeyCode(), shift, control, alt, JHelpList2D.this, information, JHelpList2D.this.selectedIndex);
+            return;
+         }
+
          int selection = JHelpList2D.this.selectedIndex;
          final int size = JHelpList2D.this.listModel.numberOfElement();
 
@@ -405,21 +422,21 @@ public class JHelpList2D<INFORMATION>
    }
 
    /** Loading animation images */
-   private static final JHelpImage[]      LOADING;
+   private static final JHelpImage[]        LOADING;
    /** Loading animation height */
-   private static final int               LOADING_HEIGHT;
+   private static final int                 LOADING_HEIGHT;
    /** Loading animation number of images */
-   private static final int               LOADING_LENGTH;
+   private static final int                 LOADING_LENGTH;
    /** Loading animation width */
-   private static final int               LOADING_WIDH;
+   private static final int                 LOADING_WIDH;
    /** Default background color */
-   public static final int                BACKGROUND         = 0xFFFFFFFF;
+   public static final int                  BACKGROUND         = 0xFFFFFFFF;
    /** Default font for texts */
-   public static final JHelpFont          FONT               = new JHelpFont("Arial", 16);
+   public static final JHelpFont            FONT               = new JHelpFont("Arial", 16);
    /** Default foreground color */
-   public static final int                FOREGROUND         = 0xFF000000;
+   public static final int                  FOREGROUND         = 0xFF000000;
    /** Defult selection color */
-   public static final int                SELECTION          = 0xFFC0C0FF;
+   public static final int                  SELECTION          = 0xFFC0C0FF;
    static
    {
       JHelpImage[] loading = null;
@@ -450,31 +467,33 @@ public class JHelpList2D<INFORMATION>
       LOADING_HEIGHT = height;
    }
    /** Indicates if refresh can continue */
-   private final AtomicBoolean            canContinueRefresh = new AtomicBoolean(false);
+   private final AtomicBoolean              canContinueRefresh = new AtomicBoolean(false);
    /** Indicates if the list is horizontal or vertical */
-   private final boolean                  horizontal;
+   private final boolean                    horizontal;
    /** Listener of list events */
-   private JHelpListListener<INFORMATION> listListener;
+   private JHelpListListener<INFORMATION>   listListener;
    /** Loading animation current index */
-   private int                            loadingIndex       = 0;
+   private int                              loadingIndex       = 0;
    /** Loading percent */
-   private int                            percent;
+   private int                              percent;
    /** Indicates if refresh is processing */
-   private boolean                        refreshing;
+   private boolean                          refreshing;
    /** Actual background color */
-   int                                    background;
+   int                                      background;
    /** Event manager */
-   final EventManager                     eventManager;
+   final EventManager                       eventManager;
    /** Actual font for texts */
-   JHelpFont                              font;
+   JHelpFont                                font;
    /** Actual foreground color */
-   int                                    foreground;
+   int                                      foreground;
    /** Embed model */
-   final JHelpListModel<INFORMATION>      listModel;
+   final JHelpListModel<INFORMATION>        listModel;
    /** Selected index */
-   int                                    selectedIndex;
+   int                                      selectedIndex;
    /** Current selection color */
-   int                                    selection;
+   int                                      selection;
+   /** CurrentSpecial keys listener */
+   JHelpListSpecialKeyListener<INFORMATION> specialKeyListener;
 
    /**
     * Create a new instance of JHelpList2D
@@ -634,6 +653,7 @@ public class JHelpList2D<INFORMATION>
       }
 
       this.refreshing = false;
+      this.invalidate();
    }
 
    /**
@@ -776,6 +796,16 @@ public class JHelpList2D<INFORMATION>
    }
 
    /**
+    * The current special keys listener
+    * 
+    * @return The current special keys listener
+    */
+   public JHelpListSpecialKeyListener<INFORMATION> getSpecialKeyListener()
+   {
+      return this.specialKeyListener;
+   }
+
+   /**
     * Get list tooltip for a specific position.<br>
     * It look for the item under this position in the list and give its tool tips. If no item found default tolltip is returned <br>
     * <br>
@@ -905,5 +935,16 @@ public class JHelpList2D<INFORMATION>
 
       this.selection = selection;
       this.updateList();
+   }
+
+   /**
+    * Change/define the special keys listener
+    * 
+    * @param specialKeyListener
+    *           New special key listener (Can use {@code null} to remove current special key listener)
+    */
+   public void setSpecialKeyListener(final JHelpListSpecialKeyListener<INFORMATION> specialKeyListener)
+   {
+      this.specialKeyListener = specialKeyListener;
    }
 }

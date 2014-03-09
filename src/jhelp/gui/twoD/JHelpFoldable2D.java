@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 import jhelp.gui.JHelpMouseListener;
+import jhelp.util.gui.Bounds;
 import jhelp.util.gui.JHelpGradientHorizontal;
 import jhelp.util.gui.JHelpGradientVertical;
 import jhelp.util.gui.JHelpImage;
@@ -96,6 +97,10 @@ public class JHelpFoldable2D
    private final FoldingAreaInterface    foldingArea;
    /** Describes folding area location */
    private final FoldingAreaPosition     foldingAreaPosition;
+   /** Limit of component height */
+   private int                           limitHeight;
+   /** Limit of component width */
+   private int                           limitWidth;
    /** Listeners of fold sate change */
    private final ArrayList<FoldListener> listeners;
    /** Mouse event manager */
@@ -330,6 +335,8 @@ public class JHelpFoldable2D
       this.onFolding = false;
       this.mutex = new Mutex();
       this.setMouseListener(this.mouseListener);
+      this.limitWidth = Integer.MAX_VALUE;
+      this.limitHeight = Integer.MAX_VALUE;
    }
 
    /**
@@ -395,6 +402,9 @@ public class JHelpFoldable2D
       final Dimension dimension = this.component2d.getPreferredSize(parentWidth, parentHeight);
       final Dimension minimum = this.foldingArea.minimumSize();
 
+      dimension.width = Math.min(dimension.width, this.limitWidth);
+      dimension.height = Math.min(dimension.height, this.limitHeight);
+
       int x = 0;
       int y = 0;
 
@@ -442,7 +452,7 @@ public class JHelpFoldable2D
     * @see jhelp.gui.twoD.JHelpComponent2D#mouseOver(int, int)
     */
    @Override
-   protected Pair<JHelpComponent2D, JHelpMouseListener> mouseOver(int x, int y)
+   protected Pair<JHelpComponent2D, JHelpMouseListener> mouseOver(final int x, final int y)
    {
       final Pair<JHelpComponent2D, JHelpMouseListener> pair = super.mouseOver(x, y);
 
@@ -451,7 +461,7 @@ public class JHelpFoldable2D
          return null;
       }
 
-      final Rectangle bounds = this.getBounds();
+      final Bounds bounds = this.getScreenBounds();
       final Dimension minimum = this.foldingArea.minimumSize();
 
       boolean overPanel = false;
@@ -459,29 +469,27 @@ public class JHelpFoldable2D
       switch(this.foldingAreaPosition)
       {
          case BOTTOM:
-            if(y < (bounds.height - minimum.height))
+            if(y < (bounds.getyMax() - minimum.height))
             {
                overPanel = true;
             }
          break;
          case LEFT:
-            if(x > minimum.width)
+            if(x > (bounds.getxMin() + minimum.width))
             {
                overPanel = true;
-               x -= minimum.width;
             }
          break;
          case RIGHT:
-            if(x < (bounds.width - minimum.height))
+            if(x < (bounds.getxMax() - minimum.width))
             {
                overPanel = true;
             }
          break;
          case TOP:
-            if(y > minimum.height)
+            if(y > (bounds.getyMin() + minimum.height))
             {
                overPanel = true;
-               y -= minimum.height;
             }
          break;
       }
@@ -575,6 +583,7 @@ public class JHelpFoldable2D
          image.endDrawMode();
 
          parent.drawImage(x + xPanel, y + yPanel, image);
+         this.component2d.translateAfterDraw(x + xPanel, y + yPanel);
       }
    }
 
@@ -626,6 +635,26 @@ public class JHelpFoldable2D
    }
 
    /**
+    * Component limit height
+    * 
+    * @return Component limit height
+    */
+   public int getLimitHeight()
+   {
+      return this.limitHeight;
+   }
+
+   /**
+    * Component limit width
+    * 
+    * @return Component limit width
+    */
+   public int getLimitWidth()
+   {
+      return this.limitWidth;
+   }
+
+   /**
     * Register a listener for know when fold state change
     * 
     * @param foldListener
@@ -636,6 +665,28 @@ public class JHelpFoldable2D
       JHelpFoldable2D.this.mutex.lock();
       this.listeners.add(foldListener);
       JHelpFoldable2D.this.mutex.unlock();
+   }
+
+   /**
+    * Change the component limit height
+    * 
+    * @param limitHeight
+    *           New height limit (Use {@link Integer#MAX_VALUE} for no limit)
+    */
+   public void setLimitHeight(final int limitHeight)
+   {
+      this.limitHeight = Math.max(128, limitHeight);
+   }
+
+   /**
+    * Change the component limit width
+    * 
+    * @param limitWidth
+    *           New width limit (Use {@link Integer#MAX_VALUE} for no limit)
+    */
+   public void setLimitWidth(final int limitWidth)
+   {
+      this.limitWidth = Math.max(128, limitWidth);
    }
 
    /**

@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 import jhelp.gui.JHelpMouseListener;
 import jhelp.gui.ResourcesGUI;
@@ -11,6 +13,9 @@ import jhelp.util.debug.Debug;
 import jhelp.util.gui.JHelpFont;
 import jhelp.util.gui.JHelpImage;
 import jhelp.util.gui.JHelpMask;
+import jhelp.util.list.Pair;
+import jhelp.util.thread.ThreadManager;
+import jhelp.util.thread.ThreadedSimpleTask;
 
 /**
  * Tree of elements
@@ -137,6 +142,9 @@ public class JHelpTree2D<INFORMATION>
                break;
                case AREA_EXPAND_BUTTON:
                   JHelpTree2D.this.treeModel.setExpand(area.node, true);
+               break;
+               case AREA_NODE:
+                  JHelpTree2D.this.clickOn(area.node);
                break;
             }
          }
@@ -296,26 +304,59 @@ public class JHelpTree2D<INFORMATION>
       }
    }
 
+   /**
+    * Task for fire signal to a listner that an information was clicked
+    * 
+    * @author JHelp
+    */
+   class TaskFireTreeOnClick
+         extends ThreadedSimpleTask<Pair<TreeClickOnListener<INFORMATION>, INFORMATION>>
+   {
+      /**
+       * Create a new instance of TaskFireTreeOnClick
+       */
+      TaskFireTreeOnClick()
+      {
+      }
+
+      /**
+       * Do the task for fire signal to a listner that an information was clicked <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       * 
+       * @param parameter
+       *           Pair of the listener to alert and information to provide
+       * @see jhelp.util.thread.ThreadedSimpleTask#doSimpleAction(java.lang.Object)
+       */
+      @Override
+      protected void doSimpleAction(final Pair<TreeClickOnListener<INFORMATION>, INFORMATION> parameter)
+      {
+         parameter.element1.clickOn(parameter.element2);
+      }
+   }
+
    /** Image used for collapse */
-   private static final JHelpImage            IMAGE_COLLAPSE;
+   private static final JHelpImage                      IMAGE_COLLAPSE;
    /** Image used for expand */
-   private static final JHelpImage            IMAGE_EXPAND;
+   private static final JHelpImage                      IMAGE_EXPAND;
    /** X translation */
-   private static final int                   MOVE_X;
+   private static final int                             MOVE_X;
    /** Y translation */
-   private static final int                   MOVE_Y;
+   private static final int                             MOVE_Y;
    /** Area type : button collapse */
-   static final int                           AREA_COLLAPSE_BUTTON = 0x0;
+   static final int                                     AREA_COLLAPSE_BUTTON = 0x0;
    /** Area type : expand button */
-   static final int                           AREA_EXPAND_BUTTON   = 0x1;
+   static final int                                     AREA_EXPAND_BUTTON   = 0x1;
    /** Area type : Node representation */
-   static final int                           AREA_NODE            = 0x2;
+   static final int                                     AREA_NODE            = 0x2;
    /** Default background color */
-   public static final int                    BACKGROUND           = 0xFFFFFFFF;
+   public static final int                              BACKGROUND           = 0xFFFFFFFF;
    /** Default text font */
-   public static final JHelpFont              FONT;
+   public static final JHelpFont                        FONT;
    /** Default text color */
-   public static final int                    FOREGROUND           = 0xFF000000;
+   public static final int                              FOREGROUND           = 0xFF000000;
+
    static
    {
       JHelpImage image = null;
@@ -346,22 +387,27 @@ public class JHelpTree2D<INFORMATION>
       MOVE_Y = Math.max(JHelpTree2D.IMAGE_EXPAND.getHeight(), JHelpTree2D.IMAGE_COLLAPSE.getHeight());
       FONT = new JHelpFont("Arial", Math.max(JHelpTree2D.MOVE_X, JHelpTree2D.MOVE_Y));
    }
+
    /** Mouse sensitive areas */
-   private final ArrayList<Area<INFORMATION>> areas;
+   private final ArrayList<Area<INFORMATION>>           areas;
    /** Backgorund color */
-   private int                                background;
+   private int                                          background;
    /** Event manager */
-   private final EventManager                 eventManager;
+   private final EventManager                           eventManager;
    /** Text font */
-   private JHelpFont                          font;
+   private JHelpFont                                    font;
    /** Foreground color */
-   private int                                foreground;
+   private int                                          foreground;
    /** Synchronization lock */
-   private final Object                       lock                 = new Object();
+   private final Object                                 lock                 = new Object();
+   /** Task for fire signal to a listner that an information was clicked */
+   private final TaskFireTreeOnClick                    taskFireTreeOnClick;
+   /** Listeners on element click in tree */
+   private final List<TreeClickOnListener<INFORMATION>> treeClickOnListeners;
    /** Image of the tree */
-   private JHelpImage                         treeImage;
+   private JHelpImage                                   treeImage;
    /** Tree model */
-   JHelpTreeModel<INFORMATION>                treeModel;
+   JHelpTreeModel<INFORMATION>                          treeModel;
 
    /**
     * Create a new instance of JHelpTree2D
@@ -375,7 +421,8 @@ public class JHelpTree2D<INFORMATION>
       this.background = JHelpTree2D.BACKGROUND;
       this.foreground = JHelpTree2D.FOREGROUND;
       this.areas = new ArrayList<JHelpTree2D.Area<INFORMATION>>();
-
+      this.treeClickOnListeners = new Vector<TreeClickOnListener<INFORMATION>>();
+      this.taskFireTreeOnClick = new TaskFireTreeOnClick();
       this.eventManager = new EventManager();
       this.treeModel = treeModel;
       this.refreshTreeImage();
@@ -569,6 +616,20 @@ public class JHelpTree2D<INFORMATION>
    }
 
    /**
+    * Alert listeners that an elment was cicked
+    * 
+    * @param information
+    *           Carry information by the clicked element
+    */
+   protected void fireTreeOnClick(final INFORMATION information)
+   {
+      for(final TreeClickOnListener<INFORMATION> treeClickOnListener : this.treeClickOnListeners)
+      {
+         ThreadManager.THREAD_MANAGER.doThread(this.taskFireTreeOnClick, new Pair<TreeClickOnListener<INFORMATION>, INFORMATION>(treeClickOnListener, information));
+      }
+   }
+
+   /**
     * Draw the tree <br>
     * <br>
     * <b>Parent documentation:</b><br>
@@ -591,6 +652,18 @@ public class JHelpTree2D<INFORMATION>
       }
 
       parent.drawImage(x, y, this.treeImage);
+   }
+
+   /**
+    * Called when an element wad clicked.<br>
+    * By default it alert listenrs that this event happen
+    * 
+    * @param information
+    *           Carray information by clicked element
+    */
+   public void clickOn(final INFORMATION information)
+   {
+      this.fireTreeOnClick(information);
    }
 
    /**
@@ -631,6 +704,25 @@ public class JHelpTree2D<INFORMATION>
    public JHelpTreeModel<INFORMATION> getTreeModel()
    {
       return this.treeModel;
+   }
+
+   /**
+    * Register a tree click listener
+    * 
+    * @param treeClickOnListener
+    *           Listener to register
+    */
+   public void registerTreeClickOnListener(final TreeClickOnListener<INFORMATION> treeClickOnListener)
+   {
+      if(treeClickOnListener == null)
+      {
+         throw new NullPointerException("treeClickOnListener musn't be null");
+      }
+
+      if(this.treeClickOnListeners.contains(treeClickOnListener) == false)
+      {
+         this.treeClickOnListeners.add(treeClickOnListener);
+      }
    }
 
    /**
@@ -724,5 +816,16 @@ public class JHelpTree2D<INFORMATION>
       this.treeModel.registerTreeModelListener(this.eventManager);
 
       this.refreshTreeImage();
+   }
+
+   /**
+    * Unregister a tree click listener
+    * 
+    * @param treeClickOnListener
+    *           Listener to unregister
+    */
+   public void unregisterTreeClickOnListener(final TreeClickOnListener<INFORMATION> treeClickOnListener)
+   {
+      this.treeClickOnListeners.remove(treeClickOnListener);
    }
 }

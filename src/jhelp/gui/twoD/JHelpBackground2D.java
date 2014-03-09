@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import jhelp.gui.JHelpMouseListener;
+import jhelp.util.gui.Bounds;
 import jhelp.util.gui.JHelpImage;
 import jhelp.util.list.Pair;
 
@@ -113,14 +114,17 @@ public abstract class JHelpBackground2D
 
       final Pair<JHelpComponent2D, JHelpMouseListener> pair = super.mouseOver(x, y);
 
-      final Rectangle bounds = this.getBounds();
+      Bounds bounds = this.getScreenBounds();
+      final int xx = bounds.getxMin();
+      final int yy = bounds.getyMin();
+      bounds = bounds.intersect(new Bounds(xx + this.left, xx + this.right, yy + this.top, yy + this.bottom));
 
-      if((x < this.left) || (x > (bounds.width - this.right)) || (y < this.top) || (y > (bounds.height - this.bottom)))
+      if(bounds.inside(x, y) == false)
       {
          return pair;
       }
 
-      return this.carryComponent.mouseOver(x - this.left, y - this.top);
+      return this.carryComponent.mouseOver(x, y);
    }
 
    /**

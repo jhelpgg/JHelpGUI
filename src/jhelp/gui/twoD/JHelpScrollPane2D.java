@@ -115,6 +115,46 @@ public class JHelpScrollPane2D
    }
 
    /**
+    * Test if mouse over the scroll pane.<br>
+    * If not only right click :<br>
+    * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it returns the component itself and associated listener else {@code null} is return<br>
+    * Else:<br>
+    * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it redirects the asking to the scroll view :<br>
+    * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if this one return not {@code null} :<br>
+    * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this result is returned<br>
+    * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+    * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it returns the component itself and associated listener else
+    * {@code null} is return <br>
+    * <br>
+    * <b>Parent documentation:</b><br>
+    * {@inheritDoc}
+    * 
+    * @param x
+    *           Mouse X
+    * @param y
+    *           Mouse Y
+    * @return The correct component and its mouse listener
+    * @see jhelp.gui.twoD.JHelpComponent2D#mouseOver(int, int)
+    */
+   @Override
+   protected Pair<JHelpComponent2D, JHelpMouseListener> mouseOver(final int x, final int y)
+   {
+      if(this.onlyOnRightClick == false)
+      {
+         return super.mouseOver(x, y);
+      }
+
+      final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(x, y);
+
+      if(pair == null)
+      {
+         return super.mouseOver(x, y);
+      }
+
+      return pair;
+   }
+
+   /**
     * Paint the component in a image <br>
     * <br>
     * <b>Parent documentation:</b><br>
@@ -136,7 +176,6 @@ public class JHelpScrollPane2D
       {
          return;
       }
-
       final Rectangle view = this.scrollView.getBounds();
 
       final int w = bounds.width - view.width;
@@ -172,14 +211,6 @@ public class JHelpScrollPane2D
       this.dx = (this.dx * this.inertiaFactor) / this.inertia;
       this.dy = (this.dy * this.inertiaFactor) / this.inertia;
 
-      // final JHelpImage image = new JHelpImage(bounds.width, bounds.height);
-      // image.startDrawMode();
-      //
-      // this.scrollView.paintInternal(this.scrollX, this.scrollY, image);
-      // image.endDrawMode();
-      //
-      // parent.drawImage(x, y, image);
-
       this.scrollView.paintInternal(this.scrollX + x, this.scrollY + y, parent, x, y, bounds.width, bounds.height);
    }
 
@@ -212,7 +243,7 @@ public class JHelpScrollPane2D
     */
    public JHelpComponent2D getComponent(final int x, final int y)
    {
-      final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(x - this.scrollX, y - this.scrollY);
+      final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(x, y);
       if(pair == null)
       {
          return null;
@@ -275,7 +306,11 @@ public class JHelpScrollPane2D
    public void mouseClicked(final MouseEvent e)
    {
       JHelpMouseListener mouseListener = null;
-      final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(e.getX() - this.scrollX, e.getY() - this.scrollY);
+
+      final int x = e.getX();
+      final int y = e.getY();
+
+      final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(x, y);
 
       if(pair != null)
       {
@@ -285,7 +320,6 @@ public class JHelpScrollPane2D
       if(mouseListener != null)
       {
          final Rectangle bounds = pair.element1.getBounds();
-
          e.translatePoint(-this.scrollX - bounds.x, -this.scrollY - bounds.y);
          e.setSource(pair.element1);
          mouseListener.mouseClicked(e);
@@ -307,8 +341,11 @@ public class JHelpScrollPane2D
    {
       if((this.onlyOnRightClick == true) && (SwingUtilities.isRightMouseButton(e) == false))
       {
+         final int x = e.getX();
+         final int y = e.getY();
+
          JHelpMouseListener mouseListener = null;
-         final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(e.getX(), e.getY());
+         final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(x, y);
 
          if(pair != null)
          {
@@ -318,7 +355,6 @@ public class JHelpScrollPane2D
          if(mouseListener != null)
          {
             final Rectangle bounds = pair.element1.getBounds();
-
             e.translatePoint(-this.scrollX - bounds.x, -this.scrollY - bounds.y);
             e.setSource(pair.element1);
             mouseListener.mouseDragged(e);
@@ -347,8 +383,11 @@ public class JHelpScrollPane2D
    @Override
    public void mouseEntered(final MouseEvent e)
    {
+      final int x = e.getX();
+      final int y = e.getY();
+
       JHelpMouseListener mouseListener = null;
-      final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(e.getX(), e.getY());
+      final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(x, y);
 
       if(pair != null)
       {
@@ -378,8 +417,11 @@ public class JHelpScrollPane2D
    @Override
    public void mouseExited(final MouseEvent e)
    {
+      final int x = e.getX();
+      final int y = e.getY();
+
       JHelpMouseListener mouseListener = null;
-      final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(e.getX(), e.getY());
+      final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(x, y);
 
       if(pair != null)
       {
@@ -409,8 +451,11 @@ public class JHelpScrollPane2D
    @Override
    public void mouseMoved(final MouseEvent e)
    {
+      final int x = e.getX();
+      final int y = e.getY();
+
       JHelpMouseListener mouseListener = null;
-      final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(e.getX(), e.getY());
+      final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(x, y);
 
       if(pair != null)
       {
@@ -442,8 +487,11 @@ public class JHelpScrollPane2D
    {
       if((this.onlyOnRightClick == true) && (SwingUtilities.isRightMouseButton(e) == false))
       {
+         final int x = e.getX();
+         final int y = e.getY();
+
          JHelpMouseListener mouseListener = null;
-         final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(e.getX(), e.getY());
+         final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(x, y);
 
          if(pair != null)
          {
@@ -481,8 +529,11 @@ public class JHelpScrollPane2D
    {
       if((this.onlyOnRightClick == true) && (SwingUtilities.isRightMouseButton(e) == false))
       {
+         final int x = e.getX();
+         final int y = e.getY();
+
          JHelpMouseListener mouseListener = null;
-         final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(e.getX(), e.getY());
+         final Pair<JHelpComponent2D, JHelpMouseListener> pair = this.scrollView.mouseOver(x, y);
 
          if(pair != null)
          {

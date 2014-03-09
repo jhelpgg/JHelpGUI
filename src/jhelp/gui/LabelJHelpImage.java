@@ -274,6 +274,11 @@ public class LabelJHelpImage
     */
    public void setSelected(final boolean selected)
    {
+      if(this.selected == selected)
+      {
+         return;
+      }
+
       this.selected = selected;
 
       this.refresh();

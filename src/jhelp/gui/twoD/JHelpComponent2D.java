@@ -1,10 +1,12 @@
 package jhelp.gui.twoD;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyListener;
 
 import jhelp.gui.JHelpMouseListener;
+import jhelp.util.gui.Bounds;
 import jhelp.util.gui.JHelpImage;
 import jhelp.util.list.Pair;
 
@@ -68,6 +70,8 @@ public abstract class JHelpComponent2D
    private JHelpContainer2D   parent;
    /** Computed preferred size */
    private Dimension          preferred;
+   /** Bounds in screen */
+   private Bounds             screenBounds;
    /** Tooltip to print if mouse go over the component */
    private String             toolTip;
    /** Indicates if component size still valid */
@@ -91,6 +95,7 @@ public abstract class JHelpComponent2D
       this.focusable = false;
       this.haveFocus = false;
       this.valid = false;
+      this.screenBounds = Bounds.FULL;
    }
 
    /**
@@ -145,6 +150,9 @@ public abstract class JHelpComponent2D
       this.yAbsolute = y;
 
       parent.pushClipIntersect(clipX, clipY, clipWidth, clipHeight);
+      final Rectangle rectangle = this.getBounds();
+      this.screenBounds = new Bounds(x, x + rectangle.width, y, y + rectangle.height);
+      this.screenBounds = this.screenBounds.intersect(parent.getClip());
       this.paint(x, y, parent);
       parent.popClip();
    }
@@ -256,6 +264,16 @@ public abstract class JHelpComponent2D
    }
 
    /**
+    * Bounds of component in screen
+    * 
+    * @return Bounds of component in screen
+    */
+   protected final Bounds getScreenBounds()
+   {
+      return this.screenBounds;
+   }
+
+   /**
     * Invalidate the component and all of its ancestors
     */
    protected final void invalidate()
@@ -282,14 +300,27 @@ public abstract class JHelpComponent2D
     */
    protected Pair<JHelpComponent2D, JHelpMouseListener> mouseOver(final int x, final int y)
    {
-      if(this.visible == false)
+      if((this.visible == false) //
+            || ((this.mouseListener == null) && (this.focusable == false) && ((this instanceof JHelpContainer2D) == false))//
+            || (this.screenBounds.inside(x, y) == false))
       {
          return null;
       }
 
-      final Rectangle bounds = this.getBounds();
-      if((this.mouseListener == null) || (x < 0) || (y < 0) || (x >= bounds.width) || (y >= bounds.height))
+      if((this.mouseListener == null) && (this.focusable == false) && ((this instanceof JHelpContainer2D) == true))
       {
+         Pair<JHelpComponent2D, JHelpMouseListener> pair;
+
+         for(final JHelpComponent2D child : ((JHelpContainer2D) this).children())
+         {
+            pair = child.mouseOver(x, y);
+
+            if(pair != null)
+            {
+               return pair;
+            }
+         }
+
          return null;
       }
 
@@ -320,6 +351,28 @@ public abstract class JHelpComponent2D
    protected abstract void paint(int x, int y, JHelpImage parent);
 
    /**
+    * Translate the components bounds just after the draw, it used if the component is draw inside a temporary image that is
+    * really draw
+    * 
+    * @param x
+    *           Translation X
+    * @param y
+    *           Translation Y
+    */
+   final protected void translateAfterDraw(final int x, final int y)
+   {
+      if(this instanceof JHelpContainer2D)
+      {
+         for(final JHelpComponent2D child : ((JHelpContainer2D) this).children())
+         {
+            child.translateAfterDraw(x, y);
+         }
+      }
+
+      this.screenBounds = new Bounds(this.screenBounds.getxMin() + x, this.screenBounds.getxMax() + x, this.screenBounds.getyMin() + y, this.screenBounds.getyMax() + y);
+   }
+
+   /**
     * Validate the component
     */
    protected final void validate()
@@ -332,6 +385,27 @@ public abstract class JHelpComponent2D
     */
    protected void willRemove()
    {
+   }
+
+   /**
+    * Absolute component position
+    * 
+    * @return Absolute component position
+    */
+   public Point getAbsolutePosition()
+   {
+      final Point point = new Point();
+      JHelpComponent2D component2d = this;
+      Rectangle rectangle;
+
+      while(component2d != null)
+      {
+         rectangle = component2d.getBounds();
+         point.translate(rectangle.x, rectangle.y);
+         component2d = component2d.getParent();
+      }
+
+      return point;
    }
 
    /**

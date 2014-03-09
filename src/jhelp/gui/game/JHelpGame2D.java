@@ -631,7 +631,7 @@ public abstract class JHelpGame2D
    /**
     * Refresh the game
     */
-   void refreshGame()
+   synchronized void refreshGame()
    {
       this.lastTime = System.currentTimeMillis();
       final JHelpImage image = this.getImage();
