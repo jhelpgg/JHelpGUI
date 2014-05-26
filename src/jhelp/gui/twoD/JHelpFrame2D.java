@@ -15,8 +15,6 @@ import java.util.Stack;
 
 import jhelp.gui.JHelpFrameImage;
 import jhelp.gui.JHelpMouseListener;
-import jhelp.util.debug.Debug;
-import jhelp.util.debug.DebugLevel;
 import jhelp.util.gui.JHelpFont;
 import jhelp.util.gui.JHelpImage;
 import jhelp.util.gui.JHelpTextAlign;
@@ -651,17 +649,12 @@ public class JHelpFrame2D
    @Override
    public void mouseClicked(final MouseEvent e)
    {
-      Debug.println(DebugLevel.DEBUG, "Click  : ", e);
       final Triplet<JHelpComponent2D, JHelpMouseListener, MouseEvent> triplet = this.obtainMouseArea(e);
 
       if(triplet != null)
       {
-         Debug.println(DebugLevel.DEBUG, "Click on : ", triplet);
-
          if(triplet.element1.isFocusable() == true)
          {
-            Debug.println(DebugLevel.DEBUG, "Focus on : ", triplet.element1);
-
             if(this.focusedComponent != null)
             {
                this.focusedComponent.setHaveFocus(false);

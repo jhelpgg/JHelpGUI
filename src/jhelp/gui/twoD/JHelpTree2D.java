@@ -10,6 +10,7 @@ import java.util.Vector;
 import jhelp.gui.JHelpMouseListener;
 import jhelp.gui.ResourcesGUI;
 import jhelp.util.debug.Debug;
+import jhelp.util.gui.Bounds;
 import jhelp.util.gui.JHelpFont;
 import jhelp.util.gui.JHelpImage;
 import jhelp.util.gui.JHelpMask;
@@ -132,19 +133,19 @@ public class JHelpTree2D<INFORMATION>
       @Override
       public void mouseClicked(final MouseEvent e)
       {
-         final Area<INFORMATION> area = JHelpTree2D.this.obtainArea(e);
-         if(area != null)
+         JHelpTree2D.this.selectedArea = JHelpTree2D.this.obtainArea(e);
+         if(JHelpTree2D.this.selectedArea != null)
          {
-            switch(area.type)
+            switch(JHelpTree2D.this.selectedArea.type)
             {
                case AREA_COLLAPSE_BUTTON:
-                  JHelpTree2D.this.treeModel.setExpand(area.node, false);
+                  JHelpTree2D.this.treeModel.setExpand(JHelpTree2D.this.selectedArea.node, false);
                break;
                case AREA_EXPAND_BUTTON:
-                  JHelpTree2D.this.treeModel.setExpand(area.node, true);
+                  JHelpTree2D.this.treeModel.setExpand(JHelpTree2D.this.selectedArea.node, true);
                break;
                case AREA_NODE:
-                  JHelpTree2D.this.clickOn(area.node);
+                  JHelpTree2D.this.clickOn(JHelpTree2D.this.selectedArea.node);
                break;
             }
          }
@@ -406,6 +407,7 @@ public class JHelpTree2D<INFORMATION>
    private final List<TreeClickOnListener<INFORMATION>> treeClickOnListeners;
    /** Image of the tree */
    private JHelpImage                                   treeImage;
+   Area<INFORMATION>                                    selectedArea;
    /** Tree model */
    JHelpTreeModel<INFORMATION>                          treeModel;
 
@@ -543,7 +545,8 @@ public class JHelpTree2D<INFORMATION>
     */
    Area<INFORMATION> obtainArea(final MouseEvent mouseEvent)
    {
-      return this.obtainArea(mouseEvent.getX(), mouseEvent.getY());
+      final Bounds screenBounds = this.getScreenBounds();
+      return this.obtainArea(mouseEvent.getX() - screenBounds.getxMin(), mouseEvent.getY() - screenBounds.getyMin());
    }
 
    /**
@@ -652,6 +655,11 @@ public class JHelpTree2D<INFORMATION>
       }
 
       parent.drawImage(x, y, this.treeImage);
+
+      if(this.selectedArea != null)
+      {
+         parent.fillRectangle(x + this.selectedArea.x, y + this.selectedArea.y, this.selectedArea.width, this.selectedArea.height, 0x408080FF);
+      }
    }
 
    /**
@@ -696,6 +704,16 @@ public class JHelpTree2D<INFORMATION>
       return this.foreground;
    }
 
+   public INFORMATION getSelection()
+   {
+      if(this.selectedArea == null)
+      {
+         return null;
+      }
+
+      return this.selectedArea.node;
+   }
+
    /**
     * Tree model
     * 
@@ -723,6 +741,20 @@ public class JHelpTree2D<INFORMATION>
       {
          this.treeClickOnListeners.add(treeClickOnListener);
       }
+   }
+
+   public void setSelection(final INFORMATION information)
+   {
+      for(final Area<INFORMATION> area : this.areas)
+      {
+         if(area.node.equals(information) == true)
+         {
+            this.selectedArea = area;
+            return;
+         }
+      }
+
+      this.selectedArea = null;
    }
 
    /**
@@ -811,6 +843,7 @@ public class JHelpTree2D<INFORMATION>
          return;
       }
 
+      this.selectedArea = null;
       this.treeModel.unregisterTreeModelListener(this.eventManager);
       this.treeModel = treeModel;
       this.treeModel.registerTreeModelListener(this.eventManager);

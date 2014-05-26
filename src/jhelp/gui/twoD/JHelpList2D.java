@@ -435,7 +435,7 @@ public class JHelpList2D<INFORMATION>
    public static final JHelpFont            FONT               = new JHelpFont("Arial", 16);
    /** Default foreground color */
    public static final int                  FOREGROUND         = 0xFF000000;
-   /** Defult selection color */
+   /** Default selection color */
    public static final int                  SELECTION          = 0xFFC0C0FF;
    static
    {
@@ -487,11 +487,11 @@ public class JHelpList2D<INFORMATION>
    /** Actual foreground color */
    int                                      foreground;
    /** Embed model */
-   final JHelpListModel<INFORMATION>        listModel;
+   JHelpListModel<INFORMATION>              listModel;
    /** Selected index */
    int                                      selectedIndex;
    /** Current selection color */
-   int                                      selection;
+   int                                      selectionColor;
    /** CurrentSpecial keys listener */
    JHelpListSpecialKeyListener<INFORMATION> specialKeyListener;
 
@@ -512,7 +512,7 @@ public class JHelpList2D<INFORMATION>
       this.font = JHelpTree2D.FONT;
       this.background = JHelpTree2D.BACKGROUND;
       this.foreground = JHelpTree2D.FOREGROUND;
-      this.selection = JHelpList2D.SELECTION;
+      this.selectionColor = JHelpList2D.SELECTION;
 
       this.selectedIndex = -1;
       this.horizontal = horizontal;
@@ -557,7 +557,7 @@ public class JHelpList2D<INFORMATION>
       if(this.selectedIndex >= 0)
       {
          final JHelpBackgroundRoundRectangle roundRectangle = (JHelpBackgroundRoundRectangle) panel2d.children().get(this.selectedIndex);
-         roundRectangle.setColorBackground(this.selection);
+         roundRectangle.setColorBackground(this.selectionColor);
 
          this.tryMakeVisible(roundRectangle.getBounds());
 
@@ -622,7 +622,7 @@ public class JHelpList2D<INFORMATION>
          listItem.setToolTip(tips);
          backgroundRoundRectangle = new JHelpBackgroundRoundRectangle(listItem,//
                i == this.selectedIndex
-                     ? this.selection
+                     ? this.selectionColor
                      : this.background);
          backgroundRoundRectangle.setId(i);
          backgroundRoundRectangle.setMouseListener(this.eventManager);
@@ -790,9 +790,9 @@ public class JHelpList2D<INFORMATION>
     * 
     * @return Selection color
     */
-   public int getSelection()
+   public int getSelectionColor()
    {
-      return this.selection;
+      return this.selectionColor;
    }
 
    /**
@@ -909,6 +909,20 @@ public class JHelpList2D<INFORMATION>
       this.listListener = listListener;
    }
 
+   public void setListModel(final JHelpListModel<INFORMATION> listModel)
+   {
+      if(listModel.equals(this.listModel) == true)
+      {
+         return;
+      }
+
+      this.selectedIndex = -1;
+      this.listModel.unregisterJHelpListModelListener(this.eventManager);
+      this.listModel = listModel;
+      this.updateList();
+      listModel.registerJHelpListModelListener(this.eventManager);
+   }
+
    /**
     * Cahnge slected index
     * 
@@ -923,17 +937,17 @@ public class JHelpList2D<INFORMATION>
    /**
     * Change selection color
     * 
-    * @param selection
+    * @param selectionColor
     *           New selection color
     */
-   public void setSelection(final int selection)
+   public void setSelectionColor(final int selectionColor)
    {
-      if(this.selection == selection)
+      if(this.selectionColor == selectionColor)
       {
          return;
       }
 
-      this.selection = selection;
+      this.selectionColor = selectionColor;
       this.updateList();
    }
 

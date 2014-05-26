@@ -452,6 +452,8 @@ public abstract class JHelpGame2D
       this.componentAddMouseListener(this.mouseKeyListener);
       this.componentAddMouseMotionListener(this.mouseKeyListener);
 
+      this.constructGameInstance();
+
       ThreadManager.THREAD_MANAGER.repeatThread(this.eventManagerTask, null, 1024, 1);
       ThreadManager.THREAD_MANAGER.delayedThread(this.gameImageManagement, null, 512);
    }
@@ -536,9 +538,12 @@ public abstract class JHelpGame2D
    {
       final JHelpImage image = this.getImage();
 
-      image.startDrawMode();
-      this.gameInitialize(image);
-      image.endDrawMode();
+      synchronized(image)
+      {
+         image.startDrawMode();
+         this.gameInitialize(image);
+         image.endDrawMode();
+      }
 
       this.createGameSrpties();
 
@@ -631,19 +636,31 @@ public abstract class JHelpGame2D
    /**
     * Refresh the game
     */
-   synchronized void refreshGame()
+   void refreshGame()
    {
       this.lastTime = System.currentTimeMillis();
       final JHelpImage image = this.getImage();
 
-      image.startDrawMode();
-      this.gameRefresh(image);
-      image.endDrawMode();
+      synchronized(image)
+      {
+         image.startDrawMode();
+         this.gameRefresh(image);
+         image.endDrawMode();
+      }
 
       final long laps = System.currentTimeMillis() - this.lastTime;
       final long delay = Math.max(1L, (1000L / this.fps) - laps);
 
       ThreadManager.THREAD_MANAGER.delayedThread(this.gameImageManagement, null, delay);
+   }
+
+   /**
+    * Called when the object is construct (Just before starting threads).<br>
+    * It allow you to add stufs at good place on object construction.<br>
+    * Does nothing by default
+    */
+   protected void constructGameInstance()
+   {
    }
 
    /**
