@@ -636,6 +636,7 @@ public class JHelpList2D<INFORMATION>
          this.percent = (i * 100) / size;
       }
 
+      this.refreshing = false;
       synchronized(this.canContinueRefresh)
       {
          if(this.canContinueRefresh.get() == true)
@@ -652,7 +653,6 @@ public class JHelpList2D<INFORMATION>
          }
       }
 
-      this.refreshing = false;
       this.invalidate();
    }
 

@@ -18,7 +18,7 @@ package jhelp.gui.undoRedo;
 public class UndoRedoManager
 {
    /** Limit of undo/redo */
-   private static final int            UNDO_REDO_LIMIT   = 100;
+   private static final int            UNDO_REDO_LIMIT   = 1024;
    /** Manager of undo/redo singleton */
    public static final UndoRedoManager UNDO_REDO_MANAGER = new UndoRedoManager();
    /** List of undo/redo actions */
@@ -158,7 +158,6 @@ public class UndoRedoManager
             actualAction = compressUndoRedo;
             System.arraycopy(this.undoRedoActionList, i, this.undoRedoActionList, i - 1, max - i);
             this.undoRedoActionList[i - 1] = compressUndoRedo;
-            // i--;
             max--;
 
             if(i < max)

@@ -67,8 +67,25 @@ public abstract class JHelpFrame
     */
    public JHelpFrame(final String title, final boolean full)
    {
+      this(title, full, true);
+   }
+
+   /**
+    * Create a new instance of JHelpFrame
+    * 
+    * @param title
+    *           Frame title
+    * @param full
+    *           Indicates if frame full screen
+    * @param resizable
+    *           Indicate if frame is resizable
+    */
+   public JHelpFrame(final String title, final boolean full, final boolean resizable)
+   {
       super(title);
 
+      this.setResizable(resizable);
+      this.setUndecorated(resizable == false);
       this.setMinimumSize(new Dimension(512, 512));
 
       MemorySweeper.launch();
