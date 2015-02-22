@@ -17,9 +17,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JColorChooser;
 import javax.swing.JComponent;
 import javax.swing.border.Border;
+
+import jhelp.gui.event.ColorChooserListener;
 
 /**
  * Button for choose a color<br>
@@ -31,7 +32,7 @@ import javax.swing.border.Border;
  */
 public class ButtonChooseColor
       extends JComponent
-      implements MouseListener
+      implements MouseListener, ColorChooserListener
 {
    /** Actual color */
    private Color  color;
@@ -160,6 +161,43 @@ public class ButtonChooseColor
    }
 
    /**
+    * Called when choose color canceled <br>
+    * <br>
+    * <b>Parent documentation:</b><br>
+    * {@inheritDoc}
+    * 
+    * @param colorChooser
+    *           Color chooser source
+    * @see jhelp.gui.event.ColorChooserListener#colorChooseCanceled(jhelp.gui.ColorChooser)
+    */
+   @Override
+   public void colorChooseCanceled(final ColorChooser colorChooser)
+   {
+   }
+
+   /**
+    * Called when color chooser closed <br>
+    * <br>
+    * <b>Parent documentation:</b><br>
+    * {@inheritDoc}
+    * 
+    * @param colorChooser
+    *           Color chooser source
+    * @param color
+    *           Chosen color
+    * @see jhelp.gui.event.ColorChooserListener#colorChoosed(jhelp.gui.ColorChooser, int)
+    */
+   @Override
+   public void colorChoosed(final ColorChooser colorChooser, final int color)
+   {
+      this.color = new Color(color, true);
+      this.repaint();
+
+      this.fireActionPerformed();
+
+   }
+
+   /**
     * Return color
     * 
     * @return color
@@ -189,17 +227,7 @@ public class ButtonChooseColor
    @Override
    public void mouseClicked(final MouseEvent e)
    {
-      final Color color = JColorChooser.showDialog(this, "Choose a color", this.color);
-
-      if((color == null) || (color.equals(this.color) == true))
-      {
-         return;
-      }
-
-      this.color = color;
-      this.repaint();
-
-      this.fireActionPerformed();
+      ColorChooserFrame.COLOR_CHOOSER_FRAME.chooseColor(this.color.getRGB(), this);
    }
 
    /**

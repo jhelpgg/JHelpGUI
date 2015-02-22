@@ -11,6 +11,7 @@ import jhelp.util.debug.DebugLevel;
 import jhelp.util.gui.JHelpImage;
 import jhelp.util.list.Pair;
 import jhelp.util.resources.ResourceText;
+import jhelp.util.resources.ResourceTextListener;
 import jhelp.util.thread.ThreadManager;
 import jhelp.util.thread.ThreadedSimpleTask;
 
@@ -28,6 +29,38 @@ import jhelp.util.thread.ThreadedSimpleTask;
 public abstract class GenericAction
       extends AbstractAction
 {
+   /**
+    * Manage text events
+    * 
+    * @author JHelp
+    */
+   class EventManager
+         implements ResourceTextListener
+   {
+      /**
+       * Create a new instance of EventManager
+       */
+      EventManager()
+      {
+      }
+
+      /**
+       * Called when resource text language changed <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       * 
+       * @param resourceText
+       *           Resource text source
+       * @see jhelp.util.resources.ResourceTextListener#resourceTextLanguageChanged(jhelp.util.resources.ResourceText)
+       */
+      @Override
+      public void resourceTextLanguageChanged(final ResourceText resourceText)
+      {
+         GenericAction.this.doResourceTextLanguageChanged(resourceText);
+      }
+   }
+
    /** Task for doing action */
    private static final ThreadedSimpleTask<Pair<GenericAction, ActionEvent>> TASK_ACTION_PERFORMED = new ThreadedSimpleTask<Pair<GenericAction, ActionEvent>>()
                                                                                                    {
@@ -45,11 +78,13 @@ public abstract class GenericAction
                                                                                                        * @see jhelp.util.thread.ThreadedSimpleTask#doSimpleAction(java.lang.Object)
                                                                                                        */
                                                                                                       @Override
-                                                                                                      protected void doSimpleAction(final Pair<GenericAction, ActionEvent> parameter)
+                                                                                                      protected void doSimpleAction(
+                                                                                                            final Pair<GenericAction, ActionEvent> parameter)
                                                                                                       {
                                                                                                          parameter.element1.doActionPerformed(parameter.element2);
                                                                                                       }
                                                                                                    };
+
    /** Resource text key for action label */
    private String                                                            keyName;
    /** Resource text key for action tooltip */
@@ -152,6 +187,12 @@ public abstract class GenericAction
       }
 
       this.resourceText = resourceText;
+
+      if(this.resourceText != null)
+      {
+         this.resourceText.register(new EventManager());
+      }
+
       this.keyName = keyName;
       this.keyTooltip = keyTooltip;
       this.putValue(Action.NAME, keyName);

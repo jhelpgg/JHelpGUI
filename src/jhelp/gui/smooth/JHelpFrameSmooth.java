@@ -504,7 +504,8 @@ public abstract class JHelpFrameSmooth
          if(this.underMouseComponent != null)
          {
             bounds = this.underMouseComponent.getBounds();
-            list.add(new SmoothMouseInformation(MouseEvent.MOUSE_EXITED, this.underMouseComponent, x - bounds.x, y - bounds.y, x, y, left, middle, right, count, 0));
+            list.add(new SmoothMouseInformation(MouseEvent.MOUSE_EXITED, this.underMouseComponent, x - bounds.x, y - bounds.y, x, y, left, middle, right,
+                  count, 0));
          }
 
          this.underMouseComponent = component;
@@ -512,7 +513,8 @@ public abstract class JHelpFrameSmooth
          if(this.underMouseComponent != null)
          {
             bounds = this.underMouseComponent.getBounds();
-            list.add(new SmoothMouseInformation(MouseEvent.MOUSE_ENTERED, this.underMouseComponent, x - bounds.x, y - bounds.y, x, y, left, middle, right, count, 0));
+            list.add(new SmoothMouseInformation(MouseEvent.MOUSE_ENTERED, this.underMouseComponent, x - bounds.x, y - bounds.y, x, y, left, middle, right,
+                  count, 0));
          }
       }
 
@@ -574,7 +576,8 @@ public abstract class JHelpFrameSmooth
     */
    void doRefreshFrame()
    {
-      if(((this.focusableComponent == null) && (this.needSearchFocusable == true)) || ((this.focusableComponent != null) && (this.focusableComponent.isFocusable() == false)))
+      if(((this.focusableComponent == null) && (this.needSearchFocusable == true))
+            || ((this.focusableComponent != null) && (this.focusableComponent.isFocusable() == false)))
       {
          this.goNextFocusable();
       }
@@ -592,7 +595,8 @@ public abstract class JHelpFrameSmooth
          this.updateMainComponent();
 
          this.mainImage.startDrawMode();
-         this.rootPanel.paint(this.mainImage, 0, 0, this.mainImage.getWidth(), this.mainImage.getHeight(), this.mainImage.getWidth(), this.mainImage.getHeight());
+         this.rootPanel.paint(this.mainImage, 0, 0, this.mainImage.getWidth(), this.mainImage.getHeight(), this.mainImage.getWidth(),
+               this.mainImage.getHeight());
 
          final int count = this.dialogStack.getSize();
          int dialog;
@@ -686,7 +690,8 @@ public abstract class JHelpFrameSmooth
 
       if(this.focusableComponent != null)
       {
-         ThreadManager.THREAD_MANAGER.doThread(this.taskProcessKeyEvent, new Pair<JHelpComponentSmooth, SmoothKeyInformation>(this.focusableComponent, new SmoothKeyInformation(keyCode, keyChar, shift, control, alt)));
+         ThreadManager.THREAD_MANAGER.doThread(this.taskProcessKeyEvent, new Pair<JHelpComponentSmooth, SmoothKeyInformation>(this.focusableComponent,
+               new SmoothKeyInformation(keyCode, keyChar, shift, control, alt)));
       }
    }
 

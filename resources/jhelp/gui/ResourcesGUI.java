@@ -32,6 +32,10 @@ public class ResourcesGUI
    public static final Cursor        CAN_DROP_CURSOR;
    /** Can't drop cursor */
    public static final Cursor        CANT_DROP_CURSOR;
+   public static final String        Color_CHOOSER_ALPHA                    = "colorChooser.alpha";
+   public static final String        COLOR_CHOOSER_BLUE                     = "colorChooser.blue";
+   public static final String        Color_CHOOSER_GREEN                    = "colorChooser.green";
+   public static final String        Color_CHOOSER_RED                      = "colorChooser.red";
    /** File chooser title header */
    public static final String        FILE_CHOOSER_TITLE_HEADER              = "FileChooserTitleHeader";
    /**
@@ -41,6 +45,7 @@ public class ResourcesGUI
    public static final String        FILE_EXPLORER_DELETE_FILE_MESSAGE      = "FileExplorerDeleteFileMessage";
    /** Delete file/directory title */
    public static final String        FILE_EXPLORER_DELETE_FILE_TITLE        = "FileExplorerDeleteFileTitle";
+
    /**
     * Error text for indicates that a rename file failed. <br>
     * {0} : source fila path <br>
@@ -56,9 +61,9 @@ public class ResourcesGUI
     * {0} : File/directory will be overwrite path
     */
    public static final String        FILE_EXPLORER_OVERWRITE_FILE_MESSAGE   = "FileExplorerOverwriteFileMessage";
-
    /** Alert user that the renaming will overwrite an already existing file/directory title */
    public static final String        FILE_EXPLORER_OVERWRITE_FILE_TITLE     = "FileExplorerOverwriteFileTitle";
+
    /** Alert user that the renaming can't append, the overwriting is not possible */
    public static final String        FILE_EXPLORER_OVERWRITE_IMPOSSIBLE     = "FileExplorerOverwriteImpossible";
    /**
@@ -73,16 +78,15 @@ public class ResourcesGUI
 
    /** Close icon */
    public static final ImageIcon     ICON_COSE_NORMAL;
+
    /** Detach window icon */
    public static final ImageIcon     ICON_DETACH_WINDOW;
    /** Hide icon */
    public static final ImageIcon     ICON_HIDE_NORMAL;
    /** Hide over icon */
    public static final ImageIcon     ICON_HIDE_OVER;
-
    /** Plus + icon */
    public static final ImageIcon     ICON_PLUS;
-
    /** Show icon */
    public static final ImageIcon     ICON_SHOW_NORMAL;
    /** Show over icon */
@@ -97,6 +101,7 @@ public class ResourcesGUI
    public static final String        OPTION_PANE_OK                         = "OptionPaneOk";
    /** Yes button text on option pane */
    public static final String        OPTION_PANE_YES                        = "OptionPaneYes";
+
    /** GUI texts resources */
    public static final ResourceText  RESOURCE_TEXT;
    /** "Free" access to GUI resources */
@@ -204,7 +209,8 @@ public class ResourcesGUI
 
       try
       {
-         return Toolkit.getDefaultToolkit().createCustomCursor(ResourcesGUI.RESOURCES.obtainBufferedImage(stringBuffer.toString()), new Point(x, y), baseNameCursor);
+         return Toolkit.getDefaultToolkit().createCustomCursor(ResourcesGUI.RESOURCES.obtainBufferedImage(stringBuffer.toString()), new Point(x, y),
+               baseNameCursor);
       }
       catch(final IOException e)
       {

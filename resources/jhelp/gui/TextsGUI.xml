@@ -76,4 +76,92 @@
 	<Text key="FileChooserTitleHeader">
 		Choose a file
 	</Text>
+
+	<!-- ***************************** -->
+	<!-- *** Edit image area texts *** -->
+	<!-- ***************************** -->
+
+	<!-- Open image area file -->
+	<Text key="EditImageArea.open">
+		Open area
+	</Text>
+	<!-- Save image area file -->
+	<Text key="EditImageArea.save">
+		Save area
+	</Text>
+	<!-- Load image -->
+	<Text key="EditImageArea.load">
+		Load image
+	</Text>
+	<!-- Add area -->
+	<Text key="EditImageArea.add">
+		Add area
+	</Text>
+	<!-- Make transparent -->
+	<Text key="EditImageArea.transparent">
+		Make a color transparent
+	</Text>
+	<!-- Dive selector -->
+	<Text key="EditImageArea.divide">
+		Divide
+	</Text>
+	<!-- Create a gris -->
+	<Text key="EditImageArea.grid">
+		Grid
+	</Text>
+	<!-- Load image succeed -->
+	<!-- {0} : Loaded image path -->
+	<Text key="EditImageArea.loadSucceed">
+		The image {0} has been load
+	</Text>
+	<!-- Load image failed -->
+	<!-- {0} : Loaded image path -->
+	<!-- {1} : Error message -->
+	<Text key="EditImageArea.loadFailed">
+		The image {0} not load.\nError : {1}
+	</Text>
+	<!-- Open image area succeed -->
+	<!-- {0} : Opened image area path -->
+	<Text key="EditImageArea.openSucceed">
+		The image area {0} has been opened
+	</Text>
+	<!-- Open image area failed -->
+	<!-- {0} : Opened image path -->
+	<!-- {1} : Error message -->
+	<Text key="EditImageArea.openFailed">
+		The image area {0} not open.\nError : {1}
+	</Text>
+	<!-- Save image area succeed -->
+	<!-- {0} : Saved image area path -->
+	<Text key="EditImageArea.saveSucceed">
+		The image area {0} has been saved
+	</Text>
+	<!-- Save image area failed -->
+	<!-- {0} : Saved image path -->
+	<!-- {1} : Error message -->
+	<Text key="EditImageArea.saveFailed">
+		The image area {0} not save.\nError : {1}
+	</Text>
+
+	<!-- ********************* -->
+	<!-- *** Color chooser *** -->
+	<!-- ********************* -->
+
+	<!-- Alpha part -->
+	<Text key="colorChooser.alpha">
+		Alpha
+	</Text>
+	<!-- Red part -->
+	<Text key="colorChooser.red">
+		Red
+	</Text>
+	<!-- Green part -->
+	<Text key="colorChooser.green">
+		Green
+	</Text>
+	<!-- Blue part -->
+	<Text key="colorChooser.blue">
+		Blue
+	</Text>
+
 </Texts>

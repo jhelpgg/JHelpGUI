@@ -44,6 +44,19 @@ public class JHelpFrameImage
    }
 
    /**
+    * Create a new instance of JHelpFrameImage
+    * 
+    * @param title
+    *           Frame title
+    * @param resizable
+    *           Indicates if frame can be resize
+    */
+   public JHelpFrameImage(final String title, final boolean resizable)
+   {
+      super(title, true, resizable);
+   }
+
+   /**
     * Remove key listener to embed image
     * 
     * @param keyListener

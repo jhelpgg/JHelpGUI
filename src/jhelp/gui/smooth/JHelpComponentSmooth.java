@@ -111,16 +111,6 @@ public abstract class JHelpComponentSmooth
    }
 
    /**
-    * Component bounds
-    * 
-    * @return Component bounds
-    */
-   final Rectangle getBounds()
-   {
-      return this.bounds;
-   }
-
-   /**
     * Index in parent
     * 
     * @return Index in parent
@@ -224,6 +214,16 @@ public abstract class JHelpComponentSmooth
       {
          this.shape.fillShape(image, x, y, width, height, 0x87654321, this.shadowLevel);
       }
+   }
+
+   /**
+    * Component bounds
+    * 
+    * @return Component bounds
+    */
+   protected final Rectangle getBounds()
+   {
+      return this.bounds;
    }
 
    /**

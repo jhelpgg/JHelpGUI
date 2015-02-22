@@ -22,18 +22,22 @@ public class LabelJHelpImage
       implements WithAdditionalInformation, WithFixedSize
 {
    /** Selected color */
-   private static final Color SELECTED = new Color(255, 128, 64, 32);
+   private static final Color  SELECTED = new Color(255, 128, 64, 32);
 
    /** Some additional information */
-   private Object             additionalInformation;
+   private Object              additionalInformation;
    /** Label height */
-   private int                height;
+   private int                 height;
    /** Image to draw */
-   private JHelpImage         image;
+   private JHelpImage          image;
+   /** Something that draw over the image */
+   private OverLabelJHelpImage overLabelJHelpImage;
+   /** Indicates if image resize to fit to the component size */
+   private boolean             resize;
    /** Selected state */
-   private boolean            selected = false;
+   private boolean             selected = false;
    /** Label width */
-   private int                width;
+   private int                 width;
 
    /**
     * Constructs LabelBufferedImage
@@ -55,6 +59,7 @@ public class LabelJHelpImage
    {
       this.width = width;
       this.height = height;
+      this.resize = false;
 
       final Dimension dimension = new Dimension(width, height);
       this.setSize(dimension);
@@ -80,6 +85,7 @@ public class LabelJHelpImage
 
       this.width = image.getWidth();
       this.height = image.getHeight();
+      this.resize = false;
 
       final Dimension dimension = new Dimension(this.width, this.height);
       this.setSize(dimension);
@@ -126,13 +132,25 @@ public class LabelJHelpImage
 
       if(this.image != null)
       {
-         g.drawImage(this.image.getImage(), 0, 0, this);
+         if(this.resize == true)
+         {
+            g.drawImage(this.image.getImage(), 0, 0, width, height, this);
+         }
+         else
+         {
+            g.drawImage(this.image.getImage(), 0, 0, this);
+         }
       }
 
       if(this.selected == true)
       {
          g.setColor(LabelJHelpImage.SELECTED);
          g.fillRect(0, 0, width, height);
+      }
+
+      if(this.overLabelJHelpImage != null)
+      {
+         this.overLabelJHelpImage.draw(g, width, height);
       }
    }
 
@@ -177,6 +195,26 @@ public class LabelJHelpImage
    }
 
    /**
+    * Obtain the object draws over the image
+    * 
+    * @return Object draws over the image
+    */
+   public OverLabelJHelpImage getOverLabelJHelpImage()
+   {
+      return this.overLabelJHelpImage;
+   }
+
+   /**
+    * Indicates if image resize to fit to the component size
+    * 
+    * @return {@code true} if image resize to fit to the component size
+    */
+   public boolean isResize()
+   {
+      return this.resize;
+   }
+
+   /**
     * 
     Indicates if label is selected
     * 
@@ -206,13 +244,18 @@ public class LabelJHelpImage
    public void removeImage()
    {
       this.image = null;
-      this.width = 128;
-      this.height = 128;
-      final Dimension dimension = new Dimension(128, 128);
-      this.setSize(dimension);
-      this.setPreferredSize(dimension);
-      this.setMaximumSize(dimension);
-      this.setMinimumSize(dimension);
+
+      if(this.resize == false)
+      {
+         this.width = 128;
+         this.height = 128;
+         final Dimension dimension = new Dimension(128, 128);
+         this.setSize(dimension);
+         this.setPreferredSize(dimension);
+         this.setMaximumSize(dimension);
+         this.setMinimumSize(dimension);
+      }
+
       this.repaint();
    }
 
@@ -255,15 +298,43 @@ public class LabelJHelpImage
       }
 
       this.image = image;
-      this.width = image.getWidth();
-      this.height = image.getHeight();
 
-      final Dimension dimension = new Dimension(this.width, this.height);
-      this.setSize(dimension);
-      this.setPreferredSize(dimension);
-      this.setMaximumSize(dimension);
-      this.setMinimumSize(dimension);
+      // if(this.resize == false)
+      {
+         this.width = image.getWidth();
+         this.height = image.getHeight();
+         final Dimension dimension = new Dimension(this.width, this.height);
+         this.setSize(dimension);
+         this.setPreferredSize(dimension);
+         this.setMaximumSize(dimension);
+         this.setMinimumSize(dimension);
+      }
+
       this.repaint();
+   }
+
+   /**
+    * Define the object draws over the image.<br>
+    * Use {@code null} to remove any objects
+    * 
+    * @param overLabelJHelpImage
+    *           Object to draw over
+    */
+   public void setOverLabelJHelpImage(final OverLabelJHelpImage overLabelJHelpImage)
+   {
+      this.overLabelJHelpImage = overLabelJHelpImage;
+      this.refresh();
+   }
+
+   /**
+    * Let image draw as it own size or resize it to fit component size
+    * 
+    * @param resize
+    *           {@code true} to resize. {@code false} to not resize
+    */
+   public void setResize(final boolean resize)
+   {
+      this.resize = resize;
    }
 
    /**

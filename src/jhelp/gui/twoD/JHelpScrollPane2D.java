@@ -12,7 +12,6 @@ import javax.swing.SwingUtilities;
 
 import jhelp.gui.JHelpMouseListener;
 import jhelp.util.gui.JHelpImage;
-import jhelp.util.gui.UtilGUI;
 import jhelp.util.list.Pair;
 import jhelp.util.math.UtilMath;
 
@@ -635,7 +634,7 @@ public class JHelpScrollPane2D
 
       rectangle.x += this.scrollX;
       rectangle.y += this.scrollY;
-      if(UtilGUI.computeIntresectedArea(rectangle, bounds) > ((rectangle.width * rectangle.height * 3) >> 2))
+      if(UtilMath.computeIntresectedArea(rectangle, bounds) > ((rectangle.width * rectangle.height * 3) >> 2))
       {
          return;
       }

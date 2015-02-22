@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 
 import jhelp.gui.ButtonChooseColor;
+import jhelp.gui.ColorChooser;
 import jhelp.gui.JHelpFrame;
 import jhelp.gui.action.GenericAction;
 import jhelp.util.gui.ClipBoardManager;
@@ -109,7 +110,7 @@ public class ColorChooserFrame
    protected void layoutComponents()
    {
       this.setLayout(new BorderLayout());
-
+      this.add(new ColorChooser());
       this.add(this.buttonChooseColor, BorderLayout.CENTER);
       this.add(this.buttonCopyColor, BorderLayout.SOUTH);
    }

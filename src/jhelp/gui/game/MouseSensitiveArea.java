@@ -3,6 +3,11 @@ package jhelp.gui.game;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import jhelp.gui.smooth.JHelpConstantsSmooth;
+import jhelp.util.list.ArrayInt;
+import jhelp.util.list.Scramble;
 
 /**
  * Area mouse sensitive
@@ -11,6 +16,113 @@ import java.awt.geom.Ellipse2D;
  */
 public final class MouseSensitiveArea
 {
+   /** Area colors */
+   private static final int[]         COLORS;
+   /** Next area color index */
+   private static final AtomicInteger NEXT_COLOR = new AtomicInteger(0);
+   static
+   {
+      final ArrayInt colors = new ArrayInt();
+
+      for(final int color : JHelpConstantsSmooth.COLOR_GREYS)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_AMBERS)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_BLUE_GREYS)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_BLUES)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_BROWNS)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_CYANS)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_DEEP_ORANGES)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_DEEP_PURPLES)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_GREENS)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_INDIGOS)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_LIGHT_BLUES)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_LIGHT_GREENS)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_LIMES)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_ORANGES)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_PINKS)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_PURPLES)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_REDS)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_TEALS)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      for(final int color : JHelpConstantsSmooth.COLOR_YELLOWS)
+      {
+         colors.add(0x80000000 | (color & 0x00FFFFFF));
+      }
+
+      COLORS = colors.toArray();
+      Scramble.scramble(MouseSensitiveArea.COLORS);
+   }
+
    /**
     * Create a circle sensitive area
     * 
@@ -71,6 +183,8 @@ public final class MouseSensitiveArea
 
    /** Area bounds */
    private final Rectangle bounds;
+   /** Area color */
+   private int             color;
    /** Indicates if area is enable */
    private boolean         enbale;
    /** Area identifier */
@@ -95,6 +209,16 @@ public final class MouseSensitiveArea
       if(shape == null)
       {
          throw new NullPointerException("shape musn't be null");
+      }
+
+      synchronized(MouseSensitiveArea.NEXT_COLOR)
+      {
+         this.color = MouseSensitiveArea.COLORS[MouseSensitiveArea.NEXT_COLOR.getAndIncrement()];
+
+         if(MouseSensitiveArea.NEXT_COLOR.get() >= MouseSensitiveArea.COLORS.length)
+         {
+            MouseSensitiveArea.NEXT_COLOR.set(0);
+         }
       }
 
       this.identifer = identifer;
@@ -125,6 +249,16 @@ public final class MouseSensitiveArea
    public Rectangle getBounds()
    {
       return new Rectangle(this.bounds);
+   }
+
+   /**
+    * Area color
+    * 
+    * @return Area color
+    */
+   public int getColor()
+   {
+      return this.color;
    }
 
    /**
