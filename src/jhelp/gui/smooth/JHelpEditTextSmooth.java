@@ -399,7 +399,7 @@ public class JHelpEditTextSmooth
          return;
       }
 
-      if(this.cursorPosition >= length)
+      if((this.cursorPosition >= length) || (this.cursorPosition < 0))
       {
          this.stringBuilder.append(keyInformation.keyChar);
       }

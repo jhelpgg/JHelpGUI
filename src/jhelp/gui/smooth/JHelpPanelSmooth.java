@@ -107,7 +107,8 @@ public class JHelpPanelSmooth
          if(pair.element1.isVisible() == true)
          {
             bounds = pair.element1.getBounds();
-            image.pushClipIntersect(Math.max(bounds.x, place.x), Math.max(bounds.y, place.y), Math.min(bounds.width, place.width), Math.min(bounds.height, place.height));
+            image.pushClipIntersect(Math.max(bounds.x, place.x), Math.max(bounds.y, place.y), Math.min(bounds.width, place.width),
+                  Math.min(bounds.height, place.height));
             pair.element1.paint(image, bounds.x, bounds.y, bounds.width, bounds.height, place.width, place.height);
             image.popClip();
          }
@@ -137,7 +138,8 @@ public class JHelpPanelSmooth
 
       if(this.layout.acceptConstraints(constraints) == false)
       {
-         throw new IllegalArgumentException("The given constraints " + constraints.getClass().getName() + " don't fit with the layout " + this.layout.getClass().getName());
+         throw new IllegalArgumentException("The given constraints " + constraints.getClass().getName() + " don't fit with the layout "
+               + this.layout.getClass().getName());
       }
 
       component.setParent(this, this.children.size());
@@ -252,7 +254,8 @@ public class JHelpPanelSmooth
 
       if(this.layout.acceptConstraints(constraints) == false)
       {
-         throw new IllegalArgumentException("The given constraints " + constraints.getClass().getName() + " don't fit with the layout " + this.layout.getClass().getName());
+         throw new IllegalArgumentException("The given constraints " + constraints.getClass().getName() + " don't fit with the layout "
+               + this.layout.getClass().getName());
       }
 
       final int count = this.children.size();
@@ -284,10 +287,10 @@ public class JHelpPanelSmooth
     * @param y
     *           Mouse Y on main frame
     * @return Component in panel under mouse OR {@code null} if none
-    * @see jhelp.gui.smooth.JHelpComponentSmooth#obtainComponentUnder(int, int)
+    * @see jhelp.gui.smooth.JHelpComponentSmooth#obtainComponentUnder(int, int, boolean)
     */
    @Override
-   public final JHelpComponentSmooth obtainComponentUnder(final int x, final int y)
+   public final JHelpComponentSmooth obtainComponentUnder(final int x, final int y, final boolean rightButton)
    {
       final Rectangle bounds = this.getBounds();
 
@@ -297,7 +300,7 @@ public class JHelpPanelSmooth
 
          for(final Pair<JHelpComponentSmooth, JHelpConstraintsSmooth> child : this.children)
          {
-            componentSmooth = child.element1.obtainComponentUnder(x, y);
+            componentSmooth = child.element1.obtainComponentUnder(x, y, rightButton);
 
             if(componentSmooth != null)
             {

@@ -192,7 +192,7 @@ public class JHelpButtonSmooth
             break;
             case TEXT_OVER_ICON:
                width = Math.max(pair.element2.width, image.getWidth());
-               height = image.getHeight() + 3 + pair.element2.height;
+               height = Math.max(image.getHeight(), pair.element2.height);
                textX = (width - pair.element2.width) >> 1;
                textY = (height - pair.element2.height) >> 1;
                imageX = (width - image.getWidth()) >> 1;
@@ -221,7 +221,12 @@ public class JHelpButtonSmooth
       {
          if((this.buttonAlign == JHelpButtonAlignSmooth.TEXT_OVER_ICON) && (image != null))
          {
-            final int background = this.getBackground();
+            int background = this.getBackground();
+
+            if(background == 0)
+            {
+               background = 0xFF000000 | (this.foreground ^ 0x00FFFFFF);
+            }
 
             for(int yy = -1; yy <= 1; yy++)
             {
@@ -297,7 +302,8 @@ public class JHelpButtonSmooth
       {
          this.computeImage();
 
-         image.drawImage(bounds.x + ((bounds.width - this.precomputed.getWidth()) >> 1), bounds.y + ((bounds.height - this.precomputed.getHeight()) >> 1), this.precomputed, true);
+         image.drawImage(bounds.x + ((bounds.width - this.precomputed.getWidth()) >> 1), bounds.y + ((bounds.height - this.precomputed.getHeight()) >> 1),
+               this.precomputed, true);
 
          if(this.action.isEnabled() == false)
          {
@@ -325,6 +331,16 @@ public class JHelpButtonSmooth
       }
 
       super.processMouseEvent(mouseInformation);
+   }
+
+   /**
+    * Button action
+    * 
+    * @return Button action
+    */
+   public final GenericAction getAction()
+   {
+      return this.action;
    }
 
    /**

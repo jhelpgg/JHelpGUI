@@ -238,7 +238,7 @@ public class JHelpScrollPaneSmooth
    {
       final int x = mouseInformation.getMouseX();
       final int y = mouseInformation.getMouseY();
-      final JHelpComponentSmooth delegate = this.component.obtainComponentUnder(x, y);
+      final JHelpComponentSmooth delegate = this.component.obtainComponentUnder(x, y, mouseInformation.isRightDown());
       Rectangle bounds;
       final boolean scroll = (this.scroolWithRightButtonOnly == false) || (mouseInformation.isRightDown() == true);
 
@@ -248,8 +248,9 @@ public class JHelpScrollPaneSmooth
          if(this.lastDelegate != null)
          {
             bounds = this.lastDelegate.getBounds();
-            final SmoothMouseInformation mouseInformationCopy = new SmoothMouseInformation(MouseEvent.MOUSE_EXITED, this.lastDelegate, x - bounds.x, y - bounds.y, x, y, mouseInformation.isLeftDown(), mouseInformation.isMiddleDown(),
-                  mouseInformation.isRightDown(), mouseInformation.getClickcount(), mouseInformation.getWhellRotation());
+            final SmoothMouseInformation mouseInformationCopy = new SmoothMouseInformation(MouseEvent.MOUSE_EXITED, this.lastDelegate, x - bounds.x, y
+                  - bounds.y, x, y, mouseInformation.isLeftDown(), mouseInformation.isMiddleDown(), mouseInformation.isRightDown(),
+                  mouseInformation.getClickcount(), mouseInformation.getWhellRotation());
             this.lastDelegate.processMouseEvent(mouseInformationCopy);
          }
 
@@ -258,8 +259,9 @@ public class JHelpScrollPaneSmooth
          if(this.lastDelegate != null)
          {
             bounds = this.lastDelegate.getBounds();
-            final SmoothMouseInformation mouseInformationCopy = new SmoothMouseInformation(MouseEvent.MOUSE_ENTERED, this.lastDelegate, x - bounds.x, y - bounds.y, x, y, mouseInformation.isLeftDown(), mouseInformation.isMiddleDown(),
-                  mouseInformation.isRightDown(), mouseInformation.getClickcount(), mouseInformation.getWhellRotation());
+            final SmoothMouseInformation mouseInformationCopy = new SmoothMouseInformation(MouseEvent.MOUSE_ENTERED, this.lastDelegate, x - bounds.x, y
+                  - bounds.y, x, y, mouseInformation.isLeftDown(), mouseInformation.isMiddleDown(), mouseInformation.isRightDown(),
+                  mouseInformation.getClickcount(), mouseInformation.getWhellRotation());
             this.lastDelegate.processMouseEvent(mouseInformationCopy);
          }
       }
@@ -324,8 +326,9 @@ public class JHelpScrollPaneSmooth
       if(this.lastDelegate != null)
       {
          bounds = this.lastDelegate.getBounds();
-         mouseInformation = new SmoothMouseInformation(mouseInformation.getType(), this.lastDelegate, x - bounds.x, y - bounds.y, x, y, mouseInformation.isLeftDown(), mouseInformation.isMiddleDown(), mouseInformation.isRightDown(),
-               mouseInformation.getClickcount(), mouseInformation.getWhellRotation());
+         mouseInformation = new SmoothMouseInformation(mouseInformation.getType(), this.lastDelegate, x - bounds.x, y - bounds.y, x, y,
+               mouseInformation.isLeftDown(), mouseInformation.isMiddleDown(), mouseInformation.isRightDown(), mouseInformation.getClickcount(),
+               mouseInformation.getWhellRotation());
          this.lastDelegate.processMouseEvent(mouseInformation);
       }
    }
@@ -427,6 +430,32 @@ public class JHelpScrollPaneSmooth
       }
 
       this.scroll(vx, vy);
+   }
+
+   /**
+    * Obtain the component under a given position <br>
+    * <br>
+    * <b>Parent documentation:</b><br>
+    * {@inheritDoc}
+    * 
+    * @param x
+    *           X
+    * @param y
+    *           Y
+    * @param rightButton
+    *           Indicates if mouse button right is down
+    * @return Component under the position OR {@code null} if none
+    * @see jhelp.gui.smooth.JHelpComponentSmooth#obtainComponentUnder(int, int, boolean)
+    */
+   @Override
+   public JHelpComponentSmooth obtainComponentUnder(final int x, final int y, final boolean rightButton)
+   {
+      if((rightButton == true) || (this.scroolWithRightButtonOnly == false))
+      {
+         return super.obtainComponentUnder(x, y, rightButton);
+      }
+
+      return this.component.obtainComponentUnder(x, y, rightButton);
    }
 
    /**

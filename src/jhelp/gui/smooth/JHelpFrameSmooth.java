@@ -1,6 +1,7 @@
 package jhelp.gui.smooth;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -482,21 +483,22 @@ public abstract class JHelpFrameSmooth
       JHelpComponentSmooth component = null;
 
       int count = this.dialogStack.getSize();
+      final boolean right = SwingUtilities.isRightMouseButton(mouseEvent);
 
       if(count > 0)
       {
          final int dialog = this.dialogStack.getInteger(count - 1);
          final JHelpDialogSmooth dialogSmooth = this.dialogs.get(dialog);
-         component = dialogSmooth.obtainComponentUnder(x, y);
+         component = dialogSmooth.obtainComponentUnder(x, y, right);
       }
       else
       {
-         component = this.rootPanel.obtainComponentUnder(x, y);
+         component = this.rootPanel.obtainComponentUnder(x, y, right);
       }
 
       final boolean left = SwingUtilities.isLeftMouseButton(mouseEvent);
       final boolean middle = SwingUtilities.isMiddleMouseButton(mouseEvent);
-      final boolean right = SwingUtilities.isRightMouseButton(mouseEvent);
+
       count = mouseEvent.getClickCount();
 
       if(this.underMouseComponent != component)
@@ -741,6 +743,16 @@ public abstract class JHelpFrameSmooth
    protected abstract DialogDecsription createDialog(int dialogID);
 
    /**
+    * Main component
+    * 
+    * @return Main component
+    */
+   protected Component getComponent()
+   {
+      return this.mainComponent;
+   }
+
+   /**
     * Layout frame components <br>
     * <br>
     * <b>Parent documentation:</b><br>
@@ -769,6 +781,19 @@ public abstract class JHelpFrameSmooth
       {
          this.rootPanel.addComponent(component, constraints);
       }
+   }
+
+   /**
+    * Close the current open dialog (If their one)
+    */
+   public void closeCurrentDialog()
+   {
+      if(this.dialogStack.isEmpty() == true)
+      {
+         return;
+      }
+
+      this.hideDialog(this.dialogStack.getInteger(this.dialogStack.getSize() - 1));
    }
 
    /**

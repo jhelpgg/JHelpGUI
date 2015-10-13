@@ -7,6 +7,7 @@ import jhelp.gui.action.GenericAction;
 import jhelp.gui.smooth.DialogDecsription;
 import jhelp.gui.smooth.JHelpButtonAlignSmooth;
 import jhelp.gui.smooth.JHelpButtonSmooth;
+import jhelp.gui.smooth.JHelpComboBoxSmooth;
 import jhelp.gui.smooth.JHelpComponentSmooth;
 import jhelp.gui.smooth.JHelpConstantsSmooth;
 import jhelp.gui.smooth.JHelpEditTextSmooth;
@@ -16,6 +17,7 @@ import jhelp.gui.smooth.JHelpLabelTextSmooth;
 import jhelp.gui.smooth.JHelpListSmooth;
 import jhelp.gui.smooth.JHelpOptionPaneSmooth;
 import jhelp.gui.smooth.JHelpPanelSmooth;
+import jhelp.gui.smooth.JHelpProgressSmooth;
 import jhelp.gui.smooth.JHelpScrollModeSmooth;
 import jhelp.gui.smooth.JHelpScrollPaneSmooth;
 import jhelp.gui.smooth.OptionPaneButton;
@@ -34,6 +36,7 @@ import jhelp.gui.smooth.shape.ShadowLevel;
 import jhelp.gui.smooth.shape.SmoothEllipse;
 import jhelp.gui.smooth.shape.SmoothRoundRectangle;
 import jhelp.gui.smooth.shape.SmoothSaussage;
+import jhelp.util.Utilities;
 import jhelp.util.debug.Debug;
 import jhelp.util.debug.DebugLevel;
 import jhelp.util.gui.JHelpGradient;
@@ -87,7 +90,8 @@ public class SmoothExample
       {
          super("Close");
 
-         final JHelpGradientAlphaCircle gradientAlphaCircle = new JHelpGradientAlphaCircle(JHelpConstantsSmooth.COLOR_LIME_0500, JHelpGradientAlphaCircle.MULTIPLIER_VERY_THICK);
+         final JHelpGradientAlphaCircle gradientAlphaCircle = new JHelpGradientAlphaCircle(JHelpConstantsSmooth.COLOR_LIME_0500,
+               JHelpGradientAlphaCircle.MULTIPLIER_VERY_THICK);
 
          final JHelpImage image = new JHelpImage(64, 64, 0x00FFFFFF);
          image.startDrawMode();
@@ -159,6 +163,28 @@ public class SmoothExample
       }
    }
 
+   class ProgressThread
+         extends Thread
+   {
+      ProgressThread()
+      {
+      }
+
+      @Override
+      public void run()
+      {
+         Utilities.sleep(16386);
+         SmoothExample.this.progressSmooth.startProgress(1000);
+         Utilities.sleep(1024);
+
+         for(int i = 0; i <= 1000; i++)
+         {
+            SmoothExample.this.progressSmooth.updateProgress(i);
+            Utilities.sleep(16);
+         }
+      }
+   }
+
    class TextRenderer
          implements JHelpListSmoothRenderer<String>
    {
@@ -206,9 +232,10 @@ public class SmoothExample
    ActionPrintSomething  actionPrintSomething;
 
    JHelpButtonSmooth     buttonSmooth;
-
+   JHelpComboBoxSmooth   comboBoxSmooth;
    JHelpOptionPaneSmooth optionPaneExit;
    JHelpOptionPaneSmooth optionPaneSmooth;
+   JHelpProgressSmooth   progressSmooth;
    JHelpScrollPaneSmooth scrollPaneSmooth;
    boolean               sureToExit = false;
 
@@ -229,7 +256,8 @@ public class SmoothExample
       }
 
       this.setLayout(new JHelpBorderLayoutSmooth());
-      final JHelpEditTextSmooth editTextSmooth = new JHelpEditTextSmooth(JHelpConstantsSmooth.FONT_BODY_1, 30, JHelpConstantsSmooth.COLOR_BLACK, JHelpConstantsSmooth.COLOR_TEAL_0500);
+      final JHelpEditTextSmooth editTextSmooth = new JHelpEditTextSmooth(JHelpConstantsSmooth.FONT_BODY_1, 30, JHelpConstantsSmooth.COLOR_BLACK,
+            JHelpConstantsSmooth.COLOR_TEAL_0500);
       editTextSmooth.registerEditTextListener(this.actionPrintSomething);
       this.addComponent(editTextSmooth, JHelpBorderConstraintsSmooth.UP);
 
@@ -247,10 +275,16 @@ public class SmoothExample
       textSmooth = new JHelpLabelTextSmooth("- (5, 5) 2x1 -", JHelpTextAlign.CENTER);
       textSmooth.setBackgroundAndShadowColor(JHelpConstantsSmooth.COLOR_GREEN_0500);
       panel.addComponent(textSmooth, new JHelpTableConstraintsSmooth(5, 5, 2, 1));
-      textSmooth = new JHelpLabelTextSmooth("A phrase for test the 'ellipse size'\nklll \n (0, 3) 3x2 \n kll\nA phrase for test the 'ellipse size'", JHelpTextAlign.CENTER);
+      textSmooth = new JHelpLabelTextSmooth("A phrase for test the 'ellipse size'\nklll \n (0, 3) 3x2 \n kll\nA phrase for test the 'ellipse size'",
+            JHelpTextAlign.CENTER);
       textSmooth.setShape(SmoothEllipse.ELLIPSE);
       textSmooth.setBackgroundAndShadowColor(JHelpConstantsSmooth.COLOR_RED_0500);
       panel.addComponent(textSmooth, new JHelpTableConstraintsSmooth(0, 3, 3, 2));
+      this.progressSmooth = new JHelpProgressSmooth(JHelpConstantsSmooth.COLOR_GREEN_0800, JHelpConstantsSmooth.COLOR_RED_0800,
+            JHelpConstantsSmooth.COLOR_BLACK, JHelpConstantsSmooth.COLOR_BLACK, JHelpConstantsSmooth.FONT_BODY_1);
+      panel.addComponent(this.progressSmooth, new JHelpTableConstraintsSmooth(3, 0, 5, 1));
+      final ProgressThread progressThread = new ProgressThread();
+      progressThread.start();
       final JHelpLabelImageSmooth imageSmooth = new JHelpLabelImageSmooth();
 
       try
@@ -268,7 +302,8 @@ public class SmoothExample
       textSmooth = new JHelpLabelTextSmooth("(1, 1) 2x2", JHelpTextAlign.CENTER);
       textSmooth.setBackgroundAndShadowColor(JHelpConstantsSmooth.COLOR_BLUE_0500);
       textSmooth.setShape(new SmoothRoundRectangle());
-      textSmooth.setPaintBackground(new JHelpGradient(JHelpConstantsSmooth.COLOR_RED_0500, JHelpConstantsSmooth.COLOR_GREEN_0500, JHelpConstantsSmooth.COLOR_BLUE_0500, JHelpConstantsSmooth.COLOR_BROWN_0500));
+      textSmooth.setPaintBackground(new JHelpGradient(JHelpConstantsSmooth.COLOR_RED_0500, JHelpConstantsSmooth.COLOR_GREEN_0500,
+            JHelpConstantsSmooth.COLOR_BLUE_0500, JHelpConstantsSmooth.COLOR_BROWN_0500));
       panel.addComponent(textSmooth, new JHelpTableConstraintsSmooth(1, 1, 2, 2));
 
       imageSmooth.setBackgroundAndShadowColor(JHelpConstantsSmooth.COLOR_BLUE_GREY_0200);
@@ -280,13 +315,17 @@ public class SmoothExample
       this.buttonSmooth.setForeground(JHelpConstantsSmooth.COLOR_DEEP_ORANGE_0500);
       panel.addComponent(this.buttonSmooth, new JHelpTableConstraintsSmooth(2, 6, 1, 1));
 
+      this.comboBoxSmooth = new JHelpComboBoxSmooth(123456, this, JHelpConstantsSmooth.FONT_BUTTON, 0, "Test", "Try", "Example", "Sample", "Banana", "Pear");
+      panel.addComponent(this.comboBoxSmooth, new JHelpTableConstraintsSmooth(2, 8, 1, 1));
+
       this.scrollPaneSmooth = new JHelpScrollPaneSmooth(panel, JHelpScrollModeSmooth.SCROLL_BOTH);
       this.addComponent(/**/this.scrollPaneSmooth /* /panel /* */, JHelpBorderConstraintsSmooth.CENTER);
 
       this.addComponent(new JHelpLabelTextSmooth("RIGHT"), JHelpBorderConstraintsSmooth.RIGHT);
 
       textSmooth = new JHelpLabelTextSmooth("Down expand", JHelpTextAlign.CENTER);
-      final JHelpGradientHorizontal gradientHorizontal = new JHelpGradientHorizontal(JHelpConstantsSmooth.COLOR_GREEN_A700, JHelpConstantsSmooth.COLOR_GREEN_A700);
+      final JHelpGradientHorizontal gradientHorizontal = new JHelpGradientHorizontal(JHelpConstantsSmooth.COLOR_GREEN_A700,
+            JHelpConstantsSmooth.COLOR_GREEN_A700);
       gradientHorizontal.addColor(50, JHelpConstantsSmooth.COLOR_GREEN_0050);
       textSmooth.setPaintBackground(gradientHorizontal);
       this.addComponent(textSmooth, JHelpBorderConstraintsSmooth.DOWN_EXPAND);
@@ -296,13 +335,15 @@ public class SmoothExample
       textSmooth = new JHelpLabelTextSmooth("Launch the second dialog ?");
       textSmooth.setShape(SmoothSaussage.SAUSSAGE);
       textSmooth.setBackground(JHelpConstantsSmooth.COLOR_ALPHA_HINT | (JHelpConstantsSmooth.COLOR_WHITE & JHelpConstantsSmooth.MASK_COLOR));
-      this.optionPaneSmooth = new JHelpOptionPaneSmooth(123, this, JHelpConstantsSmooth.ICON_QUESTION, textSmooth, JHelpConstantsSmooth.COLOR_DEEP_PURPLE_0300, JHelpConstantsSmooth.COLOR_DEEP_PURPLE_0300, OptionPaneType.YES_NO);
+      this.optionPaneSmooth = new JHelpOptionPaneSmooth(123, this, JHelpConstantsSmooth.ICON_QUESTION, textSmooth, JHelpConstantsSmooth.COLOR_DEEP_PURPLE_0300,
+            JHelpConstantsSmooth.COLOR_DEEP_PURPLE_0300, OptionPaneType.YES_NO);
       this.optionPaneSmooth.registerJHelpOptionPaneSmoothListener(this.actionPrintSomething);
 
       textSmooth = new JHelpLabelTextSmooth("Do you really want exit this example ?");
       textSmooth.setShape(SmoothSaussage.SAUSSAGE);
       textSmooth.setBackground(JHelpConstantsSmooth.COLOR_ALPHA_HINT | (JHelpConstantsSmooth.COLOR_WHITE & JHelpConstantsSmooth.MASK_COLOR));
-      this.optionPaneExit = new JHelpOptionPaneSmooth(321, this, JHelpConstantsSmooth.ICON_QUESTION, textSmooth, JHelpConstantsSmooth.COLOR_DEEP_PURPLE_0300, JHelpConstantsSmooth.COLOR_DEEP_PURPLE_0300, OptionPaneType.YES_NO);
+      this.optionPaneExit = new JHelpOptionPaneSmooth(321, this, JHelpConstantsSmooth.ICON_QUESTION, textSmooth, JHelpConstantsSmooth.COLOR_DEEP_PURPLE_0300,
+            JHelpConstantsSmooth.COLOR_DEEP_PURPLE_0300, OptionPaneType.YES_NO);
       this.optionPaneExit.registerJHelpOptionPaneSmoothListener(this.actionPrintSomething);
    }
 
@@ -332,6 +373,11 @@ public class SmoothExample
          return this.optionPaneExit.createDialogDescriDecsription();
       }
 
+      if(dialogID == this.comboBoxSmooth.getID())
+      {
+         return this.comboBoxSmooth.getDialogDecsription();
+      }
+
       switch(dialogID)
       {
          case 42:
@@ -352,7 +398,8 @@ public class SmoothExample
             list.registerSelectListener(this.actionPrintSomething);
             panelSmooth.addComponent(list, JHelpBorderConstraintsSmooth.CENTER);
 
-            return new DialogDecsription(512, 256, panelSmooth, JHelpConstantsSmooth.COLOR_BLUE_GREY_0200, JHelpConstantsSmooth.COLOR_GREY_0300, ShadowLevel.FAR);
+            return new DialogDecsription(512, 256, panelSmooth, JHelpConstantsSmooth.COLOR_BLUE_GREY_0200, JHelpConstantsSmooth.COLOR_GREY_0300,
+                  ShadowLevel.FAR);
       }
 
       return null;

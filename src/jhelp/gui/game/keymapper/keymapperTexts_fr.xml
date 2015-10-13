@@ -14,4 +14,5 @@
 	<Text key="ACTION_SPECIAL">Special</Text>
 	<Text key="ACTION_START">Démarrer</Text>
 	<Text key="ACTION_UP">Haut</Text>
+	<Text key="ACTION_SWITCH_FULL_SCREEN">Plein écran</Text>
 </TEXTS>

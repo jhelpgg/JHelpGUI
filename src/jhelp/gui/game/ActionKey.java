@@ -35,6 +35,8 @@ public enum ActionKey
    ACTION_SPECIAL,
    /** Start, action key */
    ACTION_START,
+   /** Action switch full screen */
+   ACTION_SWITCH_FULL_SCREEN,
    /** Up, action key */
    ACTION_UP
 }

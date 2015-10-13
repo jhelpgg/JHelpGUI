@@ -90,7 +90,8 @@ class JHelpDialogSmooth
       public Rectangle layoutComponents(final JHelpPanelSmooth container, final int x, final int y, final int parentWidth, final int parentHeight)
       {
          final JHelpComponentSmooth componentSmooth = container.getChild(0);
-         componentSmooth.setBounds(x + (JHelpDialogSmooth.MORE_SIZE >> 1), y + (JHelpDialogSmooth.MORE_SIZE >> 1), parentWidth - JHelpDialogSmooth.MORE_SIZE, parentHeight - JHelpDialogSmooth.MORE_SIZE);
+         componentSmooth.setBounds(x + (JHelpDialogSmooth.MORE_SIZE >> 1), y + (JHelpDialogSmooth.MORE_SIZE >> 1), parentWidth - JHelpDialogSmooth.MORE_SIZE,
+               parentHeight - JHelpDialogSmooth.MORE_SIZE);
          return new Rectangle(x, y, parentWidth, parentHeight);
       }
    }
@@ -169,6 +170,16 @@ class JHelpDialogSmooth
       final int w = (int) (width * factor);
       final int h = (int) (height * factor);
 
+      if(x == DialogDecsription.CENTER_IN_PARENT)
+      {
+         x = (parent.getWidth() - w) >> 1;
+      }
+
+      if(y == DialogDecsription.CENTER_IN_PARENT)
+      {
+         y = (parent.getHeight() - h) >> 1;
+      }
+
       if((x + w) > parent.getWidth())
       {
          x = parent.getWidth() - w;
@@ -203,11 +214,13 @@ class JHelpDialogSmooth
     *           Mouse X
     * @param y
     *           Mouse Y
+    * @param rightButton
+    *           Indicates if mouse right button is down
     * @return Component or {@code null} if not found
     */
-   JHelpComponentSmooth obtainComponentUnder(final int x, final int y)
+   JHelpComponentSmooth obtainComponentUnder(final int x, final int y, final boolean rightButton)
    {
-      return this.mainPanel.obtainComponentUnder(x, y);
+      return this.mainPanel.obtainComponentUnder(x, y, rightButton);
    }
 
    /**

@@ -407,6 +407,7 @@ public class JHelpTree2D<INFORMATION>
    private final List<TreeClickOnListener<INFORMATION>> treeClickOnListeners;
    /** Image of the tree */
    private JHelpImage                                   treeImage;
+   /** Current selected area */
    Area<INFORMATION>                                    selectedArea;
    /** Tree model */
    JHelpTreeModel<INFORMATION>                          treeModel;
@@ -483,11 +484,13 @@ public class JHelpTree2D<INFORMATION>
          {
             if(expand == true)
             {
-               this.areas.add(new Area<INFORMATION>(JHelpTree2D.AREA_COLLAPSE_BUTTON, information, x, y + ((height - JHelpTree2D.MOVE_Y) >> 1), JHelpTree2D.MOVE_X, JHelpTree2D.MOVE_Y, JHelpTree2D.IMAGE_COLLAPSE));
+               this.areas.add(new Area<INFORMATION>(JHelpTree2D.AREA_COLLAPSE_BUTTON, information, x, y + ((height - JHelpTree2D.MOVE_Y) >> 1),
+                     JHelpTree2D.MOVE_X, JHelpTree2D.MOVE_Y, JHelpTree2D.IMAGE_COLLAPSE));
             }
             else
             {
-               this.areas.add(new Area<INFORMATION>(JHelpTree2D.AREA_EXPAND_BUTTON, information, x, y + ((height - JHelpTree2D.MOVE_Y) >> 1), JHelpTree2D.MOVE_X, JHelpTree2D.MOVE_Y, JHelpTree2D.IMAGE_EXPAND));
+               this.areas.add(new Area<INFORMATION>(JHelpTree2D.AREA_EXPAND_BUTTON, information, x, y + ((height - JHelpTree2D.MOVE_Y) >> 1),
+                     JHelpTree2D.MOVE_X, JHelpTree2D.MOVE_Y, JHelpTree2D.IMAGE_EXPAND));
             }
          }
 
@@ -628,7 +631,8 @@ public class JHelpTree2D<INFORMATION>
    {
       for(final TreeClickOnListener<INFORMATION> treeClickOnListener : this.treeClickOnListeners)
       {
-         ThreadManager.THREAD_MANAGER.doThread(this.taskFireTreeOnClick, new Pair<TreeClickOnListener<INFORMATION>, INFORMATION>(treeClickOnListener, information));
+         ThreadManager.THREAD_MANAGER.doThread(this.taskFireTreeOnClick, new Pair<TreeClickOnListener<INFORMATION>, INFORMATION>(treeClickOnListener,
+               information));
       }
    }
 
@@ -704,6 +708,12 @@ public class JHelpTree2D<INFORMATION>
       return this.foreground;
    }
 
+   /**
+    * Current selected value.<br>
+    * Return {@code null} if no selection
+    * 
+    * @return Current selected value OR {@code null} if no selection
+    */
    public INFORMATION getSelection()
    {
       if(this.selectedArea == null)
@@ -741,20 +751,6 @@ public class JHelpTree2D<INFORMATION>
       {
          this.treeClickOnListeners.add(treeClickOnListener);
       }
-   }
-
-   public void setSelection(final INFORMATION information)
-   {
-      for(final Area<INFORMATION> area : this.areas)
-      {
-         if(area.node.equals(information) == true)
-         {
-            this.selectedArea = area;
-            return;
-         }
-      }
-
-      this.selectedArea = null;
    }
 
    /**
@@ -828,6 +824,27 @@ public class JHelpTree2D<INFORMATION>
    public void setMouseListener(final JHelpMouseListener mouseListener)
    {
       this.eventManager.secondMouseListener = mouseListener;
+   }
+
+   /**
+    * Select an element.<br>
+    * If given element is {@code null} or not inside the model it remove the current selection and nothing will be selected
+    * 
+    * @param information
+    *           Information to select
+    */
+   public void setSelection(final INFORMATION information)
+   {
+      for(final Area<INFORMATION> area : this.areas)
+      {
+         if(area.node.equals(information) == true)
+         {
+            this.selectedArea = area;
+            return;
+         }
+      }
+
+      this.selectedArea = null;
    }
 
    /**

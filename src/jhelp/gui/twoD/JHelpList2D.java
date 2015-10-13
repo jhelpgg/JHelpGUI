@@ -71,7 +71,8 @@ public class JHelpList2D<INFORMATION>
                information = JHelpList2D.this.getListModel().getElement(JHelpList2D.this.selectedIndex);
             }
 
-            JHelpList2D.this.specialKeyListener.specialKeyClicked(e.getKeyCode(), shift, control, alt, JHelpList2D.this, information, JHelpList2D.this.selectedIndex);
+            JHelpList2D.this.specialKeyListener.specialKeyClicked(e.getKeyCode(), shift, control, alt, JHelpList2D.this, information,
+                  JHelpList2D.this.selectedIndex);
             return;
          }
 
@@ -909,6 +910,12 @@ public class JHelpList2D<INFORMATION>
       this.listListener = listListener;
    }
 
+   /**
+    * Change list model
+    * 
+    * @param listModel
+    *           New list model
+    */
    public void setListModel(final JHelpListModel<INFORMATION> listModel)
    {
       if(listModel.equals(this.listModel) == true)
@@ -924,7 +931,7 @@ public class JHelpList2D<INFORMATION>
    }
 
    /**
-    * Cahnge slected index
+    * Change selected index
     * 
     * @param selectedIndex
     *           New selected index or -1 for no selection

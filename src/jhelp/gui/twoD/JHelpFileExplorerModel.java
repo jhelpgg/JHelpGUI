@@ -464,6 +464,11 @@ public class JHelpFileExplorerModel
          files = this.directory.listFiles((java.io.FileFilter) this.fileFilter);
       }
 
+      if(files == null)
+      {
+         files = File.listRoots();
+      }
+
       Arrays.sort(files, ComparatorFile.COMPARATOR_FILE);
       if((this.directory != null) && ((this.fileFilter == null) || (this.fileFilter.isAcceptDirectory() == true)))
       {

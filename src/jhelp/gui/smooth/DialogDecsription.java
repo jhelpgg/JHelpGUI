@@ -11,6 +11,8 @@ import jhelp.util.gui.JHelpPaint;
  */
 public class DialogDecsription
 {
+   /** Value for center in parent */
+   public static final int    CENTER_IN_PARENT = -1;
    /** Dialog background color */
    final int                  background;
    /** Dialog main component */
@@ -44,7 +46,8 @@ public class DialogDecsription
     * @param shadowLevel
     *           Shadow level
     */
-   public DialogDecsription(final int x, final int y, final JHelpComponentSmooth mainComponent, final int background, final int shadow, final ShadowLevel shadowLevel)
+   public DialogDecsription(final int x, final int y, final JHelpComponentSmooth mainComponent, final int background, final int shadow,
+         final ShadowLevel shadowLevel)
    {
       if(mainComponent == null)
       {
@@ -82,7 +85,8 @@ public class DialogDecsription
     * @param shadowLevel
     *           Shadow level
     */
-   public DialogDecsription(final int x, final int y, final JHelpComponentSmooth mainComponent, final JHelpImage background, final int shadow, final ShadowLevel shadowLevel)
+   public DialogDecsription(final int x, final int y, final JHelpComponentSmooth mainComponent, final JHelpImage background, final int shadow,
+         final ShadowLevel shadowLevel)
    {
       if(mainComponent == null)
       {
@@ -125,7 +129,8 @@ public class DialogDecsription
     * @param shadowLevel
     *           Shadow level
     */
-   public DialogDecsription(final int x, final int y, final JHelpComponentSmooth mainComponent, final JHelpPaint background, final int shadow, final ShadowLevel shadowLevel)
+   public DialogDecsription(final int x, final int y, final JHelpComponentSmooth mainComponent, final JHelpPaint background, final int shadow,
+         final ShadowLevel shadowLevel)
    {
       if(mainComponent == null)
       {

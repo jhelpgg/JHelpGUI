@@ -450,9 +450,11 @@ public abstract class JHelpComponentSmooth
     *           Mouse X
     * @param y
     *           Mouse Y
+    * @param rightButton
+    *           Indicates if mouse right button is down
     * @return Component under mouse OR {@code null} if not found
     */
-   public JHelpComponentSmooth obtainComponentUnder(final int x, final int y)
+   public JHelpComponentSmooth obtainComponentUnder(final int x, final int y, final boolean rightButton)
    {
       final Rectangle bounds = this.getBounds();
 
