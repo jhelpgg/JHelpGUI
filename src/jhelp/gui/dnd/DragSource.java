@@ -1,9 +1,12 @@
 /**
- * Project : JHelpGUI<br>
- * Package : jhelp.gui.dnd<br>
- * Class : DragSource<br>
- * Date : 2 fevr. 2009<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.gui.dnd;
 
@@ -27,8 +30,8 @@ import jhelp.util.math.UtilMath;
  * Source of drag.<br>
  * Extends this class for put drag effect to your object.<br>
  * Remember to call the initialize at the end of your constructor. Be sure that methods :
- * <code>obtainDragComponent, obtainDragImage and obtainInformationValue</code> returns non {@code null} value every time
- * and before the call of <code>initialize</code> method else you will have NullPointerException append<br>
+ * <code>obtainDragComponent, obtainDragImage and obtainInformationValue</code> returns non {@code null} value every time and
+ * before the call of <code>initialize</code> method else you will have NullPointerException append<br>
  * Effects will work if you have call <code>GUIUtil.initializeGUI();</code> as the first instruction in your main. <br>
  * <br>
  * Last modification : 2 fevr. 2009<br>
@@ -112,8 +115,8 @@ public abstract class DragSource
     * Constructs DragSource
     * 
     * @param frame
-    *           Frame parent. Its better to use the main Frame of your application and please don't make {@code null} else
-    *           you can have bad effects
+    *           Frame parent. Its better to use the main Frame of your application and please don't make {@code null} else you
+    *           can have bad effects
     */
    public DragSource(final JFrame frame)
    {

@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.serializer;
 
 import java.io.IOException;
@@ -220,7 +230,8 @@ public class SerializerGUI
    {
       if((Constants.MARKUP_GRADIENT_HORIZONTAL.equals(markupName) == false) && (Constants.MARKUP_GRADIENT_VERTICAL.equals(markupName) == false))
       {
-         throw new ExceptionXML("The markup must be " + Constants.MARKUP_GRADIENT_HORIZONTAL + " or " + Constants.MARKUP_GRADIENT_VERTICAL + " not " + markupName);
+         throw new ExceptionXML("The markup must be " + Constants.MARKUP_GRADIENT_HORIZONTAL + " or " + Constants.MARKUP_GRADIENT_VERTICAL + " not "
+               + markupName);
       }
 
       final int size = SerializerGUI.PERCENTS.getSize();
@@ -240,7 +251,8 @@ public class SerializerGUI
       {
          SerializerGUI.PERCENTS.clear();
 
-         throw new ExceptionXML("The gradient description is not valid, it must have at least 2 'Percent' children, one associated with 0, one associated with 100");
+         throw new ExceptionXML(
+               "The gradient description is not valid, it must have at least 2 'Percent' children, one associated with 0, one associated with 100");
       }
 
       final int limit = size - 1;
@@ -389,7 +401,8 @@ public class SerializerGUI
    {
       if((Constants.MARKUP_GRADIENT_HORIZONTAL.equals(markupName) == false) && (Constants.MARKUP_GRADIENT_VERTICAL.equals(markupName) == false))
       {
-         throw new ExceptionXML("The markup must be " + Constants.MARKUP_GRADIENT_HORIZONTAL + " or " + Constants.MARKUP_GRADIENT_VERTICAL + " not " + markupName);
+         throw new ExceptionXML("The markup must be " + Constants.MARKUP_GRADIENT_HORIZONTAL + " or " + Constants.MARKUP_GRADIENT_VERTICAL + " not "
+               + markupName);
       }
 
       SerializerGUI.PERCENTS.clear();

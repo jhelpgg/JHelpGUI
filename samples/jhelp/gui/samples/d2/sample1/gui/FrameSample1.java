@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.samples.d2.sample1.gui;
 
 import jhelp.gui.twoD.FoldingAreaTitle;
@@ -62,9 +72,13 @@ public class FrameSample1
    {
       final JHelpPanel2D panel2d = new JHelpPanel2D(new JHelpTableLayout());
 
-      panel2d.addComponent2D(JHelpLabelImage2D.createTextLabel("(0, 0)\n3 x 2", FrameSample1.FONT, 0xFF000000, 0xFFFFFFFF, JHelpTextAlign.CENTER), new JHelpTableLayoutConstraints(0, 0, 3, 2));
-      panel2d.addComponent2D(JHelpLabelImage2D.createTextLabel("(1, 2)\n4 x 1", FrameSample1.FONT, 0xFF000000, 0xFFFFFFFF, JHelpTextAlign.CENTER), new JHelpTableLayoutConstraints(1, 2, 4, 1));
-      panel2d.addComponent2D(JHelpLabelImage2D.createTextLabel("Drag mouse for scroll\n(0, 3)\n1 x 1", FrameSample1.FONT, 0xFF000000, 0xFFFFFFFF, JHelpTextAlign.CENTER), new JHelpTableLayoutConstraints(0, 3, 1, 1));
+      panel2d.addComponent2D(JHelpLabelImage2D.createTextLabel("(0, 0)\n3 x 2", FrameSample1.FONT, 0xFF000000, 0xFFFFFFFF, JHelpTextAlign.CENTER),
+            new JHelpTableLayoutConstraints(0, 0, 3, 2));
+      panel2d.addComponent2D(JHelpLabelImage2D.createTextLabel("(1, 2)\n4 x 1", FrameSample1.FONT, 0xFF000000, 0xFFFFFFFF, JHelpTextAlign.CENTER),
+            new JHelpTableLayoutConstraints(1, 2, 4, 1));
+      panel2d.addComponent2D(
+            JHelpLabelImage2D.createTextLabel("Drag mouse for scroll\n(0, 3)\n1 x 1", FrameSample1.FONT, 0xFF000000, 0xFFFFFFFF, JHelpTextAlign.CENTER),
+            new JHelpTableLayoutConstraints(0, 3, 1, 1));
       panel2d.addComponent2D(new JHelpLabelImage2D(new JHelpImage(500, 500, 0xFFFF0000)), new JHelpTableLayoutConstraints(0, 4, 10, 10));
       panel2d.addComponent2D(new JHelpLabelImage2D(new JHelpImage(1000, 1000, 0xFF0000FF)), new JHelpTableLayoutConstraints(1, 5, 20, 20));
 
@@ -88,8 +102,9 @@ public class FrameSample1
     */
    private JHelpFoldable2D createFoldable(final String title, final String nature, final boolean horizontal, final FoldingAreaPosition foldingAreaPosition)
    {
-      return new JHelpFoldable2D(JHelpLabelImage2D.createTextLabel(UtilText.replaceHole("This is the {0} of the border layout.\nThis text can be hide or show\nby click on yellow bar", nature), FrameSample1.FONT, 0xFF000000,
-            0xFFFFFFFF, JHelpTextAlign.CENTER), new FoldingAreaTitle(0xFF0000FF, horizontal == true
+      return new JHelpFoldable2D(JHelpLabelImage2D.createTextLabel(
+            UtilText.replaceHole("This is the {0} of the border layout.\nThis text can be hide or show\nby click on yellow bar", nature), FrameSample1.FONT,
+            0xFF000000, 0xFFFFFFFF, JHelpTextAlign.CENTER), new FoldingAreaTitle(0xFF0000FF, horizontal == true
             ? JHelpFoldable2D.DEFAULT_PAINT_HORIZONTAL
             : JHelpFoldable2D.DEFAULT_PAINT_VERTICAL, title, FrameSample1.FONT_FOLD, 0xFF000000, null), foldingAreaPosition);
    }

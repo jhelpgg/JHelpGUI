@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.twoD;
 
 import java.awt.Dimension;
@@ -87,7 +97,8 @@ public class JHelpFoldable2D
    {
       if((valueMax < JHelpFoldable2D.MINIMUM_VALUE_MAX) || (valueMax > JHelpFoldable2D.MAXIMUM_VALUE_MAX))
       {
-         throw new IllegalArgumentException("valueMax must be in [" + JHelpFoldable2D.MINIMUM_VALUE_MAX + ", " + JHelpFoldable2D.MAXIMUM_VALUE_MAX + "] not " + valueMax);
+         throw new IllegalArgumentException("valueMax must be in [" + JHelpFoldable2D.MINIMUM_VALUE_MAX + ", " + JHelpFoldable2D.MAXIMUM_VALUE_MAX + "] not "
+               + valueMax);
       }
 
       JHelpFoldable2D.valueMax = valueMax;
@@ -248,7 +259,8 @@ public class JHelpFoldable2D
 
                                                              JHelpFoldable2D.this.foldPercent += JHelpFoldable2D.this.foldWay;
 
-                                                             if((JHelpFoldable2D.this.foldPercent > 0) && (JHelpFoldable2D.this.foldPercent < JHelpFoldable2D.valueMax))
+                                                             if((JHelpFoldable2D.this.foldPercent > 0)
+                                                                   && (JHelpFoldable2D.this.foldPercent < JHelpFoldable2D.valueMax))
                                                              {
                                                                 ThreadManager.THREAD_MANAGER.delayedThread(this, null, JHelpFoldable2D.TIME);
                                                              }
@@ -538,7 +550,8 @@ public class JHelpFoldable2D
       switch(this.foldingAreaPosition)
       {
          case BOTTOM:
-            this.foldingArea.paintArea(x, (y + bounds.height) - minimum.height, bounds.width, minimum.height, parent, this.foldWay < 0, this.foldingAreaPosition);
+            this.foldingArea.paintArea(x, (y + bounds.height) - minimum.height, bounds.width, minimum.height, parent, this.foldWay < 0,
+                  this.foldingAreaPosition);
             widthPanel = bounds.width;
             heightPanel = bounds.height - minimum.height;
             xx = 0;

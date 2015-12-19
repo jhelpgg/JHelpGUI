@@ -1,9 +1,12 @@
 /**
- * Project : JHelpSceneGraph<br>
- * Package : jhelp.gui<br>
- * Class : WindowablePanel<br>
- * Date : 18 janv. 2009<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.gui;
 
@@ -251,7 +254,8 @@ public class WindowablePanel
     * @param closable
     *           Indicate if the panel can be close
     */
-   public WindowablePanel(final Component component, final String title, final Icon icon, final boolean windowable, final boolean hideable, final boolean closable)
+   public WindowablePanel(final Component component, final String title, final Icon icon, final boolean windowable, final boolean hideable,
+         final boolean closable)
    {
       this(component, title, icon, windowable, hideable, closable, null);
    }
@@ -274,7 +278,8 @@ public class WindowablePanel
     * @param componentCenter
     *           Center component
     */
-   public WindowablePanel(final Component component, String title, final Icon icon, final boolean windowable, final boolean hideable, final boolean closable, final JComponent componentCenter)
+   public WindowablePanel(final Component component, String title, final Icon icon, final boolean windowable, final boolean hideable, final boolean closable,
+         final JComponent componentCenter)
    {
       if(component == null)
       {
@@ -351,7 +356,8 @@ public class WindowablePanel
     * @param componentCenter
     *           Component center
     */
-   public WindowablePanel(final JFrame frame, String title, final Icon icon, final boolean windowable, final boolean hideable, final boolean closable, final JComponent componentCenter)
+   public WindowablePanel(final JFrame frame, String title, final Icon icon, final boolean windowable, final boolean hideable, final boolean closable,
+         final JComponent componentCenter)
    {
       if(frame == null)
       {

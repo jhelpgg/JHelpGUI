@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.smooth.shape;
 
 import java.awt.Insets;
@@ -62,9 +72,11 @@ public class SmoothRoundRectangle
    protected ShapeInformation computeShape(final int x, final int y, final int width, final int height, final ShadowLevel level)
    {
       final int numberOfPixels = level.getNumberOfPixels() + 1;
-      final RoundRectangle2D background = new RoundRectangle2D.Double(x, y, width - numberOfPixels, height - (numberOfPixels << 1), this.arcWidth, this.arcHeight);
+      final RoundRectangle2D background = new RoundRectangle2D.Double(x, y, width - numberOfPixels, height - (numberOfPixels << 1), this.arcWidth,
+            this.arcHeight);
       final Rectangle bounds = background.getBounds();
-      final Rectangle inside = new Rectangle(bounds.x + this.arcWidth, bounds.y + this.arcHeight, bounds.width - (this.arcWidth << 1), bounds.height - (this.arcHeight << 1));
+      final Rectangle inside = new Rectangle(bounds.x + this.arcWidth, bounds.y + this.arcHeight, bounds.width - (this.arcWidth << 1), bounds.height
+            - (this.arcHeight << 1));
 
       return new ShapeInformation(background, inside);
    }

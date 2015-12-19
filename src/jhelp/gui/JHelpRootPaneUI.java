@@ -1,9 +1,12 @@
 /**
- * Project : JHelpSceneGraph<br>
- * Package : jhelp.gui.ui<br>
- * Class : JHelpRootPaneUI<br>
- * Date : 18 janv. 2009<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.gui;
 
@@ -292,7 +295,8 @@ public class JHelpRootPaneUI
          {
             final DragSource dragSource = ((DragSource.HaveHeaderLabelBufferedImage) JHelpRootPaneUI.this.content).obtainDragSource();
             final Point position = ev.getLocationOnScreen();
-            final DropTarget dropTarget = DropTarget.obtainDropTargetForScreenPosition(position.x + ResourcesGUI.TRANSLATE_CURSOR, position.y + ResourcesGUI.TRANSLATE_CURSOR);
+            final DropTarget dropTarget = DropTarget.obtainDropTargetForScreenPosition(position.x + ResourcesGUI.TRANSLATE_CURSOR, position.y
+                  + ResourcesGUI.TRANSLATE_CURSOR);
             if((dropTarget == null) || (dropTarget.isAcceptableInformation(dragSource.obtainInformationValue()) == false))
             {
                w.setCursor(ResourcesGUI.CANT_DROP_CURSOR);
@@ -431,7 +435,8 @@ public class JHelpRootPaneUI
             {
                final DragSource dragSource = ((DragSource.HaveHeaderLabelBufferedImage) JHelpRootPaneUI.this.content).obtainDragSource();
                final Point position = ev.getLocationOnScreen();
-               final DropTarget dropTarget = DropTarget.obtainDropTargetForScreenPosition(position.x + ResourcesGUI.TRANSLATE_CURSOR, position.y + ResourcesGUI.TRANSLATE_CURSOR);
+               final DropTarget dropTarget = DropTarget.obtainDropTargetForScreenPosition(position.x + ResourcesGUI.TRANSLATE_CURSOR, position.y
+                     + ResourcesGUI.TRANSLATE_CURSOR);
                if((dropTarget == null) || (dropTarget.isAcceptableInformation(dragSource.obtainInformationValue()) == false))
                {
                   w.setCursor(ResourcesGUI.CANT_DROP_CURSOR);
@@ -509,7 +514,8 @@ public class JHelpRootPaneUI
 
          if((titlePane != null) && titlePane.contains(convertedDragWindowOffset))
          {
-            if((((f != null) && ((frameState & Frame.MAXIMIZED_BOTH) == 0)) || (d != null)) && (dragWindowOffset.y >= JHelpRootPaneUI.BORDER_DRAG_THICKNESS) && (dragWindowOffset.x >= JHelpRootPaneUI.BORDER_DRAG_THICKNESS)
+            if((((f != null) && ((frameState & Frame.MAXIMIZED_BOTH) == 0)) || (d != null)) && (dragWindowOffset.y >= JHelpRootPaneUI.BORDER_DRAG_THICKNESS)
+                  && (dragWindowOffset.x >= JHelpRootPaneUI.BORDER_DRAG_THICKNESS)
                   && (dragWindowOffset.x < (w.getWidth() - JHelpRootPaneUI.BORDER_DRAG_THICKNESS)))
             {
                this.isMovingWindow = true;
@@ -573,7 +579,8 @@ public class JHelpRootPaneUI
             {
                final DragSource dragSource = ((DragSource.HaveHeaderLabelBufferedImage) JHelpRootPaneUI.this.content).obtainDragSource();
                final Point position = ev.getLocationOnScreen();
-               final DropTarget dropTarget = DropTarget.obtainDropTargetForScreenPosition(position.x + ResourcesGUI.TRANSLATE_CURSOR, position.y + ResourcesGUI.TRANSLATE_CURSOR);
+               final DropTarget dropTarget = DropTarget.obtainDropTargetForScreenPosition(position.x + ResourcesGUI.TRANSLATE_CURSOR, position.y
+                     + ResourcesGUI.TRANSLATE_CURSOR);
                if(dropTarget == null)
                {
                   dragSource.fireDragFailed();
@@ -622,8 +629,9 @@ public class JHelpRootPaneUI
     */
    static final int[]        cursorMapping         = new int[]
                                                    {
-         Cursor.NW_RESIZE_CURSOR, Cursor.NW_RESIZE_CURSOR, Cursor.N_RESIZE_CURSOR, Cursor.NE_RESIZE_CURSOR, Cursor.NE_RESIZE_CURSOR, Cursor.NW_RESIZE_CURSOR, 0, 0, 0, Cursor.NE_RESIZE_CURSOR, Cursor.W_RESIZE_CURSOR, 0, 0, 0,
-         Cursor.E_RESIZE_CURSOR, Cursor.SW_RESIZE_CURSOR, 0, 0, 0, Cursor.SE_RESIZE_CURSOR, Cursor.SW_RESIZE_CURSOR, Cursor.SW_RESIZE_CURSOR, Cursor.S_RESIZE_CURSOR, Cursor.SE_RESIZE_CURSOR, Cursor.SE_RESIZE_CURSOR
+         Cursor.NW_RESIZE_CURSOR, Cursor.NW_RESIZE_CURSOR, Cursor.N_RESIZE_CURSOR, Cursor.NE_RESIZE_CURSOR, Cursor.NE_RESIZE_CURSOR, Cursor.NW_RESIZE_CURSOR,
+         0, 0, 0, Cursor.NE_RESIZE_CURSOR, Cursor.W_RESIZE_CURSOR, 0, 0, 0, Cursor.E_RESIZE_CURSOR, Cursor.SW_RESIZE_CURSOR, 0, 0, 0, Cursor.SE_RESIZE_CURSOR,
+         Cursor.SW_RESIZE_CURSOR, Cursor.SW_RESIZE_CURSOR, Cursor.S_RESIZE_CURSOR, Cursor.SE_RESIZE_CURSOR, Cursor.SE_RESIZE_CURSOR
                                                    };
 
    /**

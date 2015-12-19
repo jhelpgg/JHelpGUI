@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.game;
 
 import java.applet.Applet;
@@ -82,10 +92,12 @@ public abstract class JHelpApplet
                                                                                    {
                                                                                       final Dimension size = JHelpApplet.this.getSize();
 
-                                                                                      JHelpApplet.this.image = new JHelpImage(size.width, size.height, 0xFFFFFFFF);
+                                                                                      JHelpApplet.this.image = new JHelpImage(size.width, size.height,
+                                                                                            0xFFFFFFFF);
                                                                                       JHelpApplet.this.image.register(JHelpApplet.this);
 
-                                                                                      ThreadManager.THREAD_MANAGER.delayedThread(JHelpApplet.this.initializeJHelpAppletTask, null, 1024);
+                                                                                      ThreadManager.THREAD_MANAGER.delayedThread(
+                                                                                            JHelpApplet.this.initializeJHelpAppletTask, null, 1024);
                                                                                    }
 
                                                                                    /**
@@ -115,8 +127,11 @@ public abstract class JHelpApplet
                                                                                             }
                                                                                          }
 
-                                                                                         JHelpApplet.this.animationLoop(JHelpApplet.this.image, Collections.unmodifiableMap(JHelpApplet.this.keyState), JHelpApplet.this.mouseX,
-                                                                                               JHelpApplet.this.mouseY, JHelpApplet.this.buttonLeft, JHelpApplet.this.buttonMidle, JHelpApplet.this.buttonRight);
+                                                                                         JHelpApplet.this.animationLoop(JHelpApplet.this.image,
+                                                                                               Collections.unmodifiableMap(JHelpApplet.this.keyState),
+                                                                                               JHelpApplet.this.mouseX, JHelpApplet.this.mouseY,
+                                                                                               JHelpApplet.this.buttonLeft, JHelpApplet.this.buttonMidle,
+                                                                                               JHelpApplet.this.buttonRight);
 
                                                                                          JHelpApplet.this.image.update();
                                                                                       }
@@ -181,7 +196,8 @@ public abstract class JHelpApplet
 
                                                                                       JHelpApplet.this.initializeJHelpApplet(JHelpApplet.this.image);
 
-                                                                                      JHelpApplet.this.threadID = ThreadManager.THREAD_MANAGER.repeatThread(JHelpApplet.this.animationLoopTask, null, 1024, 32);
+                                                                                      JHelpApplet.this.threadID = ThreadManager.THREAD_MANAGER.repeatThread(
+                                                                                            JHelpApplet.this.animationLoopTask, null, 1024, 32);
                                                                                    }
                                                                                 };
    /** Lock state */
@@ -418,8 +434,8 @@ public abstract class JHelpApplet
     * @param buttonRightDown
     *           Mouse button right state
     */
-   protected abstract void animationLoop(final JHelpImage image, final Map<ActionKey, Boolean> actionKeyState, final int mouseX, final int mouseY, final boolean buttonLeftDown, final boolean buttonMiddleDow,
-         final boolean buttonRightDown);
+   protected abstract void animationLoop(final JHelpImage image, final Map<ActionKey, Boolean> actionKeyState, final int mouseX, final int mouseY,
+         final boolean buttonLeftDown, final boolean buttonMiddleDow, final boolean buttonRightDown);
 
    /**
     * Create a visible sprite for the applet
@@ -523,7 +539,7 @@ public abstract class JHelpApplet
       {
          try
          {
-            if(this.isLocked == true && this.pause == false)
+            if((this.isLocked == true) && (this.pause == false))
             {
                this.LOCK.notify();
             }
@@ -659,7 +675,7 @@ public abstract class JHelpApplet
    @Override
    public final void destroy()
    {
-      if(this.threadID >= 0 && this.image != null)
+      if((this.threadID >= 0) && (this.image != null))
       {
          this.image.unregister(this);
 
@@ -828,7 +844,8 @@ public abstract class JHelpApplet
       this.image = new JHelpImage(size.width, size.height, 0xFFFFFFFF);
       this.image.register(this);
 
-      this.enableEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.MOUSE_WHEEL_EVENT_MASK | AWTEvent.FOCUS_EVENT_MASK);
+      this.enableEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.MOUSE_WHEEL_EVENT_MASK
+            | AWTEvent.FOCUS_EVENT_MASK);
 
       this.keyState = new HashMap<ActionKey, Boolean>();
 
@@ -1061,7 +1078,7 @@ public abstract class JHelpApplet
    {
       super.resize(width, height);
 
-      if(this.threadID >= 0 && this.image != null)
+      if((this.threadID >= 0) && (this.image != null))
       {
          this.image.unregister(this);
 

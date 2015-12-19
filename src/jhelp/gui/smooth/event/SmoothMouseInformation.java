@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.smooth.event;
 
 import java.awt.event.MouseEvent;
@@ -61,8 +71,9 @@ public final class SmoothMouseInformation
     * @param whellRotation
     *           Number of wheel rotation
     */
-   public SmoothMouseInformation(final int type, final JHelpComponentSmooth componentSmooth, final int mouseXonComponent, final int mouseYonComponent, final int mouseX, final int mouseY, final boolean leftDown,
-         final boolean middleDown, final boolean rightDown, final int clickcount, final int whellRotation)
+   public SmoothMouseInformation(final int type, final JHelpComponentSmooth componentSmooth, final int mouseXonComponent, final int mouseYonComponent,
+         final int mouseX, final int mouseY, final boolean leftDown, final boolean middleDown, final boolean rightDown, final int clickcount,
+         final int whellRotation)
    {
       this.type = type;
       this.componentSmooth = componentSmooth;
@@ -229,7 +240,8 @@ public final class SmoothMouseInformation
    @Override
    public String toString()
    {
-      return UtilText.concatenate(this.getTypeName(), " (", this.mouseXonComponent, ", ", this.mouseYonComponent, ") [", this.mouseX, ", ", this.mouseY, "] buttons[", this.leftDown, ", ", this.middleDown, ", ", this.rightDown,
-            "] count=", this.clickcount, " wheel=", this.whellRotation, " ON ", this.componentSmooth);
+      return UtilText.concatenate(this.getTypeName(), " (", this.mouseXonComponent, ", ", this.mouseYonComponent, ") [", this.mouseX, ", ", this.mouseY,
+            "] buttons[", this.leftDown, ", ", this.middleDown, ", ", this.rightDown, "] count=", this.clickcount, " wheel=", this.whellRotation, " ON ",
+            this.componentSmooth);
    }
 }

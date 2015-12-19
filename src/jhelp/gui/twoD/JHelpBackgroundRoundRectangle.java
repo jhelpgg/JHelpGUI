@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.twoD;
 
 import jhelp.util.gui.JHelpImage;
@@ -81,7 +91,8 @@ public class JHelpBackgroundRoundRectangle
     * @see jhelp.gui.twoD.JHelpBackground2D#paintBackground(int, int, int, int, jhelp.util.gui.JHelpImage, int, int, int, int)
     */
    @Override
-   protected void paintBackground(final int x, final int y, final int width, final int height, final JHelpImage parent, final int top, final int left, final int right, final int bottom)
+   protected void paintBackground(final int x, final int y, final int width, final int height, final JHelpImage parent, final int top, final int left,
+         final int right, final int bottom)
    {
       parent.fillRoundRectangle(x, y, width, height, top + bottom, left + right, this.colorBackground);
    }

@@ -1,9 +1,12 @@
 /**
- * Project : JHelpSceneGraph<br>
- * Package : jhelp.gui.event<br>
- * Class : WindowablePanelListener<br>
- * Date : 19 janv. 2009<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.gui.event;
 
@@ -21,6 +24,14 @@ public interface WindowablePanelListener
       extends EventListener
 {
    /**
+    * Call when the windowable panel is attach
+    * 
+    * @param windowablePanelEvent
+    *           Event description
+    */
+   public void windowablePanelAttach(WindowablePanelEvent windowablePanelEvent);
+
+   /**
     * Call when the windowable panel is close
     * 
     * @param windowablePanelEvent
@@ -29,12 +40,12 @@ public interface WindowablePanelListener
    public void windowablePanelClose(WindowablePanelEvent windowablePanelEvent);
 
    /**
-    * Call when the windowable panel is open
+    * Call when the windowable panel is detach
     * 
     * @param windowablePanelEvent
     *           Event description
     */
-   public void windowablePanelOpen(WindowablePanelEvent windowablePanelEvent);
+   public void windowablePanelDetach(WindowablePanelEvent windowablePanelEvent);
 
    /**
     * Call when the windowable panel is hide
@@ -45,26 +56,18 @@ public interface WindowablePanelListener
    public void windowablePanelHide(WindowablePanelEvent windowablePanelEvent);
 
    /**
+    * Call when the windowable panel is open
+    * 
+    * @param windowablePanelEvent
+    *           Event description
+    */
+   public void windowablePanelOpen(WindowablePanelEvent windowablePanelEvent);
+
+   /**
     * Call when the windowable panel is show
     * 
     * @param windowablePanelEvent
     *           Event description
     */
    public void windowablePanelShow(WindowablePanelEvent windowablePanelEvent);
-
-   /**
-    * Call when the windowable panel is attach
-    * 
-    * @param windowablePanelEvent
-    *           Event description
-    */
-   public void windowablePanelAttach(WindowablePanelEvent windowablePanelEvent);
-
-   /**
-    * Call when the windowable panel is detach
-    * 
-    * @param windowablePanelEvent
-    *           Event description
-    */
-   public void windowablePanelDetach(WindowablePanelEvent windowablePanelEvent);
 }

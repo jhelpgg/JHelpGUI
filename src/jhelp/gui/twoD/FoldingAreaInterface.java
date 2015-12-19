@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.twoD;
 
 import java.awt.Dimension;
@@ -37,5 +47,6 @@ public interface FoldingAreaInterface
     * @param foldingAreaPosition
     *           Header position relative to content component
     */
-   public void paintArea(final int x, final int y, final int width, final int height, final JHelpImage parent, final boolean fold, final FoldingAreaPosition foldingAreaPosition);
+   public void paintArea(final int x, final int y, final int width, final int height, final JHelpImage parent, final boolean fold,
+         final FoldingAreaPosition foldingAreaPosition);
 }

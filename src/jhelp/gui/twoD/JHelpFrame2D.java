@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.twoD;
 
 import java.awt.Dimension;
@@ -122,7 +132,8 @@ public class JHelpFrame2D
                                                                                                    * @see jhelp.util.thread.ThreadedSimpleTask#doSimpleAction(java.lang.Object)
                                                                                                    */
                                                                                                   @Override
-                                                                                                  protected void doSimpleAction(final Pair<KeyListener, KeyEvent> parameter)
+                                                                                                  protected void doSimpleAction(
+                                                                                                        final Pair<KeyListener, KeyEvent> parameter)
                                                                                                   {
                                                                                                      switch(parameter.element2.getID())
                                                                                                      {
@@ -156,9 +167,11 @@ public class JHelpFrame2D
                                                                                                    * @see jhelp.util.thread.ThreadedSimpleTask#doSimpleAction(java.lang.Object)
                                                                                                    */
                                                                                                   @Override
-                                                                                                  protected void doSimpleAction(final Pair<JHelpMouseListener, MouseEvent> parameter)
+                                                                                                  protected void doSimpleAction(
+                                                                                                        final Pair<JHelpMouseListener, MouseEvent> parameter)
                                                                                                   {
-                                                                                                     if((parameter == null) || (parameter.element1 == null) || (parameter.element2 == null))
+                                                                                                     if((parameter == null) || (parameter.element1 == null)
+                                                                                                           || (parameter.element2 == null))
                                                                                                      {
                                                                                                         return;
                                                                                                      }
@@ -263,7 +276,8 @@ public class JHelpFrame2D
 
          pair = dialog.mouseOver(mx + xx, my + yy);
 
-         if((pair == null) && (MouseEvent.MOUSE_CLICKED == event.getID()) && (dialog.isClikOutClose() == true) && ((mx < dx) || (mx >= (dx + dimension.width)) || (my < dy) || (my >= (dy + dimension.height))))
+         if((pair == null) && (MouseEvent.MOUSE_CLICKED == event.getID()) && (dialog.isClikOutClose() == true)
+               && ((mx < dx) || (mx >= (dx + dimension.width)) || (my < dy) || (my >= (dy + dimension.height))))
          {
             dialog.setVisible(false);
          }
@@ -305,8 +319,8 @@ public class JHelpFrame2D
     * @param developerInformation
     *           Object give back to the listener
     */
-   private void showOptionPane(final String title, final OptionPaneMessageType optionPaneMessageType, final String message, final String editText, final boolean hasCancel, final boolean hasNo,
-         final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   private void showOptionPane(final String title, final OptionPaneMessageType optionPaneMessageType, final String message, final String editText,
+         final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       if(this.optionPane == null)
       {
@@ -367,7 +381,8 @@ public class JHelpFrame2D
             return;
          }
 
-         final MouseEvent me = new MouseEvent(this, MouseEvent.MOUSE_EXITED, System.currentTimeMillis(), mouseEvent.getModifiers(), mx, my, mouseEvent.getClickCount(), mouseEvent.isPopupTrigger());
+         final MouseEvent me = new MouseEvent(this, MouseEvent.MOUSE_EXITED, System.currentTimeMillis(), mouseEvent.getModifiers(), mx, my,
+               mouseEvent.getClickCount(), mouseEvent.isPopupTrigger());
          me.setSource(this.overComponent);
 
          ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(this.overComponent.getMouseListener(), me));
@@ -375,7 +390,8 @@ public class JHelpFrame2D
 
       if(component2d != null)
       {
-         final MouseEvent me = new MouseEvent(this, MouseEvent.MOUSE_ENTERED, System.currentTimeMillis(), mouseEvent.getModifiers(), mx, my, mouseEvent.getClickCount(), mouseEvent.isPopupTrigger());
+         final MouseEvent me = new MouseEvent(this, MouseEvent.MOUSE_ENTERED, System.currentTimeMillis(), mouseEvent.getModifiers(), mx, my,
+               mouseEvent.getClickCount(), mouseEvent.isPopupTrigger());
          me.setSource(component2d);
 
          ThreadManager.THREAD_MANAGER.doThread(this.signalMouseEventTask, new Pair<JHelpMouseListener, MouseEvent>(component2d.getMouseListener(), me));
@@ -894,7 +910,8 @@ public class JHelpFrame2D
     * @param borderLetter
     *           Indicates if draw border letters
     */
-   public synchronized void printTips(int x, int y, final String tips, final JHelpFont font, final int colorText, final int colorBackground, final int colorBorder, final JHelpTextAlign textAlign, final boolean borderLetter)
+   public synchronized void printTips(int x, int y, final String tips, final JHelpFont font, final int colorText, final int colorBackground,
+         final int colorBorder, final JHelpTextAlign textAlign, final boolean borderLetter)
    {
       final JHelpImage imageOver = this.getImageOver();
 
@@ -987,8 +1004,8 @@ public class JHelpFrame2D
     * @param developerInformation
     *           Object given back to the listener
     */
-   public void showOptionPaneInput(final OptionPaneMessageType optionPaneMessageType, final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID,
-         final Object developerInformation)
+   public void showOptionPaneInput(final OptionPaneMessageType optionPaneMessageType, final String message, final boolean hasCancel, final boolean hasNo,
+         final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       this.showOptionPaneInput(optionPaneMessageType, null, message, "", hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
    }
@@ -1013,8 +1030,8 @@ public class JHelpFrame2D
     * @param developerInformation
     *           Object given back to the listener
     */
-   public void showOptionPaneInput(final OptionPaneMessageType optionPaneMessageType, final String message, final String editText, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener,
-         final int actionID, final Object developerInformation)
+   public void showOptionPaneInput(final OptionPaneMessageType optionPaneMessageType, final String message, final String editText, final boolean hasCancel,
+         final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       this.showOptionPaneInput(optionPaneMessageType, null, message, editText, hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
    }
@@ -1041,8 +1058,8 @@ public class JHelpFrame2D
     * @param developerInformation
     *           Object given back to the listener
     */
-   public void showOptionPaneInput(final OptionPaneMessageType optionPaneMessageType, final String title, final String message, final String editText, final boolean hasCancel, final boolean hasNo,
-         final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   public void showOptionPaneInput(final OptionPaneMessageType optionPaneMessageType, final String title, final String message, final String editText,
+         final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       if(optionPaneMessageType == null)
       {
@@ -1088,7 +1105,8 @@ public class JHelpFrame2D
     * @param developerInformation
     *           Object given back to the listener
     */
-   public void showOptionPaneInput(final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   public void showOptionPaneInput(final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener,
+         final int actionID, final Object developerInformation)
    {
       this.showOptionPaneInput(OptionPaneMessageType.MESSAGE, null, message, "", hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
    }
@@ -1111,7 +1129,8 @@ public class JHelpFrame2D
     * @param developerInformation
     *           Object given back to the listener
     */
-   public void showOptionPaneInput(final String message, final String editText, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   public void showOptionPaneInput(final String message, final String editText, final boolean hasCancel, final boolean hasNo,
+         final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       this.showOptionPaneInput(OptionPaneMessageType.MESSAGE, null, message, editText, hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
    }
@@ -1136,8 +1155,8 @@ public class JHelpFrame2D
     * @param developerInformation
     *           Object given back to the listener
     */
-   public void showOptionPaneInput(final String title, final String message, final String editText, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID,
-         final Object developerInformation)
+   public void showOptionPaneInput(final String title, final String message, final String editText, final boolean hasCancel, final boolean hasNo,
+         final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       this.showOptionPaneInput(OptionPaneMessageType.MESSAGE, title, message, editText, hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
    }
@@ -1169,7 +1188,8 @@ public class JHelpFrame2D
     * @param developerInformation
     *           Object given back to the listener
     */
-   public void showOptionPaneMessage(final OptionPaneMessageType optionPaneMessageType, final String message, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   public void showOptionPaneMessage(final OptionPaneMessageType optionPaneMessageType, final String message, final JHelpOptionPaneListener optionPaneListener,
+         final int actionID, final Object developerInformation)
    {
       this.showOptionPaneMessage(optionPaneMessageType, null, message, optionPaneListener, actionID, developerInformation);
    }
@@ -1205,7 +1225,8 @@ public class JHelpFrame2D
     * @param developerInformation
     *           Object given back to the listener
     */
-   public void showOptionPaneMessage(final OptionPaneMessageType optionPaneMessageType, final String title, final String message, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   public void showOptionPaneMessage(final OptionPaneMessageType optionPaneMessageType, final String title, final String message,
+         final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       if(optionPaneMessageType == null)
       {
@@ -1243,7 +1264,8 @@ public class JHelpFrame2D
     * @param developerInformation
     *           Object given back to the listener
     */
-   public void showOptionPaneMessage(final String message, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   public void showOptionPaneMessage(final String message, final JHelpOptionPaneListener optionPaneListener, final int actionID,
+         final Object developerInformation)
    {
       this.showOptionPaneMessage(OptionPaneMessageType.MESSAGE, null, message, optionPaneListener, actionID, developerInformation);
    }
@@ -1266,8 +1288,8 @@ public class JHelpFrame2D
     * @param developerInformation
     *           Object given back to the listener
     */
-   public void showOptionPaneQuestion(final OptionPaneMessageType optionPaneMessageType, final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID,
-         final Object developerInformation)
+   public void showOptionPaneQuestion(final OptionPaneMessageType optionPaneMessageType, final String message, final boolean hasCancel, final boolean hasNo,
+         final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       this.showOptionPaneQuestion(optionPaneMessageType, null, message, hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
    }
@@ -1292,8 +1314,8 @@ public class JHelpFrame2D
     * @param developerInformation
     *           Object given back to the listener
     */
-   public void showOptionPaneQuestion(final OptionPaneMessageType optionPaneMessageType, final String title, final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener,
-         final int actionID, final Object developerInformation)
+   public void showOptionPaneQuestion(final OptionPaneMessageType optionPaneMessageType, final String title, final String message, final boolean hasCancel,
+         final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       if(optionPaneMessageType == null)
       {
@@ -1334,7 +1356,8 @@ public class JHelpFrame2D
     * @param developerInformation
     *           Object given back to the listener
     */
-   public void showOptionPaneQuestion(final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   public void showOptionPaneQuestion(final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener,
+         final int actionID, final Object developerInformation)
    {
       this.showOptionPaneQuestion(OptionPaneMessageType.QUESTION, null, message, hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
    }
@@ -1357,7 +1380,8 @@ public class JHelpFrame2D
     * @param developerInformation
     *           Object given back to the listener
     */
-   public void showOptionPaneQuestion(final String title, final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   public void showOptionPaneQuestion(final String title, final String message, final boolean hasCancel, final boolean hasNo,
+         final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       this.showOptionPaneQuestion(OptionPaneMessageType.QUESTION, title, message, hasCancel, hasNo, optionPaneListener, actionID, developerInformation);
    }

@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.game.keymapper;
 
 import java.awt.Rectangle;
@@ -99,7 +109,8 @@ public class KeyMapper
     */
    public KeyMapper()
    {
-      this(KeyMapper.GRADIENT2, 0x80000000, null, 0xFFFFFFFF, KeyMapper.GRADIENT, 0xFFFFFFFF, null, 0x40000000, 0xFFFF0000, 0xFF808080, new JHelpFont("Arial", 16));
+      this(KeyMapper.GRADIENT2, 0x80000000, null, 0xFFFFFFFF, KeyMapper.GRADIENT, 0xFFFFFFFF, null, 0x40000000, 0xFFFF0000, 0xFF808080, new JHelpFont("Arial",
+            16));
    }
 
    /**
@@ -120,7 +131,8 @@ public class KeyMapper
     * @param font
     *           Font to use
     */
-   public KeyMapper(final int colorBackground, final int colorText, final int keyForeground, final int keyBackground, final int select, final int normal, final JHelpFont font)
+   public KeyMapper(final int colorBackground, final int colorText, final int keyForeground, final int keyBackground, final int select, final int normal,
+         final JHelpFont font)
    {
       this(null, colorBackground, null, colorText, null, keyForeground, null, keyBackground, select, normal, font);
    }
@@ -151,8 +163,9 @@ public class KeyMapper
     * @param font
     *           Font to use
     */
-   public KeyMapper(final JHelpImage imageBackground, final int colorBackground, final JHelpImage imageText, final int colorText, final JHelpImage imageKeyForeground, final int keyForeground, final JHelpImage imageKeyBackground,
-         final int keyBackground, final int select, final int normal, final JHelpFont font)
+   public KeyMapper(final JHelpImage imageBackground, final int colorBackground, final JHelpImage imageText, final int colorText,
+         final JHelpImage imageKeyForeground, final int keyForeground, final JHelpImage imageKeyBackground, final int keyBackground, final int select,
+         final int normal, final JHelpFont font)
    {
       this.sensitiveAreas = new HashMap<ActionKey, MouseSensitiveArea>();
 
@@ -332,20 +345,25 @@ public class KeyMapper
     * @param font
     *           Font used
     */
-   private void drawButton(final int x, final int y, final int columnWidth, final int height, final Rectangle bounds, final ActionKey actionKey, final JHelpImage imageText, final int colorText, final JHelpFont font)
+   private void drawButton(final int x, final int y, final int columnWidth, final int height, final Rectangle bounds, final ActionKey actionKey,
+         final JHelpImage imageText, final int colorText, final JHelpFont font)
    {
       if(imageText == null)
       {
-         this.imageKeyMapper.fillString((x + columnWidth) - bounds.width, y + ((height - bounds.height) >> 1), ResourcesKeyMapper.obtainText(actionKey), font, colorText);
+         this.imageKeyMapper.fillString((x + columnWidth) - bounds.width, y + ((height - bounds.height) >> 1), ResourcesKeyMapper.obtainText(actionKey), font,
+               colorText);
       }
       else
       {
-         this.imageKeyMapper.fillString((x + columnWidth) - bounds.width, y + ((height - bounds.height) >> 1), ResourcesKeyMapper.obtainText(actionKey), font, imageText, colorText);
+         this.imageKeyMapper.fillString((x + columnWidth) - bounds.width, y + ((height - bounds.height) >> 1), ResourcesKeyMapper.obtainText(actionKey), font,
+               imageText, colorText);
       }
 
-      this.imageKeyMapper.drawRectangle(x + columnWidth + KeyMapper.SPACE_TEXT_KEY, y + ((height - KeyMapper.SIZE_MASK) >> 1), KeyMapper.SIZE_MASK, KeyMapper.SIZE_MASK, this.normal);
+      this.imageKeyMapper.drawRectangle(x + columnWidth + KeyMapper.SPACE_TEXT_KEY, y + ((height - KeyMapper.SIZE_MASK) >> 1), KeyMapper.SIZE_MASK,
+            KeyMapper.SIZE_MASK, this.normal);
 
-      this.sensitiveAreas.put(actionKey, MouseSensitiveArea.createRectangleArea(actionKey.ordinal(), x + columnWidth + KeyMapper.SPACE_TEXT_KEY, y + ((height - KeyMapper.SIZE_MASK) >> 1), KeyMapper.SIZE_MASK, KeyMapper.SIZE_MASK));
+      this.sensitiveAreas.put(actionKey, MouseSensitiveArea.createRectangleArea(actionKey.ordinal(), x + columnWidth + KeyMapper.SPACE_TEXT_KEY, y
+            + ((height - KeyMapper.SIZE_MASK) >> 1), KeyMapper.SIZE_MASK, KeyMapper.SIZE_MASK));
    }
 
    /**
@@ -439,7 +457,8 @@ public class KeyMapper
     * @see jhelp.gui.game.EventManager#actionState(java.util.Map, int, int, boolean, boolean, boolean)
     */
    @Override
-   public boolean actionState(final Map<ActionKey, Boolean> actionsStates, final int mouseX, final int mouseY, final boolean buttonLeft, final boolean buttonMiddle, final boolean buttonRight)
+   public boolean actionState(final Map<ActionKey, Boolean> actionsStates, final int mouseX, final int mouseY, final boolean buttonLeft,
+         final boolean buttonMiddle, final boolean buttonRight)
    {
       if(actionsStates.get(ActionKey.ACTION_EXIT) == true)
       {
@@ -516,12 +535,12 @@ public class KeyMapper
     *           Middle button is down ?
     * @param rightButtonDown
     *           Right button is down ?
-    * @see jhelp.gui.game.MouseSensitiveAreaListener#mouseEnterArea(jhelp.gui.game.MouseSensitiveArea, int, int, int, int, boolean,
-    *      boolean, boolean)
+    * @see jhelp.gui.game.MouseSensitiveAreaListener#mouseEnterArea(jhelp.gui.game.MouseSensitiveArea, int, int, int, int,
+    *      boolean, boolean, boolean)
     */
    @Override
-   public void mouseEnterArea(final MouseSensitiveArea mouseSensitiveArea, final int relativeX, final int relativeY, final int abslouteX, final int absoluteY, final boolean leftButtonDown, final boolean middleButtonDown,
-         final boolean rightButtonDown)
+   public void mouseEnterArea(final MouseSensitiveArea mouseSensitiveArea, final int relativeX, final int relativeY, final int abslouteX, final int absoluteY,
+         final boolean leftButtonDown, final boolean middleButtonDown, final boolean rightButtonDown)
    {
    }
 
@@ -547,12 +566,12 @@ public class KeyMapper
     *           Middle button is down ?
     * @param rightButtonDown
     *           Right button is down ?
-    * @see jhelp.gui.game.MouseSensitiveAreaListener#mouseExitArea(jhelp.gui.game.MouseSensitiveArea, int, int, int, int, boolean,
-    *      boolean, boolean)
+    * @see jhelp.gui.game.MouseSensitiveAreaListener#mouseExitArea(jhelp.gui.game.MouseSensitiveArea, int, int, int, int,
+    *      boolean, boolean, boolean)
     */
    @Override
-   public void mouseExitArea(final MouseSensitiveArea mouseSensitiveArea, final int relativeX, final int relativeY, final int abslouteX, final int absoluteY, final boolean leftButtonDown, final boolean middleButtonDown,
-         final boolean rightButtonDown)
+   public void mouseExitArea(final MouseSensitiveArea mouseSensitiveArea, final int relativeX, final int relativeY, final int abslouteX, final int absoluteY,
+         final boolean leftButtonDown, final boolean middleButtonDown, final boolean rightButtonDown)
    {
    }
 
@@ -578,12 +597,12 @@ public class KeyMapper
     *           Middle button is down ?
     * @param rightButtonDown
     *           Right button is down ?
-    * @see jhelp.gui.game.MouseSensitiveAreaListener#mouseOverArea(jhelp.gui.game.MouseSensitiveArea, int, int, int, int, boolean,
-    *      boolean, boolean)
+    * @see jhelp.gui.game.MouseSensitiveAreaListener#mouseOverArea(jhelp.gui.game.MouseSensitiveArea, int, int, int, int,
+    *      boolean, boolean, boolean)
     */
    @Override
-   public void mouseOverArea(final MouseSensitiveArea mouseSensitiveArea, final int relativeX, final int relativeY, final int abslouteX, final int absoluteY, final boolean leftButtonDown, final boolean middleButtonDown,
-         final boolean rightButtonDown)
+   public void mouseOverArea(final MouseSensitiveArea mouseSensitiveArea, final int relativeX, final int relativeY, final int abslouteX, final int absoluteY,
+         final boolean leftButtonDown, final boolean middleButtonDown, final boolean rightButtonDown)
    {
       if(leftButtonDown == true)
       {

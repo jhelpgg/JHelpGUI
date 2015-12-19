@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.twoD;
 
 import java.awt.event.KeyEvent;
@@ -93,8 +103,10 @@ public class JHelpFileExplorer2D
                                                                                                                                                     protected void doSimpleAction(
                                                                                                                                                           final Triplet<JHelpFileExplorer2D, JHelpFileExplorerListener, Pair<File, Integer>> parameter)
                                                                                                                                                     {
-                                                                                                                                                       parameter.element2.fileExplorerFileChoosen(parameter.element1,
-                                                                                                                                                             parameter.element3.element1, parameter.element3.element2);
+                                                                                                                                                       parameter.element2.fileExplorerFileChoosen(
+                                                                                                                                                             parameter.element1,
+                                                                                                                                                             parameter.element3.element1,
+                                                                                                                                                             parameter.element3.element2);
                                                                                                                                                     }
                                                                                                                                                  };
    /** Task signal to a listener selected file change */
@@ -148,8 +160,10 @@ public class JHelpFileExplorer2D
                                                                                                                                                     protected void doSimpleAction(
                                                                                                                                                           final Triplet<JHelpFileExplorer2D, JHelpFileExplorerListener, Pair<File, Integer>> parameter)
                                                                                                                                                     {
-                                                                                                                                                       parameter.element2.fileExplorerSelectionChange(parameter.element1,
-                                                                                                                                                             parameter.element3.element1, parameter.element3.element2);
+                                                                                                                                                       parameter.element2.fileExplorerSelectionChange(
+                                                                                                                                                             parameter.element1,
+                                                                                                                                                             parameter.element3.element1,
+                                                                                                                                                             parameter.element3.element2);
                                                                                                                                                     }
                                                                                                                                                  };
    /** File explorer listeners */
@@ -184,7 +198,8 @@ public class JHelpFileExplorer2D
       {
          Debug.printException(exception, "Failed to rename ", source.getAbsolutePath(), " to ", destination.getAbsolutePath());
 
-         this.showOptionPaneMessage(OptionPaneMessageType.ERROR, UtilText.replaceHole(ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_EXPLORER_ERROR_FAILED_TO_RENAME), source.getAbsolutePath(), destination.getAbsolutePath()));
+         this.showOptionPaneMessage(OptionPaneMessageType.ERROR, UtilText.replaceHole(
+               ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_EXPLORER_ERROR_FAILED_TO_RENAME), source.getAbsolutePath(), destination.getAbsolutePath()));
       }
 
       ((JHelpFileExplorerModel) this.getListModel()).refreshContent();
@@ -226,7 +241,8 @@ public class JHelpFileExplorer2D
     */
    public void createNewDirectory()
    {
-      this.showOptionPaneInput(ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_EXPLORER_NEW_DIRECTORY_NAME), "", true, false, this, JHelpFileExplorer2D.DIALOG_CREATE_DIRECTORY, null);
+      this.showOptionPaneInput(ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_EXPLORER_NEW_DIRECTORY_NAME), "", true, false, this,
+            JHelpFileExplorer2D.DIALOG_CREATE_DIRECTORY, null);
    }
 
    /**
@@ -243,7 +259,8 @@ public class JHelpFileExplorer2D
       }
 
       this.showOptionPaneQuestion(ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_EXPLORER_DELETE_FILE_TITLE),
-            UtilText.replaceHole(ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_EXPLORER_DELETE_FILE_MESSAGE), file.getAbsolutePath()), false, true, this, JHelpFileExplorer2D.DIALOG_CREATE_DIRECTORY, file);
+            UtilText.replaceHole(ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_EXPLORER_DELETE_FILE_MESSAGE), file.getAbsolutePath()), false, true,
+            this, JHelpFileExplorer2D.DIALOG_CREATE_DIRECTORY, file);
    }
 
    /**
@@ -309,8 +326,9 @@ public class JHelpFileExplorer2D
          {
             for(final JHelpFileExplorerListener listener : this.listeners)
             {
-               ThreadManager.THREAD_MANAGER.doThread(JHelpFileExplorer2D.TASK_SELECTION_CHANGE, new Triplet<JHelpFileExplorer2D, JHelpFileExplorerListener, Pair<File, Integer>>(this, listener, new Pair<File, Integer>(information,
-                     selecttedIndex)));
+               ThreadManager.THREAD_MANAGER.doThread(JHelpFileExplorer2D.TASK_SELECTION_CHANGE,
+                     new Triplet<JHelpFileExplorer2D, JHelpFileExplorerListener, Pair<File, Integer>>(this, listener, new Pair<File, Integer>(information,
+                           selecttedIndex)));
             }
          }
 
@@ -340,8 +358,9 @@ public class JHelpFileExplorer2D
       {
          for(final JHelpFileExplorerListener listener : this.listeners)
          {
-            ThreadManager.THREAD_MANAGER.doThread(JHelpFileExplorer2D.TASK_FILE_CHOOSEN, new Triplet<JHelpFileExplorer2D, JHelpFileExplorerListener, Pair<File, Integer>>(this, listener, new Pair<File, Integer>(information,
-                  selecttedIndex)));
+            ThreadManager.THREAD_MANAGER.doThread(JHelpFileExplorer2D.TASK_FILE_CHOOSEN,
+                  new Triplet<JHelpFileExplorer2D, JHelpFileExplorerListener, Pair<File, Integer>>(this, listener, new Pair<File, Integer>(information,
+                        selecttedIndex)));
          }
       }
    }
@@ -413,13 +432,14 @@ public class JHelpFileExplorer2D
                {
                   if(temp.isDirectory() != file.isDirectory())
                   {
-                     this.showOptionPaneMessage(OptionPaneMessageType.WARNING, ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_EXPLORER_OVERWRITE_IMPOSSIBLE));
+                     this.showOptionPaneMessage(OptionPaneMessageType.WARNING,
+                           ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_EXPLORER_OVERWRITE_IMPOSSIBLE));
                      break;
                   }
 
                   this.showOptionPaneQuestion(ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_EXPLORER_OVERWRITE_FILE_TITLE),
-                        UtilText.replaceHole(ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_EXPLORER_OVERWRITE_FILE_MESSAGE), temp.getAbsolutePath()), false, true, this, JHelpFileExplorer2D.DIALOG_CONFIRM_RENAME,
-                        new Pair<File, File>(file, temp));
+                        UtilText.replaceHole(ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_EXPLORER_OVERWRITE_FILE_MESSAGE), temp.getAbsolutePath()),
+                        false, true, this, JHelpFileExplorer2D.DIALOG_CONFIRM_RENAME, new Pair<File, File>(file, temp));
                   break;
                }
 
@@ -432,7 +452,8 @@ public class JHelpFileExplorer2D
                file = new File(this.getCurrentDirectory(), text);
                if(file.exists() == true)
                {
-                  this.showOptionPaneMessage(OptionPaneMessageType.WARNING, UtilText.replaceHole(ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_EXPLORER_WARNING_DIRECTORY_EXISTS), file.getAbsolutePath()));
+                  this.showOptionPaneMessage(OptionPaneMessageType.WARNING,
+                        UtilText.replaceHole(ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_EXPLORER_WARNING_DIRECTORY_EXISTS), file.getAbsolutePath()));
                   break;
                }
 
@@ -510,7 +531,8 @@ public class JHelpFileExplorer2D
       }
 
       final String name = file.getName();
-      this.showOptionPaneInput(ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_EXPLORER_OTHER_NAME), name, true, false, this, JHelpFileExplorer2D.DIALOG_CHANGE_NAME, file);
+      this.showOptionPaneInput(ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_EXPLORER_OTHER_NAME), name, true, false, this,
+            JHelpFileExplorer2D.DIALOG_CHANGE_NAME, file);
    }
 
    /**

@@ -1,8 +1,12 @@
 /**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
  * 
- * @autor JHelp<br>
- *        Code with no guaranties
+ * @author JHelp
  */
 package jhelp.gui.game.aplletSample;
 
@@ -62,10 +66,12 @@ public class AppletSample
     *           Mouse button middle state
     * @param buttonRightDown
     *           Mouse button right state
-    * @see jhelp.gui.game.JHelpApplet#animationLoop(jhelp.util.gui.JHelpImage, java.util.Map, int, int, boolean, boolean, boolean)
+    * @see jhelp.gui.game.JHelpApplet#animationLoop(jhelp.util.gui.JHelpImage, java.util.Map, int, int, boolean, boolean,
+    *      boolean)
     */
    @Override
-   protected void animationLoop(final JHelpImage image, final Map<ActionKey, Boolean> actionKeyState, final int mouseX, final int mouseY, final boolean buttonLeftDown, final boolean buttonMiddleDow, final boolean buttonRightDown)
+   protected void animationLoop(final JHelpImage image, final Map<ActionKey, Boolean> actionKeyState, final int mouseX, final int mouseY,
+         final boolean buttonLeftDown, final boolean buttonMiddleDow, final boolean buttonRightDown)
    {
       final int width = image.getWidth();
       final int height = image.getHeight();

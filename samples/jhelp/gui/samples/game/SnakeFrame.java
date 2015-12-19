@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.samples.game;
 
 import java.awt.Point;
@@ -366,7 +376,8 @@ public class SnakeFrame
     * @see jhelp.gui.game.EventManager#actionState(java.util.Map, int, int, boolean, boolean, boolean)
     */
    @Override
-   public boolean actionState(final Map<ActionKey, Boolean> actionsStates, final int mouseX, final int mouseY, final boolean buttonLeft, final boolean buttonMiddle, final boolean buttonRight)
+   public boolean actionState(final Map<ActionKey, Boolean> actionsStates, final int mouseX, final int mouseY, final boolean buttonLeft,
+         final boolean buttonMiddle, final boolean buttonRight)
    {
       // Exit action => Exit game
       if(actionsStates.get(ActionKey.ACTION_EXIT) == true)

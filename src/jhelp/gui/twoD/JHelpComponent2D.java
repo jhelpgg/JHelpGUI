@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.twoD;
 
 import java.awt.Dimension;
@@ -369,7 +379,8 @@ public abstract class JHelpComponent2D
          }
       }
 
-      this.screenBounds = new Bounds(this.screenBounds.getxMin() + x, this.screenBounds.getxMax() + x, this.screenBounds.getyMin() + y, this.screenBounds.getyMax() + y);
+      this.screenBounds = new Bounds(this.screenBounds.getxMin() + x, this.screenBounds.getxMax() + x, this.screenBounds.getyMin() + y,
+            this.screenBounds.getyMax() + y);
    }
 
    /**
@@ -667,8 +678,8 @@ public abstract class JHelpComponent2D
     * @param developerInformation
     *           Parameter give back to the listener when user answers
     */
-   public void showOptionPaneInput(final OptionPaneMessageType optionPaneMessageType, final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID,
-         final Object developerInformation)
+   public void showOptionPaneInput(final OptionPaneMessageType optionPaneMessageType, final String message, final boolean hasCancel, final boolean hasNo,
+         final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
       if(frame == null)
@@ -700,8 +711,8 @@ public abstract class JHelpComponent2D
     * @param developerInformation
     *           Parameter give back to the listener when user answers
     */
-   public void showOptionPaneInput(final OptionPaneMessageType optionPaneMessageType, final String message, final String editText, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener,
-         final int actionID, final Object developerInformation)
+   public void showOptionPaneInput(final OptionPaneMessageType optionPaneMessageType, final String message, final String editText, final boolean hasCancel,
+         final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
       if(frame == null)
@@ -735,8 +746,8 @@ public abstract class JHelpComponent2D
     * @param developerInformation
     *           Parameter give back to the listener when user answers
     */
-   public void showOptionPaneInput(final OptionPaneMessageType optionPaneMessageType, final String title, final String message, final String editText, final boolean hasCancel, final boolean hasNo,
-         final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   public void showOptionPaneInput(final OptionPaneMessageType optionPaneMessageType, final String title, final String message, final String editText,
+         final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
       if(frame == null)
@@ -764,7 +775,8 @@ public abstract class JHelpComponent2D
     * @param developerInformation
     *           Parameter give back to the listener when user answers
     */
-   public void showOptionPaneInput(final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   public void showOptionPaneInput(final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener,
+         final int actionID, final Object developerInformation)
    {
       final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
       if(frame == null)
@@ -794,7 +806,8 @@ public abstract class JHelpComponent2D
     * @param developerInformation
     *           Parameter give back to the listener when user answers
     */
-   public void showOptionPaneInput(final String message, final String editText, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   public void showOptionPaneInput(final String message, final String editText, final boolean hasCancel, final boolean hasNo,
+         final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
       if(frame == null)
@@ -826,8 +839,8 @@ public abstract class JHelpComponent2D
     * @param developerInformation
     *           Parameter give back to the listener when user answers
     */
-   public void showOptionPaneInput(final String title, final String message, final String editText, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID,
-         final Object developerInformation)
+   public void showOptionPaneInput(final String title, final String message, final String editText, final boolean hasCancel, final boolean hasNo,
+         final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
       if(frame == null)
@@ -873,7 +886,8 @@ public abstract class JHelpComponent2D
     * @param developerInformation
     *           Object give back to the listener
     */
-   public void showOptionPaneMessage(final OptionPaneMessageType optionPaneMessageType, final String message, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   public void showOptionPaneMessage(final OptionPaneMessageType optionPaneMessageType, final String message, final JHelpOptionPaneListener optionPaneListener,
+         final int actionID, final Object developerInformation)
    {
       final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
       if(frame == null)
@@ -923,7 +937,8 @@ public abstract class JHelpComponent2D
     * @param developerInformation
     *           Object give back to the listener
     */
-   public void showOptionPaneMessage(final OptionPaneMessageType optionPaneMessageType, final String title, final String message, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   public void showOptionPaneMessage(final OptionPaneMessageType optionPaneMessageType, final String title, final String message,
+         final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
       if(frame == null)
@@ -965,7 +980,8 @@ public abstract class JHelpComponent2D
     * @param developerInformation
     *           Object give back to the listener
     */
-   public void showOptionPaneMessage(final String message, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   public void showOptionPaneMessage(final String message, final JHelpOptionPaneListener optionPaneListener, final int actionID,
+         final Object developerInformation)
    {
       final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
       if(frame == null)
@@ -995,8 +1011,8 @@ public abstract class JHelpComponent2D
     * @param developerInformation
     *           Object give back to the listener
     */
-   public void showOptionPaneQuestion(final OptionPaneMessageType optionPaneMessageType, final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID,
-         final Object developerInformation)
+   public void showOptionPaneQuestion(final OptionPaneMessageType optionPaneMessageType, final String message, final boolean hasCancel, final boolean hasNo,
+         final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
       if(frame == null)
@@ -1028,8 +1044,8 @@ public abstract class JHelpComponent2D
     * @param developerInformation
     *           Object give back to the listener
     */
-   public void showOptionPaneQuestion(final OptionPaneMessageType optionPaneMessageType, final String title, final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener,
-         final int actionID, final Object developerInformation)
+   public void showOptionPaneQuestion(final OptionPaneMessageType optionPaneMessageType, final String title, final String message, final boolean hasCancel,
+         final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
       if(frame == null)
@@ -1057,7 +1073,8 @@ public abstract class JHelpComponent2D
     * @param developerInformation
     *           Object give back to the listener
     */
-   public void showOptionPaneQuestion(final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   public void showOptionPaneQuestion(final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener,
+         final int actionID, final Object developerInformation)
    {
       final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
       if(frame == null)
@@ -1087,7 +1104,8 @@ public abstract class JHelpComponent2D
     * @param developerInformation
     *           Object give back to the listener
     */
-   public void showOptionPaneQuestion(final String title, final String message, final boolean hasCancel, final boolean hasNo, final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
+   public void showOptionPaneQuestion(final String title, final String message, final boolean hasCancel, final boolean hasNo,
+         final JHelpOptionPaneListener optionPaneListener, final int actionID, final Object developerInformation)
    {
       final JHelpFrame2D frame = UtilTwoD.getFrameOwner(this);
       if(frame == null)

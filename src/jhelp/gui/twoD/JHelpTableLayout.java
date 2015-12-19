@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.twoD;
 
 import java.awt.Dimension;
@@ -157,7 +167,8 @@ public class JHelpTableLayout
       @Override
       public String toString()
       {
-         return UtilText.concatenate(JHelpTableLayoutConstraints.class.getSimpleName(), " (", this.cellX, ", ", this.cellY, ") ", this.cellWidth, "x", this.cellHeight);
+         return UtilText.concatenate(JHelpTableLayoutConstraints.class.getSimpleName(), " (", this.cellX, ", ", this.cellY, ") ", this.cellWidth, "x",
+               this.cellHeight);
       }
    }
 
@@ -245,7 +256,8 @@ public class JHelpTableLayout
 
          constraints = (JHelpTableLayoutConstraints) child.element2;
 
-         child.element1.setBounds((constraints.cellX - xmin) * cellWidth, (constraints.cellY - ymin) * cellHeight, constraints.cellWidth * cellWidth, constraints.cellHeight * cellHeight);
+         child.element1.setBounds((constraints.cellX - xmin) * cellWidth, (constraints.cellY - ymin) * cellHeight, constraints.cellWidth * cellWidth,
+               constraints.cellHeight * cellHeight);
       }
 
       return new Rectangle(0, 0, cellWidth * nbCellWidth, cellHeight * nbCellHeight);

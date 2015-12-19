@@ -1,9 +1,12 @@
 /**
- * Project : JHelpGUI<br>
- * Package : jhelp.gui.dnd<br>
- * Class : DropTarget<br>
- * Date : 2 fevr. 2009<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.gui.dnd;
 
@@ -35,7 +38,7 @@ public abstract class DropTarget
     *           Y position
     * @return Found land on the position
     */
-   public static DropTarget obtainDropTargetForScreenPosition(int x, int y)
+   public static DropTarget obtainDropTargetForScreenPosition(final int x, final int y)
    {
       if(DropTarget.arrayList == null)
       {
@@ -44,13 +47,13 @@ public abstract class DropTarget
 
       Point position;
       Dimension size;
-      for(DropTarget dropTarget : DropTarget.arrayList)
+      for(final DropTarget dropTarget : DropTarget.arrayList)
       {
          if(dropTarget.obtainDropComponent().isVisible() == true)
          {
             position = dropTarget.obtainDropComponent().getLocationOnScreen();
             size = dropTarget.obtainDropComponent().getSize();
-            if(x >= position.x && y >= position.y && x < position.x + size.width && y < position.y + size.height)
+            if((x >= position.x) && (y >= position.y) && (x < (position.x + size.width)) && (y < (position.y + size.height)))
             {
                return dropTarget;
             }
@@ -74,15 +77,6 @@ public abstract class DropTarget
    }
 
    /**
-    * Indicates if information is valid for this target
-    * 
-    * @param information
-    *           Information test
-    * @return {@code true} if the information is accept by this target
-    */
-   public abstract boolean isAcceptableInformation(Object information);
-
-   /**
     * Call when drop done
     * 
     * @param information
@@ -93,6 +87,15 @@ public abstract class DropTarget
     *           Y position on target component
     */
    public abstract void dropDone(Object information, int x, int y);
+
+   /**
+    * Indicates if information is valid for this target
+    * 
+    * @param information
+    *           Information test
+    * @return {@code true} if the information is accept by this target
+    */
+   public abstract boolean isAcceptableInformation(Object information);
 
    /**
     * Component link for the drop area

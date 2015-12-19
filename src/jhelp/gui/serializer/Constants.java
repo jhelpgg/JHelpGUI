@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.serializer;
 
 /**
@@ -5,6 +15,17 @@ package jhelp.gui.serializer;
  */
 public interface Constants
 {
+   /**
+    * Main markup for describe a font:
+    * <ul>
+    * <li><b>family</b> : Font family</li>
+    * <li><b>size</b> : Font size</li>
+    * <li><b>bold</b> : Indicates if its bold (false by default)</li>
+    * <li><b>italic</b> : Indicates if its italic (false by default)</li>
+    * <li><b>underline</b> : Indicates if its underline (false by default)</li>
+    * </ul>
+    */
+   public static final String MARKUP_FONT                = "Font";
    // **************************
    // *** Markups for parser ***
    // **************************
@@ -30,17 +51,24 @@ public interface Constants
     * </ul>
     */
    public static final String MARKUP_PERCENT             = "Percent";
-   /**
-    * Main markup for describe a font:
-    * <ul>
-    * <li><b>family</b> : Font family</li>
-    * <li><b>size</b> : Font size</li>
-    * <li><b>bold</b> : Indicates if its bold (false by default)</li>
-    * <li><b>italic</b> : Indicates if its italic (false by default)</li>
-    * <li><b>underline</b> : Indicates if its underline (false by default)</li>
-    * </ul>
-    */
-   public static final String MARKUP_FONT                = "Font";
+   /** Bold status. Used by : {@link #MARKUP_FONT} */
+   public static final String PARAMETER_BOLD             = "bold";
+   /** A color. Used by : {@link #MARKUP_PERCENT} */
+   public static final String PARAMETER_COLOR            = "color";
+   /** Down left color. Used by : {@link #MARKUP_GRADIENT} */
+   public static final String PARAMETER_DOWN_LEFT        = "downLeft";
+   /** Down right color. Used by : {@link #MARKUP_GRADIENT} */
+   public static final String PARAMETER_DOWN_RIGHT       = "downRight";
+   /** Font family name. Used by : {@link #MARKUP_FONT} */
+   public static final String PARAMETER_FAMILY           = "family";
+   /** Italic status. Used by : {@link #MARKUP_FONT} */
+   public static final String PARAMETER_ITALIC           = "italic";
+   /** A percent. Used by : {@link #MARKUP_PERCENT} */
+   public static final String PARAMETER_PERCENT          = "percent";
+   /** Font size. Used by : {@link #MARKUP_FONT} */
+   public static final String PARAMETER_SIZE             = "size";
+   /** Underline status. Used by : {@link #MARKUP_FONT} */
+   public static final String PARAMETER_UNDERLINE        = "underline";
    // *****************************
    // *** Parameters for parser ***
    // *****************************
@@ -48,22 +76,4 @@ public interface Constants
    public static final String PARAMETER_UP_LEFT          = "upLeft";
    /** Up right color. Used by : {@link #MARKUP_GRADIENT} */
    public static final String PARAMETER_UP_RIGHT         = "upRight";
-   /** Down left color. Used by : {@link #MARKUP_GRADIENT} */
-   public static final String PARAMETER_DOWN_LEFT        = "downLeft";
-   /** Down right color. Used by : {@link #MARKUP_GRADIENT} */
-   public static final String PARAMETER_DOWN_RIGHT       = "downRight";
-   /** A color. Used by : {@link #MARKUP_PERCENT} */
-   public static final String PARAMETER_COLOR            = "color";
-   /** A percent. Used by : {@link #MARKUP_PERCENT} */
-   public static final String PARAMETER_PERCENT          = "percent";
-   /** Font family name. Used by : {@link #MARKUP_FONT} */
-   public static final String PARAMETER_FAMILY           = "family";
-   /** Font size. Used by : {@link #MARKUP_FONT} */
-   public static final String PARAMETER_SIZE             = "size";
-   /** Bold status. Used by : {@link #MARKUP_FONT} */
-   public static final String PARAMETER_BOLD             = "bold";
-   /** Italic status. Used by : {@link #MARKUP_FONT} */
-   public static final String PARAMETER_ITALIC           = "italic";
-   /** Underline status. Used by : {@link #MARKUP_FONT} */
-   public static final String PARAMETER_UNDERLINE        = "underline";
 }

@@ -1,9 +1,12 @@
 /**
- * Project : JHelpGUI<br>
- * Package : jhelp.gui<br>
- * Class : JHelpAutoStyledTextArea<br>
- * Date : 23 sept. 2010<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.gui;
 
@@ -325,7 +328,7 @@ public class JHelpAutoStyledTextArea
    private static final String CUT_STRINGS      = JHelpAutoStyledTextArea.SYMBOLS + " \n\r\t";
 
    /**
-	 * 
+	 *
 	 */
    private static final long   serialVersionUID = -6141838702983157203L;
 
@@ -428,7 +431,8 @@ public class JHelpAutoStyledTextArea
     * @param background
     *           Background color
     */
-   public void createStyle(final String name, final String fontFamily, final int fontSize, final boolean bold, final boolean italic, final boolean underline, final Color foreground, final Color background)
+   public void createStyle(final String name, final String fontFamily, final int fontSize, final boolean bold, final boolean italic, final boolean underline,
+         final Color foreground, final Color background)
    {
       if(name == null)
       {

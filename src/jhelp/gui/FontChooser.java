@@ -1,9 +1,12 @@
 /**
- * Project : JHelpGUI<br>
- * Package : jhelp.gui<br>
- * Class : FontChooserSample<br>
- * Date : 12 mai 2009<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.gui;
 
@@ -221,15 +224,16 @@ public class FontChooser
          this.doLayout();
          this.repaint();
 
-         this.fontChooser.listFont.scrollRectToVisible(this.fontChooser.listFont.getCellBounds(this.fontChooser.listFont.getSelectedIndex(), this.fontChooser.listFont.getSelectedIndex()));
+         this.fontChooser.listFont.scrollRectToVisible(this.fontChooser.listFont.getCellBounds(this.fontChooser.listFont.getSelectedIndex(),
+               this.fontChooser.listFont.getSelectedIndex()));
       }
 
       /**
        * Show the dialog and wit user choice
        * 
        * @param start
-       *           Font to start with. You can use {@code null} if you want use default font to start. Default is Arial,
-       *           plain, 12 OR last choose
+       *           Font to start with. You can use {@code null} if you want use default font to start. Default is Arial, plain,
+       *           12 OR last choose
        * @return Choose font or {@code null} if no choice
        */
       public Font showDialogFont(final Font start)
@@ -374,7 +378,8 @@ public class FontChooser
 
       // Center
       final JPanel panel = new JPanel(new BorderLayout());
-      panel.add(new JScrollPane(this.listFont, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+      panel.add(new JScrollPane(this.listFont, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED),
+            BorderLayout.CENTER);
 
       final JPanel p = new JPanel(new VerticalLayout(VerticalLayout.EXTENDS_WIDTH));
       final JPanel panelStyle = new JPanel(new BorderLayout());
@@ -388,7 +393,8 @@ public class FontChooser
       this.add(panel, BorderLayout.CENTER);
 
       // South
-      this.add(new JScrollPane(this.textAreaPreview, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.SOUTH);
+      this.add(new JScrollPane(this.textAreaPreview, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED),
+            BorderLayout.SOUTH);
    }
 
    /**

@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.twoD;
 
 import java.io.File;
@@ -363,7 +373,8 @@ public class JHelpFileChooser2D
                                                                                                                            * @see jhelp.util.thread.ThreadedSimpleTask#doSimpleAction(java.lang.Object)
                                                                                                                            */
                                                                                                                           @Override
-                                                                                                                          protected void doSimpleAction(final Triplet<Boolean, JHelpFileChooser2DListener, File> parameter)
+                                                                                                                          protected void doSimpleAction(
+                                                                                                                                final Triplet<Boolean, JHelpFileChooser2DListener, File> parameter)
                                                                                                                           {
                                                                                                                              if(parameter.element1 == true)
                                                                                                                              {
@@ -561,7 +572,8 @@ public class JHelpFileChooser2D
    private void doCancel(final boolean onClosing)
    {
       this.actionValid = true;
-      ThreadManager.THREAD_MANAGER.doThread(JHelpFileChooser2D.SIGNAL_CHOOSE_OR_CANCEL, new Triplet<Boolean, JHelpFileChooser2DListener, File>(false, this.fileChooser2DListener, null));
+      ThreadManager.THREAD_MANAGER.doThread(JHelpFileChooser2D.SIGNAL_CHOOSE_OR_CANCEL, new Triplet<Boolean, JHelpFileChooser2DListener, File>(false,
+            this.fileChooser2DListener, null));
 
       if(onClosing == false)
       {
@@ -575,7 +587,8 @@ public class JHelpFileChooser2D
    private void doOk()
    {
       this.actionValid = true;
-      ThreadManager.THREAD_MANAGER.doThread(JHelpFileChooser2D.SIGNAL_CHOOSE_OR_CANCEL, new Triplet<Boolean, JHelpFileChooser2DListener, File>(true, this.fileChooser2DListener, this.fileExplorer2D.getSelectedFile()));
+      ThreadManager.THREAD_MANAGER.doThread(JHelpFileChooser2D.SIGNAL_CHOOSE_OR_CANCEL, new Triplet<Boolean, JHelpFileChooser2DListener, File>(true,
+            this.fileChooser2DListener, this.fileExplorer2D.getSelectedFile()));
       this.closeFrame();
    }
 
@@ -701,7 +714,8 @@ public class JHelpFileChooser2D
       String title;
       if((selectedFile == null) || (selectedFile == JHelpFileExplorerModel.PARENT))
       {
-         title = ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_CHOOSER_TITLE_HEADER) + " : " + this.fileExplorer2D.getCurrentDirectory().getAbsolutePath();
+         title = ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.FILE_CHOOSER_TITLE_HEADER) + " : "
+               + this.fileExplorer2D.getCurrentDirectory().getAbsolutePath();
       }
       else
       {

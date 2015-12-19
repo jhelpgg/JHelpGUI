@@ -1,9 +1,12 @@
 /**
- * Project : JHelpGUI<br>
- * Package : jhelp.gui.dnd<br>
- * Class : ComponentDragSource<br>
- * Date : 2 fevr. 2009<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.gui.dnd;
 
@@ -42,8 +45,8 @@ public class ComponentDragSource
     * Constructs ComponentDragSource
     * 
     * @param frame
-    *           Frame parent. Its better to use the main Frame of your application and please don't make {@code null} else
-    *           you can have bad effects
+    *           Frame parent. Its better to use the main Frame of your application and please don't make {@code null} else you
+    *           can have bad effects
     * @param component
     *           Component link to the drag source
     * @param information

@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.twoD;
 
 import java.util.ArrayList;
@@ -31,7 +41,8 @@ public abstract class JHelpTreeModel<INFORMATION>
                                                                                                   * @see jhelp.util.thread.ThreadedSimpleTask#doSimpleAction(java.lang.Object)
                                                                                                   */
                                                                                                  @Override
-                                                                                                 protected void doSimpleAction(final JHelpTreeModelListener<INFORMATION> parameter)
+                                                                                                 protected void doSimpleAction(
+                                                                                                       final JHelpTreeModelListener<INFORMATION> parameter)
                                                                                                  {
                                                                                                     parameter.treeModelChanged(JHelpTreeModel.this);
                                                                                                  }

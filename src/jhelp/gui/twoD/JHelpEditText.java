@@ -1,3 +1,13 @@
+/**
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
+ */
 package jhelp.gui.twoD;
 
 import java.awt.Dimension;
@@ -210,7 +220,8 @@ public class JHelpEditText
     * @param textAlign
     *           Text align
     */
-   public JHelpEditText(final JHelpFont font, final int foregroundColor, final int cursorColor, final int columns, final int lines, final JHelpTextAlign textAlign)
+   public JHelpEditText(final JHelpFont font, final int foregroundColor, final int cursorColor, final int columns, final int lines,
+         final JHelpTextAlign textAlign)
    {
       if(font == null)
       {

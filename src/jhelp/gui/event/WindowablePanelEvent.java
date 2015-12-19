@@ -1,9 +1,12 @@
 /**
- * Project : JHelpSceneGraph<br>
- * Package : jhelp.gui.event<br>
- * Class : WindowablePanelEvent<br>
- * Date : 19 janv. 2009<br>
- * By JHelp
+ * <h1>License :</h1> <br>
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * cause.<br>
+ * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
+ * modify this code. The code is free for usage and modification, you can't change that fact.<br>
+ * <br>
+ * 
+ * @author JHelp
  */
 package jhelp.gui.event;
 
@@ -22,18 +25,18 @@ import jhelp.gui.WindowablePanel;
 public class WindowablePanelEvent
       extends AWTEvent
 {
-   /** Close event */
-   public static final int EVENT_WINDOWABLE_PANEL_CLOSE  = AWTEvent.RESERVED_ID_MAX + 1;
-   /** Open event */
-   public static final int EVENT_WINDOWABLE_PANEL_OPEN   = AWTEvent.RESERVED_ID_MAX + 2;
-   /** Hide event */
-   public static final int EVENT_WINDOWABLE_PANEL_HIDE   = AWTEvent.RESERVED_ID_MAX + 3;
-   /** Show event */
-   public static final int EVENT_WINDOWABLE_PANEL_SHOW   = AWTEvent.RESERVED_ID_MAX + 4;
-   /** Detach event */
-   public static final int EVENT_WINDOWABLE_PANEL_DETACH = AWTEvent.RESERVED_ID_MAX + 5;
    /** Attach event */
    public static final int EVENT_WINDOWABLE_PANEL_ATTACH = AWTEvent.RESERVED_ID_MAX + 6;
+   /** Close event */
+   public static final int EVENT_WINDOWABLE_PANEL_CLOSE  = AWTEvent.RESERVED_ID_MAX + 1;
+   /** Detach event */
+   public static final int EVENT_WINDOWABLE_PANEL_DETACH = AWTEvent.RESERVED_ID_MAX + 5;
+   /** Hide event */
+   public static final int EVENT_WINDOWABLE_PANEL_HIDE   = AWTEvent.RESERVED_ID_MAX + 3;
+   /** Open event */
+   public static final int EVENT_WINDOWABLE_PANEL_OPEN   = AWTEvent.RESERVED_ID_MAX + 2;
+   /** Show event */
+   public static final int EVENT_WINDOWABLE_PANEL_SHOW   = AWTEvent.RESERVED_ID_MAX + 4;
 
    /**
     * Constructs WindowablePanelEvent
@@ -43,7 +46,7 @@ public class WindowablePanelEvent
     * @param id
     *           Event ID
     */
-   public WindowablePanelEvent(WindowablePanel source, int id)
+   public WindowablePanelEvent(final WindowablePanel source, final int id)
    {
       super(source, id);
    }
