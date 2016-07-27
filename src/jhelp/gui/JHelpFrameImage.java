@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui;
@@ -23,7 +23,7 @@ import jhelp.util.gui.UtilGUI;
 
 /**
  * Frame based on unique "full screen" image
- * 
+ *
  * @author JHelp
  */
 public class JHelpFrameImage
@@ -44,7 +44,7 @@ public class JHelpFrameImage
 
    /**
     * Create a new instance of JHelpFrameImage
-    * 
+    *
     * @param title
     *           Frame title
     */
@@ -55,7 +55,7 @@ public class JHelpFrameImage
 
    /**
     * Create a new instance of JHelpFrameImage
-    * 
+    *
     * @param title
     *           Frame title
     * @param resizable
@@ -68,7 +68,7 @@ public class JHelpFrameImage
 
    /**
     * Remove key listener to embed image
-    * 
+    *
     * @param keyListener
     *           Listener to remove
     */
@@ -79,7 +79,7 @@ public class JHelpFrameImage
 
    /**
     * Remove mouse listener to embed image
-    * 
+    *
     * @param mouseListener
     *           Listener to remove
     */
@@ -90,7 +90,7 @@ public class JHelpFrameImage
 
    /**
     * Remove mouse motion listener to embed image
-    * 
+    *
     * @param mouseMotionListener
     *           Listener to remove
     */
@@ -104,7 +104,7 @@ public class JHelpFrameImage
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @see jhelp.gui.JHelpFrame#addListeners()
     */
    @Override
@@ -114,7 +114,7 @@ public class JHelpFrameImage
 
    /**
     * Add key listener to embed image
-    * 
+    *
     * @param keyListener
     *           Listener to add
     */
@@ -128,7 +128,7 @@ public class JHelpFrameImage
 
    /**
     * Add mouse listener to embed image
-    * 
+    *
     * @param mouseListener
     *           Listener to add
     */
@@ -139,7 +139,7 @@ public class JHelpFrameImage
 
    /**
     * Add mouse motion listener to embed image
-    * 
+    *
     * @param mouseMotionListener
     *           Listener to add
     */
@@ -150,7 +150,7 @@ public class JHelpFrameImage
 
    /**
     * Add a mouse wheel listener
-    * 
+    *
     * @param mouseWheelListener
     *           Listener to add
     */
@@ -164,7 +164,7 @@ public class JHelpFrameImage
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @see jhelp.gui.JHelpFrame#createComponents()
     */
    @Override
@@ -180,7 +180,7 @@ public class JHelpFrameImage
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @see jhelp.gui.JHelpFrame#layoutComponents()
     */
    @Override
@@ -196,7 +196,7 @@ public class JHelpFrameImage
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param componentEvent
     *           Component event description
     * @see java.awt.Component#processComponentEvent(java.awt.event.ComponentEvent)
@@ -232,7 +232,7 @@ public class JHelpFrameImage
 
    /**
     * The embed image
-    * 
+    *
     * @return The embed image
     */
    public final JHelpImage getImage()
@@ -242,7 +242,7 @@ public class JHelpFrameImage
 
    /**
     * Image over the frame
-    * 
+    *
     * @return Image over the frame
     */
    public JHelpImage getImageOver()
@@ -252,7 +252,7 @@ public class JHelpFrameImage
 
    /**
     * Indicates if image over active
-    * 
+    *
     * @return {@code true} if image over active
     */
    public boolean isImageOverActive()
@@ -266,6 +266,9 @@ public class JHelpFrameImage
    public final void refresh()
    {
       this.componentJHelpImage.getImage().update();
+      this.invalidate();
+      this.validate();
+      this.repaint();
    }
 
    /**
@@ -273,7 +276,7 @@ public class JHelpFrameImage
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param x
     *           X position
     * @param y
@@ -298,7 +301,7 @@ public class JHelpFrameImage
 
    /**
     * Change image over active state
-    * 
+    *
     * @param active
     *           New image over active state
     */

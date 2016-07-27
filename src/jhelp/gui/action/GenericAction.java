@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui.action;
@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Icon;
+import javax.swing.KeyStroke;
 
 import jhelp.util.debug.Debug;
 import jhelp.util.debug.DebugLevel;
@@ -29,11 +30,11 @@ import jhelp.util.thread.ThreadedSimpleTask;
  * Generic action that can be used with JButton, JRadioButton, JMenuItem, ... <br>
  * In UI, its often that you have a button, a menu and a short cut that do exactly the same action, for this its a good idea to
  * create the action once and used it every where at need. For example if text associate to action change or if the action have
- * to be disabled, you have to do it once with the generic action and changes are automatically shared to each compoent that
+ * to be disabled, you have to do it once with the generic action and changes are automatically shared to each component that
  * used it.<br>
  * More over here you can also, instead of giving directly the text, specify a resource text key and in doing so if the language
  * change, the action is automatically update, that will updated all linked components
- * 
+ *
  * @author JHelp
  */
 public abstract class GenericAction
@@ -41,7 +42,7 @@ public abstract class GenericAction
 {
    /**
     * Manage text events
-    * 
+    *
     * @author JHelp
     */
    class EventManager
@@ -59,7 +60,7 @@ public abstract class GenericAction
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param resourceText
        *           Resource text source
        * @see jhelp.util.resources.ResourceTextListener#resourceTextLanguageChanged(jhelp.util.resources.ResourceText)
@@ -81,7 +82,7 @@ public abstract class GenericAction
                                                                                                        * <b>Parent
                                                                                                        * documentation:</b><br>
                                                                                                        * {@inheritDoc}
-                                                                                                       * 
+                                                                                                       *
                                                                                                        * @param parameter
                                                                                                        *           Action
                                                                                                        *           parameters
@@ -91,7 +92,8 @@ public abstract class GenericAction
                                                                                                       protected void doSimpleAction(
                                                                                                             final Pair<GenericAction, ActionEvent> parameter)
                                                                                                       {
-                                                                                                         parameter.element1.doActionPerformed(parameter.element2);
+                                                                                                         parameter.element1.doActionPerformed(
+                                                                                                               parameter.element2);
                                                                                                       }
                                                                                                    };
 
@@ -104,7 +106,7 @@ public abstract class GenericAction
 
    /**
     * Create a new instance of GenericAction
-    * 
+    *
     * @param keyName
     *           Action text
     */
@@ -115,7 +117,7 @@ public abstract class GenericAction
 
    /**
     * Create a new instance of GenericAction
-    * 
+    *
     * @param keyName
     *           Action text
     * @param icon
@@ -128,7 +130,7 @@ public abstract class GenericAction
 
    /**
     * Create a new instance of GenericAction
-    * 
+    *
     * @param keyName
     *           Action text
     * @param smallJHelpImage
@@ -143,7 +145,7 @@ public abstract class GenericAction
 
    /**
     * Create a new instance of GenericAction
-    * 
+    *
     * @param keyName
     *           Key for action text
     * @param smallJHelpImage
@@ -160,7 +162,7 @@ public abstract class GenericAction
 
    /**
     * Create a new instance of GenericAction
-    * 
+    *
     * @param keyName
     *           Action text
     * @param smallJHelpImage
@@ -177,7 +179,7 @@ public abstract class GenericAction
 
    /**
     * Create a new instance of GenericAction
-    * 
+    *
     * @param keyName
     *           Key for action text
     * @param smallJHelpImage
@@ -235,7 +237,7 @@ public abstract class GenericAction
 
    /**
     * Create a new instance of GenericAction
-    * 
+    *
     * @param keyName
     *           Key for action text
     * @param icon
@@ -250,7 +252,7 @@ public abstract class GenericAction
 
    /**
     * Create a new instance of GenericAction
-    * 
+    *
     * @param keyName
     *           Action text
     * @param icon
@@ -265,7 +267,7 @@ public abstract class GenericAction
 
    /**
     * Create a new instance of GenericAction
-    * 
+    *
     * @param keyName
     *           Key for action text
     * @param icon
@@ -282,7 +284,7 @@ public abstract class GenericAction
 
    /**
     * Create a new instance of GenericAction
-    * 
+    *
     * @param keyName
     *           Key for action text
     * @param resourceText
@@ -295,7 +297,7 @@ public abstract class GenericAction
 
    /**
     * Create a new instance of GenericAction
-    * 
+    *
     * @param keyName
     *           Action text
     * @param keyTooltip
@@ -308,7 +310,7 @@ public abstract class GenericAction
 
    /**
     * Create a new instance of GenericAction
-    * 
+    *
     * @param keyName
     *           Key for action text
     * @param keyTooltip
@@ -323,7 +325,7 @@ public abstract class GenericAction
 
    /**
     * Called if resource text associated change of language
-    * 
+    *
     * @param resourceText
     *           Resource text that changed
     */
@@ -339,7 +341,7 @@ public abstract class GenericAction
 
    /**
     * Called when action have to do its action
-    * 
+    *
     * @param actionEvent
     *           Action event description
     */
@@ -350,7 +352,7 @@ public abstract class GenericAction
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param actionEvent
     *           Action event description
     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
@@ -363,7 +365,7 @@ public abstract class GenericAction
 
    /**
     * Large icon
-    * 
+    *
     * @return Large icon
     */
    public final JHelpImage getLargeIcon()
@@ -373,7 +375,7 @@ public abstract class GenericAction
 
    /**
     * Action name
-    * 
+    *
     * @return Action name
     */
    public final String getName()
@@ -383,7 +385,7 @@ public abstract class GenericAction
 
    /**
     * Action name currently show to the user
-    * 
+    *
     * @return Action name currently show to the user
     */
    public final String getPrintName()
@@ -393,7 +395,7 @@ public abstract class GenericAction
 
    /**
     * Tool tip text may show to the user
-    * 
+    *
     * @return Tool tip text may show to the user
     */
    public final String getPrintToolTip()
@@ -402,8 +404,18 @@ public abstract class GenericAction
    }
 
    /**
+    * Defined short cut
+    *
+    * @return Defined short cut OR {@code null} if none
+    */
+   public final KeyStroke getShortcut()
+   {
+      return (KeyStroke) this.getValue(Action.ACCELERATOR_KEY);
+   }
+
+   /**
     * Small icon
-    * 
+    *
     * @return Small icon
     */
    public final JHelpImage getSmallIcon()
@@ -413,7 +425,7 @@ public abstract class GenericAction
 
    /**
     * Tool tip key
-    * 
+    *
     * @return Tool tip key
     */
    public final String getToolTip()
@@ -426,7 +438,7 @@ public abstract class GenericAction
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param key
     *           Value key
     * @param value
@@ -493,6 +505,10 @@ public abstract class GenericAction
             value = JHelpImage.toJHelpImage((Icon) value);
          }
       }
+      else if(Action.ACCELERATOR_KEY.equals(key) == true)
+      {
+         // Nothing to do just avoid the else
+      }
       else if("enabled".equals(key) == false)
       {
          Debug.println(DebugLevel.VERBOSE, "The key ", key, " is not managed here");
@@ -504,7 +520,7 @@ public abstract class GenericAction
 
    /**
     * Change large and small icons in same time
-    * 
+    *
     * @param icon
     *           New large and small icons
     */
@@ -516,7 +532,7 @@ public abstract class GenericAction
 
    /**
     * Change large icon
-    * 
+    *
     * @param icon
     *           New large icon
     */
@@ -527,7 +543,7 @@ public abstract class GenericAction
 
    /**
     * Change action text
-    * 
+    *
     * @param name
     *           New text
     */
@@ -542,8 +558,19 @@ public abstract class GenericAction
    }
 
    /**
+    * Define/change shortcut
+    *
+    * @param keyStroke
+    *           Short cut
+    */
+   public final void setShortcut(final KeyStroke keyStroke)
+   {
+      this.putValue(Action.ACCELERATOR_KEY, keyStroke);
+   }
+
+   /**
     * Change small icon
-    * 
+    *
     * @param icon
     *           New small icon
     */
@@ -554,7 +581,7 @@ public abstract class GenericAction
 
    /**
     * Change tool tip text or key
-    * 
+    *
     * @param toolTip
     *           New tool tip text or key
     */

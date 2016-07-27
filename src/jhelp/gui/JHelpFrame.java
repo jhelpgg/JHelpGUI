@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui;
@@ -22,7 +22,7 @@ import jhelp.util.gui.UtilGUI;
 
 /**
  * Generic frame, extend it avoid to do some usual common tasks and suggest strongly to code good
- * 
+ *
  * @author JHelp
  */
 public abstract class JHelpFrame
@@ -45,7 +45,7 @@ public abstract class JHelpFrame
 
    /**
     * Create a new instance of JHelpFrame
-    * 
+    *
     * @param full
     *           Indicates if frame have to take all screen ({@code true}) or center of the screen and fit size to inside
     *           components
@@ -57,7 +57,7 @@ public abstract class JHelpFrame
 
    /**
     * Create a new instance of JHelpFrame center of the screen and fit size to contains components
-    * 
+    *
     * @param title
     *           Frame title
     */
@@ -68,7 +68,7 @@ public abstract class JHelpFrame
 
    /**
     * Create a new instance of JHelpFrame
-    * 
+    *
     * @param title
     *           Frame title
     * @param full
@@ -82,7 +82,7 @@ public abstract class JHelpFrame
 
    /**
     * Create a new instance of JHelpFrame
-    * 
+    *
     * @param title
     *           Frame title
     * @param full
@@ -140,7 +140,7 @@ public abstract class JHelpFrame
     * By default it returns always {@code true}, if you need ask user about, by example, some unsaved change before quit,
     * override this method and return only {@code true} when user is allowed to close the frame.<br>
     * It is called each time the user try to close the frame
-    * 
+    *
     * @return {@code true} if frame can close
     */
    protected boolean canCloseNow()
@@ -163,7 +163,7 @@ public abstract class JHelpFrame
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param e
     *           Event description
     * @see javax.swing.JFrame#processWindowEvent(java.awt.event.WindowEvent)
@@ -209,7 +209,7 @@ public abstract class JHelpFrame
    /**
     * Indicates if frame will be dispose on close.<br>
     * A disposed frame can't be showed again
-    * 
+    *
     * @return {@code true} if frame is dispose on close
     */
    public boolean isDisposeOnClose()
@@ -219,7 +219,7 @@ public abstract class JHelpFrame
 
    /**
     * Indicates if we have to exit all process and application when closing the frame
-    * 
+    *
     * @return {@code true} if we have to exit all process and application when closing the frame
     */
    public final boolean isExitAllOnClose()
@@ -230,7 +230,7 @@ public abstract class JHelpFrame
    /**
     * Change dispose on close status.<br>
     * A disposed frame can't be showed again
-    * 
+    *
     * @param disposeOnClose
     *           New dispose status
     */
@@ -242,7 +242,7 @@ public abstract class JHelpFrame
    /**
     * Change the state of exit of all.<br>
     * Indicates if we have to exit all process and application when closing the frame
-    * 
+    *
     * @param exitAllOnClose
     *           New exit all status
     */

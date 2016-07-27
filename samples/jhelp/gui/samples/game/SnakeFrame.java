@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui.samples.game;
@@ -20,14 +20,14 @@ import jhelp.gui.game.JHelpGame2D;
 import jhelp.gui.game.keymapper.KeyMapper;
 import jhelp.util.gui.JHelpFont;
 import jhelp.util.gui.JHelpImage;
-import jhelp.util.gui.JHelpMask;
 import jhelp.util.math.UtilMath;
 import jhelp.util.math.random.JHelpRandom;
+import jhelp.util.text.UtilText;
 
 /**
  * The snake frame.<br>
  * By default arrow for control Snake, E for exit, W for menu and change key mapping
- * 
+ *
  * @author JHelp
  */
 public class SnakeFrame
@@ -51,7 +51,7 @@ public class SnakeFrame
    /** Indicates an empty tile */
    private static final int       EMPTY               = -1;
    /** Font used for draw points */
-   private static final JHelpFont FONT_POINTS         = new JHelpFont("Arial", 18, true);
+   private static final JHelpFont FONT_POINTS         = new JHelpFont("Arial", 24, true);
    /** Points gain if snake eat food */
    private static final int       POINTS_EAT          = 128;
    /** Points gain if level up */
@@ -72,6 +72,7 @@ public class SnakeFrame
    private final KeyMapper        keyMapper;
    /** Actual level */
    private int                    level;
+   private int                    max;
    /** Actual points */
    private int                    points;
    /** The snake */
@@ -131,7 +132,11 @@ public class SnakeFrame
       final int x = position % SnakeFrame.BOARD_WIDTH;
       final int y = position / SnakeFrame.BOARD_WIDTH;
       this.snake.clear();
-      this.snake.add(new Point(x, y));
+
+      for(int i = 0; i < 5; i++)
+      {
+         this.snake.add(new Point(x, y));
+      }
 
       // Initialize food and snake ways (Snkae not move until next direction key)
       this.foodX = this.foodY = -1;
@@ -145,7 +150,8 @@ public class SnakeFrame
    private void restartFromZero()
    {
       this.level = 0;
-      this.points = 0;
+      this.points = 25 + 8;
+      this.max = 0;
       this.initBoard();
    }
 
@@ -164,7 +170,7 @@ public class SnakeFrame
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @see jhelp.gui.game.JHelpGame2D#createGameSrpties()
     */
    @Override
@@ -177,7 +183,7 @@ public class SnakeFrame
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param image
     *           Image where draw (Already in draw mode)
     * @see jhelp.gui.game.JHelpGame2D#gameInitialize(jhelp.util.gui.JHelpImage)
@@ -198,7 +204,7 @@ public class SnakeFrame
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param image
     *           Image where draw already in draw mode
     * @see jhelp.gui.game.JHelpGame2D#gameRefresh(jhelp.util.gui.JHelpImage)
@@ -245,13 +251,20 @@ public class SnakeFrame
             ? 255
             : 255 / (size - 1);
       int color;
+      int xxx = Integer.MAX_VALUE;
+      int yyy = Integer.MAX_VALUE;
 
       for(final Point point : this.snake)
       {
          color = 0xFF000000 | (start << 16) | (start << 8) | start;
 
-         image.fillEllipse(point.x * w, point.y * h, w, h, color);
+         if((xxx != point.x) || (yyy != point.y))
+         {
+            image.fillEllipse(point.x * w, point.y * h, w, h, color);
+         }
 
+         xxx = point.x;
+         yyy = point.y;
          start -= step;
       }
 
@@ -289,8 +302,10 @@ public class SnakeFrame
             yy, yy + h, yy + h
       }, SnakeFrame.COLOR_FOOD);
 
-      final JHelpMask mask = SnakeFrame.FONT_POINTS.createMask(((this.snake.size() * 100) / SnakeFrame.SIZE_FOR_NEXT_LEVEL) + "% : PTS=" + this.points);
-      image.paintMask(5, 5, mask, SnakeFrame.COLOR_POINTS, 0, true);
+      this.max = Math.max(this.max, this.points);
+      image.fillString(5, 5, //
+            UtilText.concatenate((this.snake.size() * 100) / (SnakeFrame.SIZE_FOR_NEXT_LEVEL + this.level), "% : LIFE=", this.points, " SCORE=", this.max),
+            SnakeFrame.FONT_POINTS, SnakeFrame.COLOR_POINTS);
 
       // Animate the snake
       if((this.wayX == 0) && (this.wayY == 0))
@@ -318,7 +333,7 @@ public class SnakeFrame
             this.snake.add(new Point(pt));
          }
 
-         if(this.snake.size() >= SnakeFrame.SIZE_FOR_NEXT_LEVEL)
+         if(this.snake.size() >= (SnakeFrame.SIZE_FOR_NEXT_LEVEL + this.level))
          {
             this.points += SnakeFrame.POINTS_UP_LEVEL;
 
@@ -328,7 +343,22 @@ public class SnakeFrame
          return;
       }
 
-      this.points = Math.max(this.points - 1, 0);
+      this.points = Math.max(this.points - (int) Math.sqrt(this.snake.size()), 0);
+
+      if(this.points == 0)
+      {
+         if(this.snake.size() > 1)
+         {
+            this.snake.remove(this.snake.size() - 1);
+            this.points = 16 + (2 * this.snake.size());
+            this.max--;
+         }
+         else
+         {
+            this.restartFromZero();
+            return;
+         }
+      }
 
       // If hurt wall, loose
       if(this.board[position.x + (position.y * SnakeFrame.BOARD_WIDTH)] == SnakeFrame.WALL)
@@ -359,7 +389,7 @@ public class SnakeFrame
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param actionsStates
     *           Action key current states (Several key may be down in same time)
     * @param mouseX
@@ -392,22 +422,22 @@ public class SnakeFrame
       }
 
       // /Arrows change snake direction
-      if(actionsStates.get(ActionKey.ACTION_LEFT) == true)
+      if((actionsStates.get(ActionKey.ACTION_LEFT) == true) && (this.wayX == 0))
       {
          this.wayX = -1;
          this.wayY = 0;
       }
-      else if(actionsStates.get(ActionKey.ACTION_RIGHT) == true)
+      else if((actionsStates.get(ActionKey.ACTION_RIGHT) == true) && (this.wayX == 0))
       {
          this.wayX = 1;
          this.wayY = 0;
       }
-      else if(actionsStates.get(ActionKey.ACTION_UP) == true)
+      else if((actionsStates.get(ActionKey.ACTION_UP) == true) && (this.wayY == 0))
       {
          this.wayY = -1;
          this.wayX = 0;
       }
-      else if(actionsStates.get(ActionKey.ACTION_DOWN) == true)
+      else if((actionsStates.get(ActionKey.ACTION_DOWN) == true) && (this.wayY == 0))
       {
          this.wayY = 1;
          this.wayX = 0;

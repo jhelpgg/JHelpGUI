@@ -466,7 +466,7 @@ public abstract class JHelpGame2D
       this.constructGameInstance();
 
       ThreadManager.THREAD_MANAGER.repeatThread(this.eventManagerTask, null, 1024, 1);
-      ThreadManager.THREAD_MANAGER.delayedThread(this.gameImageManagement, null, 512);
+      ThreadManager.THREAD_MANAGER.delayedThread(this.gameImageManagement, null, 1024);
    }
 
    /**
@@ -560,7 +560,7 @@ public abstract class JHelpGame2D
 
       this.gameInitialzed = true;
 
-      ThreadManager.THREAD_MANAGER.doThread(this.gameImageManagement, null);
+      ThreadManager.THREAD_MANAGER.delayedThread(this.gameImageManagement, null, 1024);
    }
 
    /**

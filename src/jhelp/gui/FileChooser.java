@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui;
@@ -23,7 +23,7 @@ import jhelp.util.io.UtilIO;
  * <br>
  * Last modification : 23 avr. 2009<br>
  * Version 0.0.0<br>
- * 
+ *
  * @author JHelp
  */
 public class FileChooser
@@ -33,7 +33,7 @@ public class FileChooser
 
    /**
     * Open dialog to open/save an image
-    * 
+    *
     * @param title
     *           Dialog title
     * @param load
@@ -54,6 +54,7 @@ public class FileChooser
          fileFilter.addExtension("jpg");
          fileFilter.addExtension("png");
          fileFilter.addExtension("bmp");
+         fileFilter.addExtension("pcx");
 
          fileFilter.setInformation("Image");
 
@@ -89,7 +90,7 @@ public class FileChooser
 
    /**
     * Open dialog to choose an image
-    * 
+    *
     * @return Chosen file image or {@code null} if no selection
     */
    public static File loadAnImage()
@@ -99,7 +100,7 @@ public class FileChooser
 
    /**
     * Open dialog to choose an image
-    * 
+    *
     * @param startFile
     *           Start file/directory
     * @return Chosen file image or {@code null} if no selection
@@ -111,7 +112,7 @@ public class FileChooser
 
    /**
     * Open dialog to choose an image
-    * 
+    *
     * @param title
     *           Dialog title
     * @return Chosen file image or {@code null} if no selection
@@ -123,7 +124,7 @@ public class FileChooser
 
    /**
     * Open dialog to choose an image
-    * 
+    *
     * @param title
     *           Dialog title
     * @param startFile
@@ -137,7 +138,7 @@ public class FileChooser
 
    /**
     * Open dialog to save an image
-    * 
+    *
     * @return Chosen file image or {@code null} if no selection
     */
    public static File saveAnImage()
@@ -147,7 +148,7 @@ public class FileChooser
 
    /**
     * Open dialog to save an image
-    * 
+    *
     * @param startFile
     *           startFile Start file/directory
     * @return Chosen file image or {@code null} if no selection
@@ -159,7 +160,7 @@ public class FileChooser
 
    /**
     * Open dialog to save an image
-    * 
+    *
     * @param title
     *           Dialog title
     * @return Chosen file image or {@code null} if no selection
@@ -171,7 +172,7 @@ public class FileChooser
 
    /**
     * Open dialog to save an image
-    * 
+    *
     * @param title
     *           Dialog title
     * @param startFile
@@ -199,7 +200,7 @@ public class FileChooser
 
    /**
     * Constructs FileChooser
-    * 
+    *
     * @param parent
     *           Frame parent
     */
@@ -211,7 +212,7 @@ public class FileChooser
 
    /**
     * Actual filter
-    * 
+    *
     * @return Actual filter
     */
    public FileFilter getFileFilter()
@@ -221,7 +222,7 @@ public class FileChooser
 
    /**
     * Dialog title
-    * 
+    *
     * @return Dialog title
     */
    public String getTitle()
@@ -231,7 +232,7 @@ public class FileChooser
 
    /**
     * Change filter
-    * 
+    *
     * @param fileFilter
     *           New filter
     */
@@ -249,7 +250,7 @@ public class FileChooser
 
    /**
     * Change the start directory
-    * 
+    *
     * @param file
     *           Start directory
     */
@@ -275,7 +276,7 @@ public class FileChooser
 
    /**
     * Change dialog title
-    * 
+    *
     * @param title
     *           New title
     */
@@ -286,7 +287,7 @@ public class FileChooser
 
    /**
     * Open the dialog in open mode
-    * 
+    *
     * @return Selected file or {@code null} if no selection
     */
    public File showOpenFile()
@@ -314,7 +315,7 @@ public class FileChooser
 
    /**
     * Open the dialog in open mode
-    * 
+    *
     * @param startFile
     *           Start file/directory
     * @return Selected file or {@code null} if no selection
@@ -328,7 +329,7 @@ public class FileChooser
 
    /**
     * Open the dialog in save mode
-    * 
+    *
     * @return Selected file or {@code null} if no selection
     */
    public File showSaveFile()
@@ -350,7 +351,7 @@ public class FileChooser
 
    /**
     * Open the dialog in save mode
-    * 
+    *
     * @param startFile
     *           Start file/directory
     * @return Selected file or {@code null} if no selection

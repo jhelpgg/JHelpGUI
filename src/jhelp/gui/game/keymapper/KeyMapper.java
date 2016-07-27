@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui.game.keymapper;
@@ -31,22 +31,22 @@ import jhelp.util.gui.JHelpSprite;
 /**
  * Dialog in {@link JHelpGame2D} for be able to change action key mapping with keyboard.<br>
  * In other words, change the short cut associated to action key
- * 
+ *
  * @author JHelp
  */
 public class KeyMapper
       implements MouseSensitiveAreaListener, CaptureKeyCodeListener, EventManager
 {
    /** Image with gradient */
-   private static final JHelpImage                      GRADIENT;
+   private static final JHelpImage GRADIENT;
    /** Image with gradient */
-   private static final JHelpImage                      GRADIENT2;
+   private static final JHelpImage GRADIENT2;
    /** Mask size */
-   private static final int                             SIZE_MASK      = 32;
+   private static final int        SIZE_MASK      = 32;
    /** Space between columns */
-   private static final int                             SPACE_COLUMN   = 9;
+   private static final int        SPACE_COLUMN   = 9;
    /** Space between "image" and text */
-   private static final int                             SPACE_TEXT_KEY = 3;
+   private static final int        SPACE_TEXT_KEY = 3;
    static
    {
       JHelpImage image = new JHelpImage(KeyMapper.SIZE_MASK, KeyMapper.SIZE_MASK);
@@ -109,13 +109,13 @@ public class KeyMapper
     */
    public KeyMapper()
    {
-      this(KeyMapper.GRADIENT2, 0x80000000, null, 0xFFFFFFFF, KeyMapper.GRADIENT, 0xFFFFFFFF, null, 0x40000000, 0xFFFF0000, 0xFF808080, new JHelpFont("Arial",
-            16));
+      this(KeyMapper.GRADIENT2, 0x80000000, null, 0xFFFFFFFF, KeyMapper.GRADIENT, 0xFFFFFFFF, null, 0x40000000, 0xFFFF0000, 0xFF808080,
+            new JHelpFont("Arial", 16));
    }
 
    /**
     * Create a new instance of KeyMapper
-    * 
+    *
     * @param colorBackground
     *           Background color
     * @param colorText
@@ -139,7 +139,7 @@ public class KeyMapper
 
    /**
     * Create a new instance of KeyMapper
-    * 
+    *
     * @param imageBackground
     *           Image background (can be {@code null})
     * @param colorBackground
@@ -245,6 +245,8 @@ public class KeyMapper
             case ACTION_UP:
                thirdColumnWith = Math.max(thirdColumnWith, rectangle.width);
             break;
+            default:
+            break;
          }
       }
 
@@ -325,7 +327,7 @@ public class KeyMapper
 
    /**
     * Draw a button
-    * 
+    *
     * @param x
     *           X
     * @param y
@@ -362,8 +364,8 @@ public class KeyMapper
       this.imageKeyMapper.drawRectangle(x + columnWidth + KeyMapper.SPACE_TEXT_KEY, y + ((height - KeyMapper.SIZE_MASK) >> 1), KeyMapper.SIZE_MASK,
             KeyMapper.SIZE_MASK, this.normal);
 
-      this.sensitiveAreas.put(actionKey, MouseSensitiveArea.createRectangleArea(actionKey.ordinal(), x + columnWidth + KeyMapper.SPACE_TEXT_KEY, y
-            + ((height - KeyMapper.SIZE_MASK) >> 1), KeyMapper.SIZE_MASK, KeyMapper.SIZE_MASK));
+      this.sensitiveAreas.put(actionKey, MouseSensitiveArea.createRectangleArea(actionKey.ordinal(), x + columnWidth + KeyMapper.SPACE_TEXT_KEY,
+            y + ((height - KeyMapper.SIZE_MASK) >> 1), KeyMapper.SIZE_MASK, KeyMapper.SIZE_MASK));
    }
 
    /**
@@ -440,7 +442,7 @@ public class KeyMapper
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param actionsStates
     *           Action keys state
     * @param mouseX
@@ -473,7 +475,7 @@ public class KeyMapper
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @return {@code true} if it is possible to loose focus right now
     * @see jhelp.gui.game.CaptureKeyCodeListener#canLooseFocus()
     */
@@ -488,7 +490,7 @@ public class KeyMapper
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param keycode
     *           Key code captured
     * @see jhelp.gui.game.CaptureKeyCodeListener#capturedkeyCode(int)
@@ -518,7 +520,7 @@ public class KeyMapper
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param mouseSensitiveArea
     *           Area enter
     * @param relativeX
@@ -549,7 +551,7 @@ public class KeyMapper
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param mouseSensitiveArea
     *           Area exit
     * @param relativeX
@@ -580,7 +582,7 @@ public class KeyMapper
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param mouseSensitiveArea
     *           Area under mouse
     * @param relativeX
@@ -640,7 +642,7 @@ public class KeyMapper
 
    /**
     * Show the dialog in game frame
-    * 
+    *
     * @param game2d
     *           Game frame to attach dialog in
     */

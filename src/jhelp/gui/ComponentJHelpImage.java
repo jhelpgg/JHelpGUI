@@ -18,6 +18,7 @@ import javax.swing.JComponent;
 import jhelp.util.debug.Debug;
 import jhelp.util.debug.DebugLevel;
 import jhelp.util.gui.JHelpImage;
+import jhelp.util.thread.Mutex;
 
 /**
  * Component with an Image
@@ -33,6 +34,7 @@ public class ComponentJHelpImage
    private JHelpImage        image;
    /** Image over */
    private JHelpImage        imageOver;
+   private final Mutex       mutex;
 
    /**
     * Create a new instance of ComponentJHelpImage with empty image
@@ -76,6 +78,7 @@ public class ComponentJHelpImage
     */
    public ComponentJHelpImage(final JHelpImage image)
    {
+      this.mutex = new Mutex();
       this.setImage(image);
    }
 
@@ -84,37 +87,46 @@ public class ComponentJHelpImage
     */
    void updateSize()
    {
-      if((this.image.getWidth() != this.getWidth()) || (this.image.getHeight() != this.getHeight()))
+      this.mutex.lock();
+
+      try
       {
-         JHelpImage temp = new JHelpImage(this.getWidth(), this.getHeight());
-
-         temp.startDrawMode();
-         temp.fillRectangleScaleBetter(0, 0, this.getWidth(), this.getHeight(), this.image);
-         temp.endDrawMode();
-
-         this.image.transfertSpritesTo(temp);
-
-         this.setImage(temp);
-
-         if(this.imageOver != null)
+         if((this.image.getWidth() != this.getWidth()) || (this.image.getHeight() != this.getHeight()))
          {
-            this.imageOver.unregister(this);
-
-            temp = new JHelpImage(this.getWidth(), this.getHeight());
+            JHelpImage temp = new JHelpImage(this.getWidth(), this.getHeight());
 
             temp.startDrawMode();
-            temp.fillRectangleScaleBetter(0, 0, this.getWidth(), this.getHeight(), this.imageOver);
+            temp.fillRectangleScaleBetter(0, 0, this.getWidth(), this.getHeight(), this.image);
             temp.endDrawMode();
 
-            this.imageOver.transfertSpritesTo(temp);
+            this.image.transfertSpritesTo(temp);
 
-            this.imageOver = temp;
-            this.imageOver.register(this);
+            this.setImage(temp);
 
-            this.invalidate();
-            this.revalidate();
-            this.repaint();
+            if(this.imageOver != null)
+            {
+               this.imageOver.unregister(this);
+
+               temp = new JHelpImage(this.getWidth(), this.getHeight());
+
+               temp.startDrawMode();
+               temp.fillRectangleScaleBetter(0, 0, this.getWidth(), this.getHeight(), this.imageOver);
+               temp.endDrawMode();
+
+               this.imageOver.transfertSpritesTo(temp);
+
+               this.imageOver = temp;
+               this.imageOver.register(this);
+
+               this.invalidate();
+               this.revalidate();
+               this.repaint();
+            }
          }
+      }
+      finally
+      {
+         this.mutex.unlock();
       }
    }
 
@@ -170,7 +182,16 @@ public class ComponentJHelpImage
     */
    public final JHelpImage getImage()
    {
-      return this.image;
+      this.mutex.lock();
+
+      try
+      {
+         return this.image;
+      }
+      finally
+      {
+         this.mutex.unlock();
+      }
    }
 
    /**
