@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui;
@@ -15,14 +15,12 @@ import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
-import jhelp.util.debug.Debug;
-import jhelp.util.debug.DebugLevel;
 import jhelp.util.gui.JHelpImage;
 import jhelp.util.thread.Mutex;
 
 /**
  * Component with an Image
- * 
+ *
  * @author JHelp
  */
 public class ComponentJHelpImage
@@ -34,11 +32,12 @@ public class ComponentJHelpImage
    private JHelpImage        image;
    /** Image over */
    private JHelpImage        imageOver;
+   /** Synchronization mutex */
    private final Mutex       mutex;
 
    /**
     * Create a new instance of ComponentJHelpImage with empty image
-    * 
+    *
     * @param width
     *           Image width
     * @param height
@@ -53,7 +52,7 @@ public class ComponentJHelpImage
 
    /**
     * Create a new instance of ComponentJHelpImage with image fill of one color
-    * 
+    *
     * @param width
     *           Image width
     * @param height
@@ -70,7 +69,7 @@ public class ComponentJHelpImage
 
    /**
     * Create a new instance of ComponentJHelpImage
-    * 
+    *
     * @param image
     *           Image to show
     * @throws NullPointerException
@@ -135,7 +134,7 @@ public class ComponentJHelpImage
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @throws Throwable
     *            On issue
     * @see java.lang.Object#finalize()
@@ -145,9 +144,6 @@ public class ComponentJHelpImage
    {
       this.image = null;
       this.imageOver = null;
-
-      Debug.println(DebugLevel.VERBOSE, "Delete from memory");
-
       super.finalize();
    }
 
@@ -156,7 +152,7 @@ public class ComponentJHelpImage
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param graphics
     *           Graphics environment
     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
@@ -177,7 +173,7 @@ public class ComponentJHelpImage
 
    /**
     * The image draw
-    * 
+    *
     * @return The image draw
     */
    public final JHelpImage getImage()
@@ -196,7 +192,7 @@ public class ComponentJHelpImage
 
    /**
     * Image over
-    * 
+    *
     * @return Image over
     */
    public JHelpImage getImageOver()
@@ -206,7 +202,7 @@ public class ComponentJHelpImage
 
    /**
     * Indicates if image over is active/visible
-    * 
+    *
     * @return {@code true} if image over is active/visible
     */
    public boolean isImageOverActive()
@@ -216,7 +212,7 @@ public class ComponentJHelpImage
 
    /**
     * Change the image
-    * 
+    *
     * @param image
     *           New image
     * @throws NullPointerException
@@ -245,7 +241,7 @@ public class ComponentJHelpImage
 
    /**
     * Change image over active state
-    * 
+    *
     * @param active
     *           New image over state
     */

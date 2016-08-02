@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui.layout;
@@ -22,23 +22,33 @@ import jhelp.util.gui.UtilGUI;
  * <br>
  * Last modification : 31 janv. 2009<br>
  * Version 0.0.0<br>
- * 
+ *
  * @author JHelp
  */
 public class CenterLayout
       implements LayoutManager
 {
+   private final int maximumHeight;
+   private final int maximumWidth;
+
    /**
     * Constructs CenterLayout
     */
    public CenterLayout()
    {
+      this(Integer.MAX_VALUE, Integer.MAX_VALUE);
+   }
+
+   public CenterLayout(final int maximumWidth, final int maximumHeight)
+   {
+      this.maximumWidth = Math.max(128, maximumWidth);
+      this.maximumHeight = Math.max(128, maximumHeight);
    }
 
    /**
     * Add component to the layout.<br>
     * Do nothing here
-    * 
+    *
     * @param name
     *           Constraints description
     * @param comp
@@ -52,7 +62,7 @@ public class CenterLayout
 
    /**
     * Layout a container
-    * 
+    *
     * @param parent
     *           Container to layout
     * @see java.awt.LayoutManager#layoutContainer(java.awt.Container)
@@ -64,15 +74,18 @@ public class CenterLayout
       {
          return;
       }
+
       final Dimension dim = parent.getSize();
       final Component component = parent.getComponent(0);
-      final Dimension pref = UtilGUI.computePreferredDimension(component);
-      component.setBounds((dim.width - pref.width) / 2, (dim.height - pref.height) / 2, pref.width, pref.height);
+      final Dimension preferedSize = UtilGUI.computePreferredDimension(component);
+      preferedSize.width = Math.min(this.maximumWidth, preferedSize.width);
+      preferedSize.height = Math.min(this.maximumHeight, preferedSize.height);
+      component.setBounds((dim.width - preferedSize.width) / 2, (dim.height - preferedSize.height) / 2, preferedSize.width, preferedSize.height);
    }
 
    /**
     * Compute minimum size
-    * 
+    *
     * @param parent
     *           Container who want's know it's minimum size
     * @return Minimum size
@@ -85,13 +98,17 @@ public class CenterLayout
       {
          return new Dimension(10, 10);
       }
+
       final Component component = parent.getComponent(0);
-      return UtilGUI.computeMinimumDimension(component);
+      final Dimension minimumSize = UtilGUI.computeMinimumDimension(component);
+      minimumSize.width = Math.min(this.maximumWidth, minimumSize.width);
+      minimumSize.height = Math.min(this.maximumHeight, minimumSize.height);
+      return minimumSize;
    }
 
    /**
     * Compute preferred size
-    * 
+    *
     * @param parent
     *           Container who want's know it's preferred size
     * @return Preferred size
@@ -105,13 +122,16 @@ public class CenterLayout
          return new Dimension(10, 10);
       }
       final Component component = parent.getComponent(0);
-      return UtilGUI.computePreferredDimension(component);
+      final Dimension preferedSize = UtilGUI.computePreferredDimension(component);
+      preferedSize.width = Math.min(this.maximumWidth, preferedSize.width);
+      preferedSize.height = Math.min(this.maximumHeight, preferedSize.height);
+      return preferedSize;
    }
 
    /**
     * Remove component for layout.<br>
     * Do nothing here
-    * 
+    *
     * @param comp
     *           Component to remove
     * @see java.awt.LayoutManager#removeLayoutComponent(java.awt.Component)

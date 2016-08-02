@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui;
@@ -13,41 +13,34 @@ package jhelp.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
 
 import jhelp.gui.smooth.JHelpConstantsSmooth;
+import jhelp.util.gui.JHelpFont;
+import jhelp.util.gui.JHelpImage;
 
 /**
  * Label with text, select and focus status
- * 
+ *
  * @author JHelp
  */
 public class JHelpLabel
       extends JComponent
 {
    /** Focus status */
-   private boolean     focused;
+   private boolean   focused;
    /** Focus color */
-   private Color       focusedColor;
-   /** Font metrics */
-   private FontMetrics fontMetrics;
+   private Color     focusedColor;
+   /** Font for draw */
+   private JHelpFont font;
    /** Selection status */
-   private boolean     selected;
+   private boolean   selected;
    /** Selection color */
-   private Color       selectedColor;
+   private Color     selectedColor;
    /** Text to draw */
-   private String      text;
-   /** Text ascent */
-   private int         textAscent;
-   /** Text height */
-   private int         textHeight;
-   /** Text width */
-   private int         textWidth;
+   private String    text;
 
    /**
     * Create a new instance of JHelpLabel
@@ -59,7 +52,7 @@ public class JHelpLabel
 
    /**
     * Create a new instance of JHelpLabel
-    * 
+    *
     * @param text
     *           Text on label
     */
@@ -75,7 +68,8 @@ public class JHelpLabel
       this.focusedColor = Color.BLACK;
       this.focused = false;
       this.text = text;
-      this.setFont(JHelpConstantsSmooth.FONT_DISPLAY_1.getFont());
+      this.font = JHelpConstantsSmooth.FONT_DISPLAY_1;
+      this.setFont(this.font.getFont());
    }
 
    /**
@@ -83,11 +77,7 @@ public class JHelpLabel
     */
    private void updateSize()
    {
-      this.textWidth = this.fontMetrics.stringWidth(this.text);
-      this.textHeight = this.fontMetrics.getHeight();
-      this.textAscent = this.fontMetrics.getAscent();
-
-      final Dimension dimension = new Dimension(this.textWidth, this.textHeight);
+      final Dimension dimension = this.font.stringSize(this.text);
       this.setSize(dimension);
       this.setPreferredSize(dimension);
       this.setMinimumSize(dimension);
@@ -101,7 +91,7 @@ public class JHelpLabel
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param graphics
     *           Graphics where draw
     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
@@ -128,28 +118,26 @@ public class JHelpLabel
          foreground = Color.BLACK;
       }
 
-      graphics.setColor(foreground);
-      graphics.setFont(this.getFont());
-      final int x = (width - this.textWidth) >> 1;
-      final int y = (height - this.textHeight) >> 1;
-      graphics.drawString(this.text, x, this.textAscent + y);
-
       if(this.selected == true)
       {
-         graphics.setColor(this.selectedColor);
-         graphics.fillRect(x, y, this.textWidth, this.textHeight);
+         background = this.selectedColor;
       }
+
+      final JHelpImage image = this.font.createImage(this.text, foreground.getRGB(), background.getRGB());
+      final int x = (width - image.getWidth()) >> 1;
+      final int y = (height - image.getHeight()) >> 1;
+      graphics.drawImage(image.getImage(), x, y, null);
 
       if(this.focused == true)
       {
          graphics.setColor(this.focusedColor);
-         graphics.drawRect(x, y, this.textWidth, this.textHeight);
+         graphics.drawRect(x, y, image.getWidth(), image.getHeight());
       }
    }
 
    /**
     * Focused color
-    * 
+    *
     * @return Focused color
     */
    public Color getFocusedColor()
@@ -159,7 +147,7 @@ public class JHelpLabel
 
    /**
     * Selected color
-    * 
+    *
     * @return Selected color
     */
    public Color getSelectedColor()
@@ -169,7 +157,7 @@ public class JHelpLabel
 
    /**
     * Current text
-    * 
+    *
     * @return Current text
     */
    public String getText()
@@ -179,7 +167,7 @@ public class JHelpLabel
 
    /**
     * Indicates if selected
-    * 
+    *
     * @return {@code true} if selected
     */
    public boolean isFocused()
@@ -189,7 +177,7 @@ public class JHelpLabel
 
    /**
     * Indicates if selected
-    * 
+    *
     * @return {@code true} if selected
     */
    public boolean isSelected()
@@ -202,7 +190,7 @@ public class JHelpLabel
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param color
     *           New background color
     * @see javax.swing.JComponent#setBackground(java.awt.Color)
@@ -216,7 +204,7 @@ public class JHelpLabel
 
    /**
     * Change focus status
-    * 
+    *
     * @param focused
     *           New focus status
     */
@@ -233,7 +221,7 @@ public class JHelpLabel
 
    /**
     * Change focus color.
-    * 
+    *
     * @param focusedColor
     *           New focus color
     */
@@ -257,7 +245,7 @@ public class JHelpLabel
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param font
     *           New font
     * @see javax.swing.JComponent#setFont(java.awt.Font)
@@ -265,12 +253,7 @@ public class JHelpLabel
    @Override
    public void setFont(final Font font)
    {
-      final BufferedImage bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-      final Graphics2D graphics2d = bufferedImage.createGraphics();
-      this.fontMetrics = graphics2d.getFontMetrics(font);
-      graphics2d.dispose();
-      bufferedImage.flush();
-
+      this.font = new JHelpFont(font, false);
       super.setFont(font);
       this.updateSize();
    }
@@ -280,7 +263,7 @@ public class JHelpLabel
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param color
     *           New foreground
     * @see javax.swing.JComponent#setForeground(java.awt.Color)
@@ -294,7 +277,7 @@ public class JHelpLabel
 
    /**
     * Change selected status
-    * 
+    *
     * @param selected
     *           New selected status
     */
@@ -310,9 +293,8 @@ public class JHelpLabel
    }
 
    /**
-    * Change selection color.<br>
-    * It is recommended to use transparency to be able see text under selection
-    * 
+    * Change selection color
+    *
     * @param selectedColor
     *           New selection color
     */
@@ -333,7 +315,7 @@ public class JHelpLabel
 
    /**
     * Change the text
-    * 
+    *
     * @param text
     *           New text
     */
