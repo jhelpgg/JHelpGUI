@@ -28,7 +28,9 @@ import jhelp.util.gui.UtilGUI;
 public class CenterLayout
       implements LayoutManager
 {
+   /** Maximum height */
    private final int maximumHeight;
+   /** Maximum width */
    private final int maximumWidth;
 
    /**
@@ -39,6 +41,14 @@ public class CenterLayout
       this(Integer.MAX_VALUE, Integer.MAX_VALUE);
    }
 
+   /**
+    * Create a new instance of CenterLayout
+    *
+    * @param maximumWidth
+    *           Maximum width. Use {@link Integer#MAX_VALUE} for no limit
+    * @param maximumHeight
+    *           Maximum height. Use {@link Integer#MAX_VALUE} for no limit
+    */
    public CenterLayout(final int maximumWidth, final int maximumHeight)
    {
       this.maximumWidth = Math.max(128, maximumWidth);
