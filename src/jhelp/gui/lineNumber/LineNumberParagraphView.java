@@ -197,7 +197,7 @@ public class LineNumberParagraphView
    @Override
    protected void setParagraphInsets(final AttributeSet attributes)
    {
-      // Here we just call our method toreserved room for line number and additional text
+      // Here we just call our method to reserved room for line number and additional text
       this.setInsets((short) StyleConstants.getSpaceAbove(attributes), (short) StyleConstants.getLeftIndent(attributes),
             (short) StyleConstants.getSpaceBelow(attributes), (short) StyleConstants.getRightIndent(attributes));
    }

@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui.game;
@@ -37,7 +37,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import jhelp.security.io.JHelpBase;
 import jhelp.util.MemorySweeper;
 import jhelp.util.debug.Debug;
 import jhelp.util.debug.DebugLevel;
@@ -53,7 +52,7 @@ import netscape.javascript.JSObject;
 
 /**
  * Generic Applet for 2D animation
- * 
+ *
  * @author JHelp
  */
 public abstract class JHelpApplet
@@ -84,7 +83,7 @@ public abstract class JHelpApplet
                                                                                     * <br>
                                                                                     * <b>Parent documentation:</b><br>
                                                                                     * {@inheritDoc}
-                                                                                    * 
+                                                                                    *
                                                                                     * @see jhelp.util.thread.ThreadedTask#canceled()
                                                                                     */
                                                                                    @Override
@@ -105,7 +104,7 @@ public abstract class JHelpApplet
                                                                                     * <br>
                                                                                     * <b>Parent documentation:</b><br>
                                                                                     * {@inheritDoc}
-                                                                                    * 
+                                                                                    *
                                                                                     * @see jhelp.util.thread.ThreadedVerySimpleTask#doVerySimpleAction()
                                                                                     */
                                                                                    @Override
@@ -186,7 +185,7 @@ public abstract class JHelpApplet
                                                                                     * <br>
                                                                                     * <b>Parent documentation:</b><br>
                                                                                     * {@inheritDoc}
-                                                                                    * 
+                                                                                    *
                                                                                     * @see jhelp.util.thread.ThreadedVerySimpleTask#doVerySimpleAction()
                                                                                     */
                                                                                    @Override
@@ -224,7 +223,7 @@ public abstract class JHelpApplet
 
    /**
     * Compute String with the actual cookie content
-    * 
+    *
     * @return Created String
     */
    private String createContentString()
@@ -308,7 +307,7 @@ public abstract class JHelpApplet
 
    /**
     * Parse cookie value to fill the cookie content
-    * 
+    *
     * @param toParse
     *           Cookie value to parse
     */
@@ -400,7 +399,7 @@ public abstract class JHelpApplet
 
    /**
     * Update mouse status
-    * 
+    *
     * @param mouseEvent
     *           Mouse event description
     */
@@ -418,7 +417,7 @@ public abstract class JHelpApplet
 
    /**
     * Call at each loop, to animate the applet
-    * 
+    *
     * @param image
     *           Parent image where draw
     * @param actionKeyState
@@ -439,7 +438,7 @@ public abstract class JHelpApplet
 
    /**
     * Create a visible sprite for the applet
-    * 
+    *
     * @param x
     *           Start X position
     * @param y
@@ -478,7 +477,7 @@ public abstract class JHelpApplet
    /**
     * Call when applet initialize, use to create sprites, animations, ... will be manipule on
     * {@link #animationLoop(JHelpImage, Map, int, int, boolean, boolean, boolean)}
-    * 
+    *
     * @param image
     *           Image parent where draw
     */
@@ -487,7 +486,7 @@ public abstract class JHelpApplet
    /**
     * Draw something over the screen while applet is on pause.<br>
     * You can override this method to do something different than default pause screen
-    * 
+    *
     * @param g
     *           Graphics to use to draw the pause screen
     */
@@ -508,7 +507,7 @@ public abstract class JHelpApplet
 
    /**
     * Launch an animation for a sprite
-    * 
+    *
     * @param animation
     *           Animation to play
     * @param sprite
@@ -525,7 +524,7 @@ public abstract class JHelpApplet
     * Action when focus changed <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param e
     *           Focus event description
     * @see java.awt.Component#processFocusEvent(java.awt.event.FocusEvent)
@@ -554,7 +553,7 @@ public abstract class JHelpApplet
     * Action when key event happen <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param e
     *           Key event description
     * @see java.awt.Component#processKeyEvent(java.awt.event.KeyEvent)
@@ -623,7 +622,7 @@ public abstract class JHelpApplet
     * Action when mouse event happen <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param e
     *           Mouse event description
     * @see java.awt.Component#processMouseEvent(java.awt.event.MouseEvent)
@@ -638,7 +637,7 @@ public abstract class JHelpApplet
     * Action when mouse motion event happen <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param e
     *           Mouse motion event description
     * @see java.awt.Component#processMouseMotionEvent(java.awt.event.MouseEvent)
@@ -653,7 +652,7 @@ public abstract class JHelpApplet
     * Action when mouse wheel event happen <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param e
     *           Mouse wheel event description
     * @see java.awt.Component#processMouseWheelEvent(java.awt.event.MouseWheelEvent)
@@ -669,7 +668,7 @@ public abstract class JHelpApplet
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @see java.applet.Applet#destroy()
     */
    @Override
@@ -705,7 +704,7 @@ public abstract class JHelpApplet
 
    /**
     * List of actual stored values
-    * 
+    *
     * @return List of actual stored values
     */
    public final EnumerationIterator<String> getCookieInformationKeys()
@@ -715,7 +714,7 @@ public abstract class JHelpApplet
 
    /**
     * Obtain the linked frame
-    * 
+    *
     * @return The linked frame
     */
    public final Frame getFrame()
@@ -748,7 +747,7 @@ public abstract class JHelpApplet
 
    /**
     * Obtain a boolean parameter
-    * 
+    *
     * @param key
     *           Parameter key
     * @param defaultValue
@@ -779,7 +778,7 @@ public abstract class JHelpApplet
 
    /**
     * Obtain an integer parameter
-    * 
+    *
     * @param key
     *           Parameter key
     * @param defaultValue
@@ -807,7 +806,7 @@ public abstract class JHelpApplet
 
    /**
     * Obtain a String parameter
-    * 
+    *
     * @param key
     *           Parameter key
     * @param defaultValue
@@ -831,7 +830,7 @@ public abstract class JHelpApplet
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @see java.applet.Applet#init()
     */
    @Override
@@ -864,7 +863,7 @@ public abstract class JHelpApplet
 
    /**
     * Obtain a cookie information
-    * 
+    *
     * @param informationKey
     *           Information key
     * @return Information value or {@code null} if key dosen't exists
@@ -876,7 +875,7 @@ public abstract class JHelpApplet
 
    /**
     * Obtain a boolean cookie information
-    * 
+    *
     * @param informationKey
     *           Information key
     * @param defaultValue
@@ -904,7 +903,7 @@ public abstract class JHelpApplet
 
    /**
     * Obtain a int cookie information
-    * 
+    *
     * @param informationKey
     *           Information key
     * @param defaultValue
@@ -934,7 +933,7 @@ public abstract class JHelpApplet
 
    /**
     * Obtain a String cookie information
-    * 
+    *
     * @param informationKey
     *           Information key
     * @param defaultValue
@@ -955,31 +954,31 @@ public abstract class JHelpApplet
       return defaultValue;
    }
 
-   /**
-    * Obtain a byte array cookie information
-    * 
-    * @param informationKey
-    *           Information key
-    * @return Stored byte array or {@code null} if information not exists
-    */
-   public final byte[] obtainCookieInformationByteArray(final String informationKey)
-   {
-      final String information = this.obtainCookieInformation(informationKey);
-
-      if(information == null)
-      {
-         return null;
-      }
-
-      return JHelpBase.decode(information);
-   }
+   // /**
+   // * Obtain a byte array cookie information
+   // *
+   // * @param informationKey
+   // * Information key
+   // * @return Stored byte array or {@code null} if information not exists
+   // */
+   // public final byte[] obtainCookieInformationByteArray(final String informationKey)
+   // {
+   // final String information = this.obtainCookieInformation(informationKey);
+   //
+   // if(information == null)
+   // {
+   // return null;
+   // }
+   //
+   // return JHelpBase.decode(information);
+   // }
 
    /**
     * Draw the applet <br>
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param g
     *           Graphics environment
     * @see java.awt.Container#paint(java.awt.Graphics)
@@ -997,7 +996,7 @@ public abstract class JHelpApplet
 
    /**
     * Change/create a boolean cookie information
-    * 
+    *
     * @param informationKey
     *           Information key
     * @param information
@@ -1008,22 +1007,22 @@ public abstract class JHelpApplet
       this.putCookieInformation(informationKey, String.valueOf(information));
    }
 
-   /**
-    * Change/create a byte array cookie information
-    * 
-    * @param informationKey
-    *           Information key
-    * @param information
-    *           Information value
-    */
-   public final void putCookieInformation(final String informationKey, final byte[] information)
-   {
-      this.putCookieInformation(informationKey, JHelpBase.encode(information));
-   }
+   // /**
+   // * Change/create a byte array cookie information
+   // *
+   // * @param informationKey
+   // * Information key
+   // * @param information
+   // * Information value
+   // */
+   // public final void putCookieInformation(final String informationKey, final byte[] information)
+   // {
+   // this.putCookieInformation(informationKey, JHelpBase.encode(information));
+   // }
 
    /**
     * Change/create a int cookie information
-    * 
+    *
     * @param informationKey
     *           Information key
     * @param information
@@ -1036,7 +1035,7 @@ public abstract class JHelpApplet
 
    /**
     * Change/create a String cookie information
-    * 
+    *
     * @param informationKey
     *           Information key
     * @param information
@@ -1051,7 +1050,7 @@ public abstract class JHelpApplet
 
    /**
     * Remove a cookie information
-    * 
+    *
     * @param informationKey
     *           Information key to remove
     */
@@ -1066,7 +1065,7 @@ public abstract class JHelpApplet
     * Call when applet resized <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param width
     *           New width
     * @param height
@@ -1093,7 +1092,7 @@ public abstract class JHelpApplet
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param g
     *           Graphics environment
     * @see java.awt.Container#update(java.awt.Graphics)

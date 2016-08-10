@@ -16,8 +16,13 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JEditorPane;
 import javax.swing.event.DocumentEvent;
@@ -33,7 +38,10 @@ import javax.swing.text.StyledEditorKit;
 import jhelp.gui.lineNumber.LineNumberEditorKit;
 import jhelp.gui.lineNumber.LineNumberParagraphView;
 import jhelp.util.gui.JHelpFont;
+import jhelp.util.list.Pair;
+import jhelp.util.list.SortedArray;
 import jhelp.util.math.UtilMath;
+import jhelp.util.text.UtilText;
 import jhelp.util.thread.ThreadManager;
 import jhelp.util.thread.ThreadedSimpleTask;
 import jhelp.util.thread.ThreadedVerySimpleTask;
@@ -320,76 +328,214 @@ public class JHelpAutoStyledTextArea
       @Override
       protected void doVerySimpleAction()
       {
-         final StringTokenizer stringTokenizer = new StringTokenizer(JHelpAutoStyledTextArea.this.getText(), JHelpAutoStyledTextArea.CUT_STRINGS, true);
-         int start = 0;
-         int end;
+         final String text = JHelpAutoStyledTextArea.this.getText();
+         final StyleAreaList styleAreaList = new StyleAreaList();
          String styleName;
-         Style style;
-         String word;
-         char car;
-         boolean lineReturn;
+         Matcher matcher;
 
-         while(stringTokenizer.hasMoreElements() == true)
+         // Get default style
+         styleName = JHelpAutoStyledTextArea.this.defaultStyle;
+
+         if(styleName == null)
          {
-            lineReturn = false;
+            styleName = JHelpAutoStyledTextArea.DEFAULT_STYLE;
+         }
 
-            word = stringTokenizer.nextToken();
-            end = start + word.length();
-            styleName = JHelpAutoStyledTextArea.this.defaultStyle;
+         final Style defaultStyle = JHelpAutoStyledTextArea.this.autoStyledDocument.getStyle(styleName);
 
-            if(word.length() == 1)
+         // Compute symbols areas, if the symbol style is not the default one
+         if((JHelpAutoStyledTextArea.this.symbolStyle != null) && (styleName.equals(JHelpAutoStyledTextArea.this.symbolStyle) == false))
+         {
+            int index = UtilText.indexOf(text, JHelpAutoStyledTextArea.SYMBOLS);
+
+            while(index >= 0)
             {
-               car = word.charAt(0);
+               styleAreaList.addArea(index, index + 1, JHelpAutoStyledTextArea.this.symbolStyle);
+               index = UtilText.indexOf(text, index + 1, JHelpAutoStyledTextArea.SYMBOLS);
+            }
+         }
 
-               if(JHelpAutoStyledTextArea.isSymbol(car) == true)
-               {
-                  styleName = JHelpAutoStyledTextArea.this.symbolStyle;
+         // Compute regular expressions areas
+         for(final HashMap.Entry<String, List<Pair<Pattern, Integer>>> entry : JHelpAutoStyledTextArea.this.associatedStyle.entrySet())
+         {
+            styleName = entry.getKey();
 
-                  if(styleName == null)
-                  {
-                     styleName = JHelpAutoStyledTextArea.this.defaultStyle;
-                  }
-               }
-               else if(car == '\n')
-               {
-                  lineReturn = true;
-               }
-               else
-               {
-                  styleName = JHelpAutoStyledTextArea.this.associatedStyle.get(word);
+            for(final Pair<Pattern, Integer> pattern : entry.getValue())
+            {
+               matcher = pattern.element1.matcher(text);
 
-                  if(styleName == null)
-                  {
-                     styleName = JHelpAutoStyledTextArea.this.defaultStyle;
-                  }
+               while(matcher.find() == true)
+               {
+                  styleAreaList.addArea(matcher.start(pattern.element2), matcher.end(pattern.element2), styleName);
                }
             }
-            else
-            {
-               styleName = JHelpAutoStyledTextArea.this.associatedStyle.get(word);
+         }
 
-               if(styleName == null)
-               {
-                  styleName = JHelpAutoStyledTextArea.this.defaultStyle;
-               }
+         // Aplly style on area
+         int start = 0;
+
+         for(final StyleArea styleArea : styleAreaList)
+         {
+            // If there a space without style, thats means it is the default style to use on this space
+            if(start < styleArea.start)
+            {
+               JHelpAutoStyledTextArea.this.autoStyledDocument.setCharacterAttributes(start, styleArea.start - start, defaultStyle, true);
             }
 
-            if(styleName == null)
-            {
-               styleName = JHelpAutoStyledTextArea.DEFAULT_STYLE;
-            }
+            // Apply style to area
+            JHelpAutoStyledTextArea.this.autoStyledDocument.setCharacterAttributes(styleArea.start, styleArea.end - styleArea.start,
+                  JHelpAutoStyledTextArea.this.autoStyledDocument.getStyle(styleArea.styleName), true);
 
-            if(lineReturn == false)
-            {
-               style = JHelpAutoStyledTextArea.this.autoStyledDocument.getStyle(styleName);
-               JHelpAutoStyledTextArea.this.autoStyledDocument.setCharacterAttributes(start, end - start, style, true);
-            }
+            start = styleArea.end;
+         }
 
-            start = end;
+         // If left characters at end without style, they have to use default style
+         if(start < text.length())
+         {
+            JHelpAutoStyledTextArea.this.autoStyledDocument.setCharacterAttributes(start, text.length() - start, defaultStyle, true);
          }
 
          JHelpAutoStyledTextArea.this.invalidate();
          JHelpAutoStyledTextArea.this.repaint();
+      }
+   }
+
+   /**
+    * Area in text where apply a style
+    *
+    * @author JHelp <br>
+    */
+   static class StyleArea
+         implements Comparable<StyleArea>
+   {
+      /** Area text end position */
+      final int    end;
+      /** Area text start position */
+      final int    start;
+      /** Style to apply to area */
+      final String styleName;
+
+      /**
+       * Create a new instance of StyleArea
+       *
+       * @param start
+       *           Area text start position
+       * @param end
+       *           Area text end position
+       * @param styleName
+       *           Style to apply to area
+       */
+      public StyleArea(final int start, final int end, final String styleName)
+      {
+         this.start = start;
+         this.end = end;
+         this.styleName = styleName;
+      }
+
+      /**
+       * Compare with an other area <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       *
+       * @param styleArea
+       *           Area to compare with
+       * @return Comparison result
+       * @see java.lang.Comparable#compareTo(java.lang.Object)
+       */
+      @Override
+      public int compareTo(final StyleArea styleArea)
+      {
+         return this.start - styleArea.start;
+      }
+
+      /**
+       * String representation <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       *
+       * @return String representation
+       * @see java.lang.Object#toString()
+       */
+      @Override
+      public String toString()
+      {
+         return UtilText.concatenate(this.styleName, ":[", this.start, ", ", this.end, ']');
+      }
+   }
+
+   /**
+    * List of area in text where apply a style
+    *
+    * @author JHelp <br>
+    */
+   static class StyleAreaList
+         implements Iterable<StyleArea>
+   {
+      /** List of area */
+      private final SortedArray<StyleArea> list;
+
+      /**
+       * Create a new instance of StyleAreaList
+       */
+      StyleAreaList()
+      {
+         this.list = new SortedArray<StyleArea>(StyleArea.class);
+      }
+
+      /**
+       * Add an area.<br>
+       * If area inside an other present, it will not add.<br>
+       * If area contains a present area, the present area will be remove
+       *
+       * @param start
+       *           Area text start position
+       * @param end
+       *           Area text end position
+       * @param styleName
+       *           Style to apply to area
+       */
+      public void addArea(final int start, final int end, final String styleName)
+      {
+         for(final StyleArea styleArea : this.list)
+         {
+            if((styleArea.start <= start) && (styleArea.end >= end) && ((styleArea.start != start) || (styleArea.end != end)))
+            {
+               // Inside an area, so not add
+               return;
+            }
+         }
+
+         StyleArea styleArea;
+
+         for(int index = this.list.getSize() - 1; index >= 0; index--)
+         {
+            styleArea = this.list.getElement(index);
+
+            if((start <= styleArea.start) && (end >= styleArea.end))
+            {
+               // Contains this area, so eat it
+               this.list.remove(index);
+            }
+         }
+
+         this.list.add(new StyleArea(start, end, styleName));
+      }
+
+      /**
+       * List iterator <br>
+       * <br>
+       * <b>Parent documentation:</b><br>
+       * {@inheritDoc}
+       *
+       * @return List iterator
+       * @see java.lang.Iterable#iterator()
+       */
+      @Override
+      public Iterator<StyleArea> iterator()
+      {
+         return this.list.iterator();
       }
    }
 
@@ -427,47 +573,39 @@ public class JHelpAutoStyledTextArea
    }
 
    /** Word separator list */
-   private static final String CUT_STRINGS      = JHelpAutoStyledTextArea.SYMBOLS + " \n\r\t";
+   // private static final String CUT_STRINGS = JHelpAutoStyledTextArea.SYMBOLS + " \n\r\t";
 
    /**
     *
     */
-   private static final long   serialVersionUID = -6141838702983157203L;
+   private static final long                     serialVersionUID = -6141838702983157203L;
 
    /** Symbols list */
-   private static final String SYMBOLS          = "[](){}&|\"'-@=/\\*+.,?;:!<>";
+   static final char[]                           SYMBOLS          =
+   {
+         '[', ']', '(', ')', '{', '}', '&', '|', '\\', '"', '\'', '-', '@', '=', '/', '*', '+', '.', ',', '?', ';', ':', '!', '<', '>'
+   };
 
    /** Default name of default style */
-   public static final String  DEFAULT_STYLE    = "jhelp.DEFAULT_STYLE";
-
-   /**
-    * Indicates if a character is symbol
-    *
-    * @param character
-    *           Tested character
-    * @return {@code true} if it is symbol
-    */
-   static boolean isSymbol(final char character)
-   {
-      return JHelpAutoStyledTextArea.SYMBOLS.indexOf(character) >= 0;
-   }
+   public static final String                    DEFAULT_STYLE    = "jhelp.DEFAULT_STYLE";
 
    /** Editor kit linked */
-   private final StyledEditorKit      autoStyledEditorKit;
+   private final StyledEditorKit                 autoStyledEditorKit;
    /** Event manager */
-   private final EventManager         eventManager;
+   private final EventManager                    eventManager;
    /** Task for restore a paragraph */
-   private final TaskRestoreParagraph taskRestoreParagraph;
+   private final TaskRestoreParagraph            taskRestoreParagraph;
    /** Style association map */
-   HashMap<String, String>            associatedStyle;
+   // HashMap<String, String> associatedStyle;
+   HashMap<String, List<Pair<Pattern, Integer>>> associatedStyle;
    /** Document to add style */
-   DefaultStyledDocument              autoStyledDocument;
+   DefaultStyledDocument                         autoStyledDocument;
    /** Default style name */
-   String                             defaultStyle;
+   String                                        defaultStyle;
    /** Automatic refresh */
-   RefreshFormat                      refreshFormat;
+   RefreshFormat                                 refreshFormat;
    /** Symbol style name */
-   String                             symbolStyle;
+   String                                        symbolStyle;
 
    /**
     * Constructs JHelpAutoStyledTextArea
@@ -479,7 +617,7 @@ public class JHelpAutoStyledTextArea
       this.autoStyledDocument = (DefaultStyledDocument) this.getDocument();
       this.createStyle(JHelpAutoStyledTextArea.DEFAULT_STYLE, "Arial", 12, false, false, false, Color.BLACK, Color.WHITE);
 
-      this.associatedStyle = new HashMap<String, String>();
+      this.associatedStyle = new HashMap<String, List<Pair<Pattern, Integer>>>();// new HashMap<String, String>();
       this.defaultStyle = JHelpAutoStyledTextArea.DEFAULT_STYLE;
       this.symbolStyle = JHelpAutoStyledTextArea.DEFAULT_STYLE;
       this.taskRestoreParagraph = new TaskRestoreParagraph();
@@ -622,6 +760,41 @@ public class JHelpAutoStyledTextArea
    }
 
    /**
+    * Associate a pattern to a style
+    *
+    * @param styleName
+    *           Style name
+    * @param pattern
+    *           Pattern to associate
+    * @param group
+    *           Group number to apply style in given pattern (For all String use 0), see {@link Pattern} documentation about
+    *           capturing group. You can see also the code of {@link #associate(String, String...)}
+    */
+   public void associate(final String styleName, final Pattern pattern, final int group)
+   {
+      if(pattern == null)
+      {
+         throw new NullPointerException("pattern musn't be null");
+      }
+
+      final Style style = this.autoStyledDocument.getStyle(styleName);
+      if(style == null)
+      {
+         throw new IllegalArgumentException("The style " + styleName + " doesn't exists !");
+      }
+
+      List<Pair<Pattern, Integer>> patterns = this.associatedStyle.get(styleName);
+
+      if(patterns == null)
+      {
+         patterns = new ArrayList<Pair<Pattern, Integer>>();
+         this.associatedStyle.put(styleName, patterns);
+      }
+
+      patterns.add(new Pair<Pattern, Integer>(pattern, group));
+   }
+
+   /**
     * Associated a style to words
     *
     * @param styleName
@@ -637,9 +810,26 @@ public class JHelpAutoStyledTextArea
          throw new IllegalArgumentException("The style " + styleName + " doesn't exists !");
       }
 
+      List<Pair<Pattern, Integer>> patterns = this.associatedStyle.get(styleName);
+
+      if(patterns == null)
+      {
+         patterns = new ArrayList<Pair<Pattern, Integer>>();
+         this.associatedStyle.put(styleName, patterns);
+      }
+
       for(final String keyWord : keyWords)
       {
-         this.associatedStyle.put(keyWord, styleName);
+         // We want get the word if it is alone, so we have to check if it in middle a word or not.
+         // Thats why we add something before and something after.
+         // But we want apply style on only the second thing between parenthesis : the second group (Remember put
+         // something between parenthesis in regular expression make a capturing group)
+         // So we precise to take care the second group for style
+         patterns.add(new Pair<Pattern, Integer>(
+               Pattern.compile(UtilText.concatenate("([^a-zA-Z0-9_]|^)(", //
+                     Pattern.quote(keyWord), //
+                     ")([^a-zA-Z0-9_]|$)")), //
+               2));
       }
    }
 
@@ -901,7 +1091,7 @@ public class JHelpAutoStyledTextArea
       // Be sure position accurate, and place the caret
       position = UtilMath.limit(position, 0, this.getText().length());
       this.setCaretPosition(position);
-      // The caret is on goo place, but may not visible, so have to scroll to make it visible
+      // The caret is on good place, but may not visible, so have to scroll to make it visible
 
       Point location = this.getCaret().getMagicCaretPosition();
 

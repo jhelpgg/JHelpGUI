@@ -11,6 +11,7 @@
 package jhelp.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -260,8 +261,12 @@ public class JHelpSuggestion<INFORMATION>
    private final EventManager                                       eventManager;
    /** Filter use for change suggestion list */
    private final FilterSuggestionElement<INFORMATION>               filterText;
+   /** Popup height */
+   private int                                                      popupHeight;
    /** Popup menu that carry suggestion list and details */
    private final JPopupMenu                                         popupMenu;
+   /** Popup width */
+   private int                                                      popupWidth;
    /** Suggestion list */
    private final JList<SuggestionElement<INFORMATION>>              suggestionList;
    /** Model of suggestion list */
@@ -275,6 +280,23 @@ public class JHelpSuggestion<INFORMATION>
     */
    public JHelpSuggestion(final JTextComponent attachedComponent)
    {
+      this(attachedComponent, 768, 512, true);
+   }
+
+   /**
+    * Create a new instance of JHelpSuggestion
+    *
+    * @param attachedComponent
+    *           Linked {@link JTextComponent}
+    * @param popupWidth
+    *           Popup width in pixels
+    * @param popupHeight
+    *           Popup height in pixels
+    * @param showDetails
+    *           Indicates if details are show
+    */
+   public JHelpSuggestion(final JTextComponent attachedComponent, final int popupWidth, final int popupHeight, final boolean showDetails)
+   {
       if(attachedComponent == null)
       {
          throw new NullPointerException("attachedComponent musn't be null");
@@ -282,6 +304,8 @@ public class JHelpSuggestion<INFORMATION>
 
       // Initialize
       this.attachedComponent = attachedComponent;
+      this.popupWidth = popupWidth;
+      this.popupHeight = popupHeight;
       this.filterText = new FilterSuggestionElement<INFORMATION>();
       this.suggestionModel = new ListFiterableModel<SuggestionElement<INFORMATION>>();
       this.suggestionModel.setFilter(this.filterText);
@@ -292,11 +316,15 @@ public class JHelpSuggestion<INFORMATION>
       this.suggestionList = new JList<SuggestionElement<INFORMATION>>(this.suggestionModel);
       this.suggestionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
       final JPanel panel = new JPanel(new BorderLayout());
-      this.popupMenu.add(panel);
+      this.popupMenu.add(new JHelpFixedSizePanel(panel, this.popupWidth, this.popupHeight));
       panel.add(new JScrollPane(this.suggestionList), BorderLayout.WEST);
       this.detailsLabel = new JLabel("", SwingConstants.CENTER);
       this.detailsLabel.setFont(JHelpConstantsSmooth.FONT_CAPTION.getFont());
-      panel.add(new JHelpLimitSizePanel(new JScrollPane(this.detailsLabel), 512, 512), BorderLayout.CENTER);
+
+      if(showDetails == true)
+      {
+         panel.add(new JHelpLimitSizePanel(new JScrollPane(this.detailsLabel), (this.popupWidth << 1) / 3, this.popupHeight), BorderLayout.CENTER);
+      }
 
       // Link listeners
       this.attachedComponent.addCaretListener(this.eventManager);
@@ -359,11 +387,6 @@ public class JHelpSuggestion<INFORMATION>
          this.detailsLabel.setText(UtilText.resolveImagesLinkInHTML(details));
       }
 
-      // Trick for resize the popup
-      this.popupMenu.setVisible(false);
-      this.popupMenu.setVisible(true);
-
-      // The visibility must do now (not before) because must be compute when suggestion list have good size
       this.suggestionList.ensureIndexIsVisible(index);
    }
 
@@ -522,11 +545,8 @@ public class JHelpSuggestion<INFORMATION>
          this.filterText.setRegex(regex + ".*", false, false);
          int size = this.suggestionModel.getSize();
 
-         if(size == 1)
+         if(size > 0)
          {
-            // Special case if only one suggestion : check if the word is the suggestion
-            final String word = this.suggestionModel.getElementAt(0).getKeyWord();
-
             if(caretPosition > 0)
             {
                int start = UtilText.lastIndexOf(text, Math.min(caretPosition - 1, text.length() - 1), ' ', '\n', '\t', '\r', '\f') + 1;
@@ -543,10 +563,19 @@ public class JHelpSuggestion<INFORMATION>
                   end = text.length();
                }
 
-               if((start <= end) && (word.equals(text.substring(start, end)) == true))
+               if(start <= end)
                {
-                  // If current word is the suggestion, don't bother the user
-                  size = -1;
+                  final String word = text.substring(start, end);
+
+                  for(int i = 0; i < size; i++)
+                  {
+                     if(this.suggestionModel.getElementAt(i).getKeyWord().equals(word) == true)
+                     {
+                        // If current word is one of suggestion, don't bother the user
+                        size = -1;
+                        break;
+                     }
+                  }
                }
             }
          }
@@ -591,20 +620,17 @@ public class JHelpSuggestion<INFORMATION>
                font = new JHelpFont(this.attachedComponent.getFont(), false);
             }
 
-            // Now we can compute the Y
-            position.y += font.getHeight();
+            final Dimension parentSize = this.attachedComponent.getSize();
+            final int x = Math.max(1, Math.min(position.x, (parentSize.width - this.popupWidth) - 1));
+            int y = position.y + font.getHeight();
 
-            if(this.popupMenu.isShowing() == true)
+            if((y + this.popupHeight) >= (parentSize.height - 1))
             {
-               // If already show, just change the position
-               final Point location = this.attachedComponent.getLocationOnScreen();
-               this.popupMenu.setLocation(position.x + location.x, position.y + location.y);
+               y = Math.max(1, position.y - this.popupHeight);
             }
-            else
-            {
-               // Shows the suggestion list
-               this.popupMenu.show(this.attachedComponent, position.x, position.y);
-            }
+
+            // Shows the suggestion list
+            this.popupMenu.show(this.attachedComponent, x, y);
 
             // Select the first element of suggestion list
             this.selectChoiceIndex(0);
