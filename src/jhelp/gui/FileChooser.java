@@ -72,7 +72,7 @@ public class FileChooser
 
       if(startFile == null)
       {
-         if(load == true)
+         if(load)
          {
             return FileChooser.imageChooser.showOpenFile();
          }
@@ -80,7 +80,7 @@ public class FileChooser
          return FileChooser.imageChooser.showSaveFile();
       }
 
-      if(load == true)
+      if(load)
       {
          return FileChooser.imageChooser.showOpenFile(startFile);
       }
@@ -261,12 +261,12 @@ public class FileChooser
          file = UtilIO.obtainOutsideDirectory();
       }
 
-      if(file.exists() == false)
+      if(!file.exists())
       {
          throw new IllegalArgumentException("file must exists : " + file.getAbsolutePath());
       }
 
-      if(file.isFile() == true)
+      if(file.isFile())
       {
          file = file.getParentFile();
       }
@@ -299,13 +299,13 @@ public class FileChooser
       final String fileName = this.fileDialog.getFile();
       final String directoryName = this.fileDialog.getDirectory();
 
-      if((fileName == null) || (directoryName == null) || (this.fileFilter.isFiltered(fileName) == false))
+      if((fileName == null) || (directoryName == null) || (!this.fileFilter.isFiltered(fileName)))
       {
          return null;
       }
 
       final File file = new File(directoryName, fileName);
-      if(file.exists() == false)
+      if(!file.exists())
       {
          return null;
       }
@@ -341,7 +341,7 @@ public class FileChooser
       final String fileName = this.fileDialog.getFile();
       final String directoryName = this.fileDialog.getDirectory();
 
-      if((fileName == null) || (directoryName == null) || (this.fileFilter.isFiltered(fileName) == false))
+      if((fileName == null) || (directoryName == null) || (!this.fileFilter.isFiltered(fileName)))
       {
          return null;
       }

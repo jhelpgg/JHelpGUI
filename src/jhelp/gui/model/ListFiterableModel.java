@@ -110,7 +110,7 @@ public class ListFiterableModel<ELEMENT>
 
             for(final Element<ELEMENT> element : this.elements)
             {
-               if((this.filter == null) || (this.filter.isFiltered(element.element) == true))
+               if((this.filter == null) || (this.filter.isFiltered(element.element)))
                {
                   element.index = this.size;
                   this.size++;
@@ -232,7 +232,7 @@ public class ListFiterableModel<ELEMENT>
          this.elements.add(elt);
       }
 
-      if((this.filter == null) || (this.filter.isFiltered(element) == true))
+      if((this.filter == null) || (this.filter.isFiltered(element)))
       {
          elt.index = this.size;
          this.size++;
@@ -278,7 +278,7 @@ public class ListFiterableModel<ELEMENT>
             elt = new Element<ELEMENT>(element);
             this.elements.add(elt);
 
-            if((this.filter == null) || (this.filter.isFiltered(element) == true))
+            if((this.filter == null) || (this.filter.isFiltered(element)))
             {
                elt.index = this.size;
                min = Math.min(min, this.size);
@@ -329,7 +329,7 @@ public class ListFiterableModel<ELEMENT>
 
       synchronized(this.listeners)
       {
-         if(this.listeners.contains(listener) == false)
+         if(!this.listeners.contains(listener))
          {
             this.listeners.add(listener);
          }
@@ -432,7 +432,7 @@ public class ListFiterableModel<ELEMENT>
 
          for(int i = this.elements.size() - 1; i >= 0; i--)
          {
-            if(this.equals(element, this.elements.get(i).element) == true)
+            if(this.equals(element, this.elements.get(i).element))
             {
                index = i;
                break;

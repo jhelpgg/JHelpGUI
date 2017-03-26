@@ -104,7 +104,7 @@ public class FrameSample1
    {
       return new JHelpFoldable2D(JHelpLabelImage2D.createTextLabel(
             UtilText.replaceHole("This is the {0} of the border layout.\nThis text can be hide or show\nby click on yellow bar", nature), FrameSample1.FONT,
-            0xFF000000, 0xFFFFFFFF, JHelpTextAlign.CENTER), new FoldingAreaTitle(0xFF0000FF, horizontal == true
+            0xFF000000, 0xFFFFFFFF, JHelpTextAlign.CENTER), new FoldingAreaTitle(0xFF0000FF, horizontal
             ? JHelpFoldable2D.DEFAULT_PAINT_HORIZONTAL
             : JHelpFoldable2D.DEFAULT_PAINT_VERTICAL, title, FrameSample1.FONT_FOLD, 0xFF000000, null), foldingAreaPosition);
    }

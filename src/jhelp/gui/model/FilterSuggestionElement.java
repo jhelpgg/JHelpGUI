@@ -89,12 +89,12 @@ public class FilterSuggestionElement<INFORMATION>
 
       String string = suggestion.getKeyWord();
 
-      if(this.caseSensitive == false)
+      if(!this.caseSensitive)
       {
          string = string.toLowerCase();
       }
 
-      if(this.accentSensitive == false)
+      if(!this.accentSensitive)
       {
          string = UtilText.removeAccent(string);
       }
@@ -122,7 +122,7 @@ public class FilterSuggestionElement<INFORMATION>
 
       synchronized(this.listeners)
       {
-         if(this.listeners.contains(listener) == false)
+         if(!this.listeners.contains(listener))
          {
             this.listeners.add(listener);
          }

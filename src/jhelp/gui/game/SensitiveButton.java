@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui.game;
@@ -22,12 +22,12 @@ import jhelp.gui.action.GenericAction;
 import jhelp.util.gui.JHelpFont;
 import jhelp.util.gui.JHelpImage;
 import jhelp.util.gui.JHelpTextAlign;
-import jhelp.util.gui.JHelpTextLine;
+import jhelp.util.gui.JHelpTextLineAlpha;
 import jhelp.util.list.Pair;
 
 /**
  * Sensitive button
- * 
+ *
  * @author JHelp
  */
 public class SensitiveButton
@@ -45,7 +45,7 @@ public class SensitiveButton
 
    /**
     * Compute button image
-    * 
+    *
     * @param genericAction
     *           Action played when button click
     * @param font
@@ -69,7 +69,8 @@ public class SensitiveButton
 
          if(image == null)
          {
-            final Pair<List<JHelpTextLine>, Dimension> textLines = font.computeTextLines(genericAction.getPrintName(), JHelpTextAlign.CENTER);
+            final Pair<List<JHelpTextLineAlpha>, Dimension> textLines = font.computeTextLinesAlpha(genericAction.getPrintName(), JHelpTextAlign.CENTER,
+                  Integer.MAX_VALUE, Integer.MAX_VALUE, true);
             final int insideWidth = textLines.element2.width;
             final int insideHeight = textLines.element2.height;
             final Dimension dimension = buttonShape.computeShapeTotalSize(insideWidth, insideHeight);
@@ -79,9 +80,9 @@ public class SensitiveButton
 
             buttonShape.fill(0, 0, dimension.width, dimension.height, background, image);
 
-            for(final JHelpTextLine textLine : textLines.element1)
+            for(final JHelpTextLineAlpha textLine : textLines.element1)
             {
-               image.paintMask(position.x + textLine.getX(), position.y + textLine.getY(), textLine.getMask(), foreground, 0, true);
+               image.drawImage(position.x + textLine.getX(), position.y + textLine.getY(), textLine.getMask(), true);
             }
 
             image.endDrawMode();
@@ -100,7 +101,7 @@ public class SensitiveButton
 
    /**
     * Create a new instance of SensitiveButton
-    * 
+    *
     * @param gameDynamic
     *           Game dynamic parent
     * @param x
@@ -139,7 +140,7 @@ public class SensitiveButton
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param enable
     *           New enable state
     * @see jhelp.gui.game.SensitiveElement#enableChanged(boolean)
@@ -155,7 +156,7 @@ public class SensitiveButton
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param parent
     *           Animation parent
     * @see jhelp.gui.game.SensitiveElement#mouseClick(jhelp.gui.game.SensitiveAnimation)
@@ -171,7 +172,7 @@ public class SensitiveButton
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param parent
     *           Animation parent
     * @see jhelp.gui.game.SensitiveElement#mouseEnter(jhelp.gui.game.SensitiveAnimation)
@@ -187,7 +188,7 @@ public class SensitiveButton
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param parent
     *           Animation parent
     * @see jhelp.gui.game.SensitiveElement#mouseExit(jhelp.gui.game.SensitiveAnimation)
@@ -200,7 +201,7 @@ public class SensitiveButton
 
    /**
     * Cursor when mouse over
-    * 
+    *
     * @return Cursor when mouse over
     */
    public Cursor getCursor()
@@ -213,7 +214,7 @@ public class SensitiveButton
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param propertyChangeEvent
     *           Event description
     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
@@ -226,7 +227,7 @@ public class SensitiveButton
 
    /**
     * Change cursor over the button
-    * 
+    *
     * @param cursor
     *           New cursor
     */

@@ -262,7 +262,7 @@ public class ResourcesKeyMapper
             {
                inputStream.close();
             }
-            catch(final Exception exception)
+            catch(final Exception ignored)
             {
             }
          }

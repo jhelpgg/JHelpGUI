@@ -250,7 +250,7 @@ public class JHelpScrollPaneSmooth
       final int y = mouseInformation.getMouseY();
       final JHelpComponentSmooth delegate = this.component.obtainComponentUnder(x, y, mouseInformation.isRightDown());
       Rectangle bounds;
-      final boolean scroll = (this.scroolWithRightButtonOnly == false) || (mouseInformation.isRightDown() == true);
+      final boolean scroll = (!this.scroolWithRightButtonOnly) || (mouseInformation.isRightDown());
 
       // Manage here a consistent enter/exit report
       if(this.lastDelegate != delegate)
@@ -306,7 +306,7 @@ public class JHelpScrollPaneSmooth
             this.startX = mouseInformation.getMouseX();
             this.startY = mouseInformation.getMouseY();
 
-            if(scroll == true)
+            if(scroll)
             {
                // We consume the event, because report press and scroll in same time is inconsistent
                return;
@@ -315,7 +315,7 @@ public class JHelpScrollPaneSmooth
          break;
          case MouseEvent.MOUSE_DRAGGED:
          case MouseEvent.MOUSE_RELEASED:
-            if(scroll == true)
+            if(scroll)
             {
                this.dx += this.startX - mouseInformation.getMouseX();
                this.dy += this.startY - mouseInformation.getMouseY();
@@ -324,7 +324,7 @@ public class JHelpScrollPaneSmooth
             this.startX = mouseInformation.getMouseX();
             this.startY = mouseInformation.getMouseY();
 
-            if(scroll == true)
+            if(scroll)
             {
                // We consume the event, because report drag/release and scroll in same time is inconsistent
                return;
@@ -460,12 +460,12 @@ public class JHelpScrollPaneSmooth
    @Override
    public JHelpComponentSmooth obtainComponentUnder(final int x, final int y, final boolean rightButton)
    {
-      if((rightButton == true) || (this.scroolWithRightButtonOnly == false))
+      if((rightButton) || (!this.scroolWithRightButtonOnly))
       {
          return super.obtainComponentUnder(x, y, rightButton);
       }
 
-      return this.component.obtainComponentUnder(x, y, rightButton);
+      return this.component.obtainComponentUnder(x, y, false);
    }
 
    /**

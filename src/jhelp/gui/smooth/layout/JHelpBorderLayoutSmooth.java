@@ -65,6 +65,7 @@ public class JHelpBorderLayoutSmooth
     * @return Container preferred size
     * @see jhelp.gui.smooth.layout.JHelpLayoutSmooth#computePreferredSize(jhelp.gui.smooth.JHelpPanelSmooth)
     */
+   @SuppressWarnings("ConstantConditions")
    @Override
    public Dimension computePreferredSize(final JHelpPanelSmooth container)
    {
@@ -95,7 +96,7 @@ public class JHelpBorderLayoutSmooth
       {
          pair = container.getChildAndConstraints(index);
 
-         if(pair.element1.isVisible() == true)
+         if(pair.element1.isVisible())
          {
             preferred = pair.element1.getPreferredSize();
             borderConstraints = (JHelpBorderConstraintsSmooth) pair.element2;
@@ -180,6 +181,7 @@ public class JHelpBorderLayoutSmooth
     * @return Suggested bounds
     * @see jhelp.gui.smooth.layout.JHelpLayoutSmooth#layoutComponents(jhelp.gui.smooth.JHelpPanelSmooth, int, int, int, int)
     */
+   @SuppressWarnings("ConstantConditions")
    @Override
    public Rectangle layoutComponents(final JHelpPanelSmooth container, final int x, final int y, final int parentWidth, final int parentHeight)
    {
@@ -205,7 +207,7 @@ public class JHelpBorderLayoutSmooth
       {
          pair = container.getChildAndConstraints(index);
 
-         if(pair.element1.isVisible() == true)
+         if(pair.element1.isVisible())
          {
             preferred = pair.element1.getPreferredSize();
             borderConstraints = (JHelpBorderConstraintsSmooth) pair.element2;
@@ -273,7 +275,7 @@ public class JHelpBorderLayoutSmooth
       {
          pair = container.getChildAndConstraints(index);
 
-         if(pair.element1.isVisible() == true)
+         if(pair.element1.isVisible())
          {
             preferred = pair.element1.getPreferredSize();
             borderConstraints = (JHelpBorderConstraintsSmooth) pair.element2;

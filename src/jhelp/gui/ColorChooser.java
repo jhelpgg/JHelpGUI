@@ -721,7 +721,7 @@ public class ColorChooser
 
       synchronized(this.colorChooserListeners)
       {
-         if(this.colorChooserListeners.contains(colorChooserListener) == false)
+         if(!this.colorChooserListeners.contains(colorChooserListener))
          {
             this.colorChooserListeners.add(colorChooserListener);
          }

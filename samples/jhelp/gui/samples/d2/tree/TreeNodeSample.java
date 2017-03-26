@@ -22,11 +22,11 @@ public class TreeNodeSample
    /** Next trre node ID */
    private static final AtomicInteger NEXT_ID = new AtomicInteger(0);
    /** Indicates if node is exapnd */
-   private boolean                    expand;
+   private       boolean expand;
    /** Node ID */
-   private int                        id;
+   private final int     id;
    /** Carry message */
-   private final String               message;
+   private final String  message;
 
    /**
     * Create a new instance of TreeNodeSample

@@ -74,7 +74,7 @@ public class JHelpHorizontalLayoutSmooth
       {
          componentSmooth = container.getChild(i);
 
-         if(componentSmooth.isVisible() == true)
+         if(componentSmooth.isVisible())
          {
             preferred = componentSmooth.getPreferredSize();
             width += preferred.width;
@@ -120,7 +120,7 @@ public class JHelpHorizontalLayoutSmooth
          pair = container.getChildAndConstraints(i);
          componentSmooth = pair.element1;
 
-         if(componentSmooth.isVisible() == true)
+         if(componentSmooth.isVisible())
          {
             constraintsSmooth = (JHelpHorizontalConstraintsSmooth) pair.element2;
             preferred = componentSmooth.getPreferredSize();

@@ -51,7 +51,7 @@ public class LabelBufferedImage
 
          try
          {
-            if((LabelBufferedImage.this.gif != null) && (LabelBufferedImage.this.gif.isUsable() == true))
+            if((LabelBufferedImage.this.gif != null) && (LabelBufferedImage.this.gif.isUsable()))
             {
                LabelBufferedImage.this.index = (LabelBufferedImage.this.index + 1) % LabelBufferedImage.this.gif.numberOfImage();
 

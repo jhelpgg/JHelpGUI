@@ -73,7 +73,7 @@ public class WaitingGlassPane
             WaitingGlassPane.this.ready = false;
             WaitingGlassPane.this.repaint();
 
-            while(WaitingGlassPane.this.ready == false)
+            while(!WaitingGlassPane.this.ready)
             {
                Utilities.sleep(10);
             }
@@ -110,7 +110,7 @@ public class WaitingGlassPane
    /** Synchronization lock */
    private final ReentrantLock lock;
    /** Animation images */
-   ArrayList<JHelpImage>       arrayListWaitingImage;
+   final         ArrayList<JHelpImage>       arrayListWaitingImage;
    /** Actual refresh FPS */
    int                         fps;
    /** Animation index */
@@ -204,7 +204,7 @@ public class WaitingGlassPane
       g.setColor(WaitingGlassPane.GRAY);
       g.fillRect(0, 0, width, height);
 
-      if(this.arrayListWaitingImage.isEmpty() == true)
+      if(this.arrayListWaitingImage.isEmpty())
       {
          this.ready = true;
 

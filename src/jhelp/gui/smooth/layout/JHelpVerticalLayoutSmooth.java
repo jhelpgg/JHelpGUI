@@ -74,7 +74,7 @@ public class JHelpVerticalLayoutSmooth
       {
          componentSmooth = container.getChild(i);
 
-         if(componentSmooth.isVisible() == true)
+         if(componentSmooth.isVisible())
          {
             preferred = componentSmooth.getPreferredSize();
             width = Math.max(width, preferred.width);
@@ -120,7 +120,7 @@ public class JHelpVerticalLayoutSmooth
          pair = container.getChildAndConstraints(i);
          componentSmooth = pair.element1;
 
-         if(componentSmooth.isVisible() == true)
+         if(componentSmooth.isVisible())
          {
             constraintsSmooth = (JHelpVerticalConstraintsSmooth) pair.element2;
             preferred = componentSmooth.getPreferredSize();

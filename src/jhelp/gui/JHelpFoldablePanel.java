@@ -223,7 +223,7 @@ public final class JHelpFoldablePanel
     */
    public boolean isFold()
    {
-      return this.foldComponent.isVisible() == false;
+      return !this.foldComponent.isVisible();
    }
 
    /**
@@ -281,8 +281,8 @@ public final class JHelpFoldablePanel
     */
    public void toggleFold()
    {
-      this.foldComponent.setVisible(this.foldComponent.isVisible() == false);
-      this.foldingBarComponent.setFold(this.foldComponent.isVisible() == false);
+      this.foldComponent.setVisible(!this.foldComponent.isVisible());
+      this.foldingBarComponent.setFold(!this.foldComponent.isVisible());
    }
 
    /**

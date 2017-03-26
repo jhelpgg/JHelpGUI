@@ -123,7 +123,7 @@ public class JHelpFileExplorerModel
                return image;
             }
          }
-         catch(final Exception exception)
+         catch(final Exception ignored)
          {
          }
 
@@ -134,9 +134,11 @@ public class JHelpFileExplorerModel
    /** List cell size */
    private static final Dimension                                  CELL_SIZE;
    /** Map of created images */
-   private static final LimitedWeightHashMapTime<File, JHelpImage> CREATED_IMAGES = new LimitedWeightHashMapTime<File, JHelpImage>(128l * 1024l * 1024l);
+   private static final LimitedWeightHashMapTime<File, JHelpImage> CREATED_IMAGES = new LimitedWeightHashMapTime<File, JHelpImage>(
+
+           128L * 1024L * 1024L);
    /** Preview for directories */
-   private static PreviewElement                                   DIRECTORY      = new PreviewElement("directory.png");
+   private static final PreviewElement                             DIRECTORY      = new PreviewElement("directory.png");
    /** Image filter, to know if a file is an image */
    private static final FileFilter                                 FILTER_IMAGES;
    /** Sound filter, to know if a file is a sound */
@@ -144,19 +146,19 @@ public class JHelpFileExplorerModel
    /** Font to use */
    private static final JHelpFont                                  FONT;
    /** Foreground color */
-   private static final int                                        FOREGROUND     = 0xFF000000;
+   private static final int            FOREGROUND = 0xFF000000;
    /** Prview for music/sound file */
-   private static PreviewElement                                   MUSIC          = new PreviewElement("music.png");
+   private static final PreviewElement MUSIC      = new PreviewElement("music.png");
    /** Text width */
    private static final int                                        TEXT_WIDTH;
    /** Limiter of text width */
    private static final TextCutter                                 WIDTH_LIMITER;
    /** Preview defualt for files */
-   static PreviewElement                                           FILE           = new PreviewElement("file.png");
+   static final PreviewElement    FILE     = new PreviewElement("file.png");
    /** Go parent special fime */
-   static final File                                               PARENT         = new File("..");
+   static final File              PARENT   = new File("..");
    /** Previews cache */
-   static final Cache<JHelpImage>                                  PREVIEWS       = new Cache<JHelpImage>();
+   static final Cache<JHelpImage> PREVIEWS = new Cache<JHelpImage>();
    /** Resources to use */
    static Resources                                                resources;
 
@@ -192,11 +194,11 @@ public class JHelpFileExplorerModel
          return JHelpFileExplorerModel.PREVIEWS.get("directory.png", JHelpFileExplorerModel.DIRECTORY);
       }
 
-      if(JHelpFileExplorerModel.FILTER_IMAGES.accept(file) == false)
+      if(!JHelpFileExplorerModel.FILTER_IMAGES.accept(file))
       {
-         if(JHelpFileExplorerModel.FILTER_SOUNDS.accept(file) == false)
+         if(!JHelpFileExplorerModel.FILTER_SOUNDS.accept(file))
          {
-            if(file.isDirectory() == true)
+            if(file.isDirectory())
             {
                return JHelpFileExplorerModel.PREVIEWS.get("directory.png", JHelpFileExplorerModel.DIRECTORY);
             }
@@ -283,7 +285,7 @@ public class JHelpFileExplorerModel
     */
    public JHelpFileExplorerModel(final File directory, final FileFilter filter)
    {
-      if((directory != null) && (directory.isDirectory() == false))
+      if((directory != null) && (!directory.isDirectory()))
       {
          this.directory = directory.getParentFile();
       }
@@ -480,7 +482,7 @@ public class JHelpFileExplorerModel
       }
 
       Arrays.sort(files, ComparatorFile.COMPARATOR_FILE);
-      if((this.directory != null) && ((this.fileFilter == null) || (this.fileFilter.isAcceptDirectory() == true)))
+      if((this.directory != null) && ((this.fileFilter == null) || (this.fileFilter.isAcceptDirectory())))
       {
          final File[] temp = new File[files.length + 1];
          System.arraycopy(files, 0, temp, 1, files.length);
@@ -500,7 +502,7 @@ public class JHelpFileExplorerModel
     */
    public void setDirectory(final File directory)
    {
-      if((directory != null) && (directory.isDirectory() == false))
+      if((directory != null) && (!directory.isDirectory()))
       {
          this.directory = directory.getParentFile();
       }

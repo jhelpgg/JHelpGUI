@@ -76,7 +76,7 @@ public class JHelpFileChooser2D
       @Override
       public void run()
       {
-         while(this.alive == true)
+         while(this.alive)
          {
             File file = null;
 
@@ -95,7 +95,7 @@ public class JHelpFileChooser2D
 
             synchronized(JHelpFileChooser2D.LOCK)
             {
-               while((this.nextFile == null) && (this.alive == true))
+               while((this.nextFile == null) && (this.alive))
                {
                   synchronized(JHelpFileChooser2D.LOCK)
                   {
@@ -105,7 +105,7 @@ public class JHelpFileChooser2D
                      {
                         JHelpFileChooser2D.LOCK.wait();
                      }
-                     catch(final Exception exception)
+                     catch(final Exception ignored)
                      {
                      }
 
@@ -128,12 +128,12 @@ public class JHelpFileChooser2D
          {
             this.nextFile = file;
 
-            if(this.alive == false)
+            if(!this.alive)
             {
                this.alive = true;
                this.start();
             }
-            else if(this.waiting == true)
+            else if(this.waiting)
             {
                JHelpFileChooser2D.LOCK.notify();
             }
@@ -148,7 +148,7 @@ public class JHelpFileChooser2D
          synchronized(JHelpFileChooser2D.LOCK)
          {
             this.alive = false;
-            if(this.waiting == true)
+            if(this.waiting)
             {
                JHelpFileChooser2D.LOCK.notify();
             }
@@ -192,7 +192,7 @@ public class JHelpFileChooser2D
       @Override
       public void run()
       {
-         while(this.alive == true)
+         while(this.alive)
          {
             File file = null;
 
@@ -222,7 +222,7 @@ public class JHelpFileChooser2D
             {
                final long lastTime = System.currentTimeMillis();
 
-               while((this.nextFile == null) && (this.alive == true))
+               while((this.nextFile == null) && (this.alive))
                {
                   synchronized(JHelpFileChooser2D.LOCK_SOUND)
                   {
@@ -232,7 +232,7 @@ public class JHelpFileChooser2D
                      {
                         JHelpFileChooser2D.LOCK_SOUND.wait();
                      }
-                     catch(final Exception exception)
+                     catch(final Exception ignored)
                      {
                      }
 
@@ -257,7 +257,7 @@ public class JHelpFileChooser2D
                      {
                         JHelpFileChooser2D.LOCK_SOUND.wait(512);
                      }
-                     catch(final Exception exception)
+                     catch(final Exception ignored)
                      {
                      }
 
@@ -287,12 +287,12 @@ public class JHelpFileChooser2D
          {
             this.nextFile = file;
 
-            if(this.alive == false)
+            if(!this.alive)
             {
                this.alive = true;
                this.start();
             }
-            else if(this.waiting == true)
+            else if(this.waiting)
             {
                JHelpFileChooser2D.LOCK_SOUND.notify();
             }
@@ -307,7 +307,7 @@ public class JHelpFileChooser2D
          synchronized(JHelpFileChooser2D.LOCK_SOUND)
          {
             this.alive = false;
-            if(this.waiting == true)
+            if(this.waiting)
             {
                JHelpFileChooser2D.LOCK_SOUND.notify();
             }
@@ -376,7 +376,7 @@ public class JHelpFileChooser2D
                                                                                                                           protected void doSimpleAction(
                                                                                                                                 final Triplet<Boolean, JHelpFileChooser2DListener, File> parameter)
                                                                                                                           {
-                                                                                                                             if(parameter.element1 == true)
+                                                                                                                             if(parameter.element1)
                                                                                                                              {
                                                                                                                                 parameter.element2.fileChoose(parameter.element3);
                                                                                                                              }
@@ -486,7 +486,7 @@ public class JHelpFileChooser2D
 
       synchronized(JHelpFileChooser2D.SHOWING)
       {
-         if(JHelpFileChooser2D.SHOWING.get() == true)
+         if(JHelpFileChooser2D.SHOWING.get())
          {
             throw new IllegalStateException("The file chooser is already showing");
          }
@@ -575,7 +575,7 @@ public class JHelpFileChooser2D
       ThreadManager.THREAD_MANAGER.doThread(JHelpFileChooser2D.SIGNAL_CHOOSE_OR_CANCEL, new Triplet<Boolean, JHelpFileChooser2DListener, File>(false,
             this.fileChooser2DListener, null));
 
-      if(onClosing == false)
+      if(!onClosing)
       {
          this.closeFrame();
       }
@@ -631,7 +631,7 @@ public class JHelpFileChooser2D
       this.labelImage2DPreview.setImage(JHelpImage.DUMMY);
       this.setAutomaticRefresh(false);
 
-      if(this.actionValid == false)
+      if(!this.actionValid)
       {
          this.doCancel(true);
       }
@@ -664,7 +664,8 @@ public class JHelpFileChooser2D
             this.doCancel();
          break;
          case ID_OK_BUTTON:
-            if((this.fileExplorer2D.getSelectedIndex() >= 0) && (this.fileExplorer2D.getSelectedFile().isDirectory() == false))
+            if((this.fileExplorer2D.getSelectedIndex() >= 0) && (!this.fileExplorer2D.getSelectedFile()
+                                                                                     .isDirectory()))
             {
                this.doOk();
             }
@@ -724,7 +725,7 @@ public class JHelpFileChooser2D
 
       this.setTitle(title);
 
-      if((selectedFile == null) || (selectedFile.isDirectory() == true))
+      if((selectedFile == null) || (selectedFile.isDirectory()))
       {
          this.backGroundOk.setColorBackground(0xC0C0C0C0);
       }
@@ -733,11 +734,11 @@ public class JHelpFileChooser2D
          this.backGroundOk.setColorBackground(0xFFFFFFFF);
       }
 
-      if((selectedFile == null) || (JHelpFileChooser2D.FILTER_IMAGE.accept(selectedFile) == false))
+      if((selectedFile == null) || (!JHelpFileChooser2D.FILTER_IMAGE.accept(selectedFile)))
       {
          this.loadImage.setImage(JHelpFileChooser2D.NO_IMAGE);
 
-         if((selectedFile != null) && (JHelpFileChooser2D.FILTER_SOUND.accept(selectedFile) == true))
+         if((selectedFile != null) && (JHelpFileChooser2D.FILTER_SOUND.accept(selectedFile)))
          {
             this.loadSound.setSound(selectedFile);
          }

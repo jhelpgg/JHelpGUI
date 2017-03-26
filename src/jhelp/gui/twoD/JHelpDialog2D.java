@@ -82,7 +82,7 @@ public class JHelpDialog2D
    {
       final boolean visible = this.sprite.isVisible();
 
-      if(visible == true)
+      if(visible)
       {
          this.sprite.setVisible(false);
       }
@@ -92,7 +92,7 @@ public class JHelpDialog2D
       image.clear(0);
       image.endDrawMode();
 
-      if(this.component2d.isVisible() == true)
+      if(this.component2d.isVisible())
       {
          final Dimension preferred = this.component2d.getPreferredSize(-1, -1);
          this.component2d.setBounds(0, 0, preferred.width, preferred.height);
@@ -100,18 +100,19 @@ public class JHelpDialog2D
          if((this.sprite.getWidth() != preferred.width) || (this.sprite.getHeight() != preferred.getHeight()))
          {
             final JHelpImage parentImage = this.parent.getImage();
+            //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized(parentImage)
             {
                final boolean drawMode = parentImage.isDrawMode();
 
-               if(drawMode == true)
+               if(drawMode)
                {
                   parentImage.endDrawMode();
                }
                parentImage.removeSprite(this.sprite);
                this.sprite = parentImage.createSprite((parentImage.getWidth() - preferred.width) >> 1, (parentImage.getHeight() - preferred.height) >> 1,
                      preferred.width, preferred.height);
-               if(drawMode == true)
+               if(drawMode)
                {
                   parentImage.startDrawMode();
                }
@@ -125,7 +126,7 @@ public class JHelpDialog2D
          image.endDrawMode();
       }
 
-      if(visible == true)
+      if(visible)
       {
          this.sprite.setVisible(true);
       }
@@ -139,7 +140,7 @@ public class JHelpDialog2D
     */
    void updateVisible(final boolean visible)
    {
-      if(visible == true)
+      if(visible)
       {
          final JHelpImage parentImage = this.parent.getImage();
          this.sprite.setPosition((parentImage.getWidth() - this.sprite.getWidth()) >> 1, (parentImage.getHeight() - this.sprite.getHeight()) >> 1);

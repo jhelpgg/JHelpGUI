@@ -139,7 +139,7 @@ public class FoldingAreaTitle
       switch(foldingAreaPosition)
       {
          case TOP:
-            if(fold == true)
+            if(fold)
             {
                wayTriangle = WayTriangle.DOWN;
             }
@@ -150,7 +150,7 @@ public class FoldingAreaTitle
          break;
          case RIGHT:
             horizontal = false;
-            if(fold == true)
+            if(fold)
             {
                wayTriangle = WayTriangle.RIGHT;
             }
@@ -161,7 +161,7 @@ public class FoldingAreaTitle
          break;
          case LEFT:
             horizontal = false;
-            if(fold == true)
+            if(fold)
             {
                wayTriangle = WayTriangle.LEFT;
             }
@@ -171,7 +171,7 @@ public class FoldingAreaTitle
             }
          break;
          case BOTTOM:
-            if(fold == true)
+            if(fold)
             {
                wayTriangle = WayTriangle.UP;
             }
@@ -184,7 +184,7 @@ public class FoldingAreaTitle
 
       final int tri = Math.min(this.miniumWidth, this.miniumHeight) - 6;
 
-      if(horizontal == true)
+      if(horizontal)
       {
          final int stringWidth = this.font.computeShape(this.title, 0, 0).getBounds().width;
 

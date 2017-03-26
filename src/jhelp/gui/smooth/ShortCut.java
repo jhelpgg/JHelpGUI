@@ -84,38 +84,38 @@ public class ShortCut
          return comp;
       }
 
-      if(this.shift == true)
+      if(this.shift)
       {
-         if(shortCut.shift == false)
+         if(!shortCut.shift)
          {
             return -1;
          }
       }
-      else if(shortCut.shift == true)
+      else if(shortCut.shift)
       {
          return 1;
       }
 
-      if(this.control == true)
+      if(this.control)
       {
-         if(shortCut.control == false)
+         if(!shortCut.control)
          {
             return -1;
          }
       }
-      else if(shortCut.control == true)
+      else if(shortCut.control)
       {
          return 1;
       }
 
-      if(this.alt == true)
+      if(this.alt)
       {
-         if(shortCut.alt == false)
+         if(!shortCut.alt)
          {
             return -1;
          }
       }
-      else if(shortCut.alt == true)
+      else if(shortCut.alt)
       {
          return 1;
       }
@@ -147,7 +147,7 @@ public class ShortCut
          return true;
       }
 
-      if((object instanceof ShortCut) == false)
+      if(!(object instanceof ShortCut))
       {
          return false;
       }
@@ -181,17 +181,17 @@ public class ShortCut
    {
       int hash = this.keyCode << 3;
 
-      if(this.shift == true)
+      if(this.shift)
       {
          hash += 4;
       }
 
-      if(this.control == true)
+      if(this.control)
       {
          hash += 2;
       }
 
-      if(this.alt == true)
+      if(this.alt)
       {
          hash += 1;
       }

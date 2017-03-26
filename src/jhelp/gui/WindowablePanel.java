@@ -107,7 +107,7 @@ public class WindowablePanel
    }
 
    /** List off all created Windowable panel */
-   private static ArrayList<WindowablePanel> arrayListWindowablePanel = new ArrayList<WindowablePanel>();
+   private static final ArrayList<WindowablePanel> arrayListWindowablePanel = new ArrayList<WindowablePanel>();
 
    /**
     * Get widowable panel by title
@@ -120,7 +120,8 @@ public class WindowablePanel
    {
       for(final WindowablePanel panel : WindowablePanel.arrayListWindowablePanel)
       {
-         if(panel.labelTitle.getText().equals(title) == true)
+         if(panel.labelTitle.getText()
+                            .equals(title))
          {
             return panel;
          }
@@ -137,7 +138,7 @@ public class WindowablePanel
     */
    public static WindowablePanel getWindowablePanelIntersetected(final WindowablePanel windowablePanel)
    {
-      if((windowablePanel == null) || (windowablePanel.isShowing() == false) || (windowablePanel.panelMain.isShowing() == false))
+      if((windowablePanel == null) || (!windowablePanel.isShowing()) || (!windowablePanel.panelMain.isShowing()))
       {
          return null;
       }
@@ -146,10 +147,10 @@ public class WindowablePanel
       Rectangle rectangle2;
       for(final WindowablePanel panel : WindowablePanel.arrayListWindowablePanel)
       {
-         if((panel != windowablePanel) && (panel.isShowing() == true) && (panel.panelMain.isShowing() == true))
+         if((panel != windowablePanel) && (panel.isShowing()) && (panel.panelMain.isShowing()))
          {
             rectangle2 = new Rectangle(panel.panelMain.getLocationOnScreen(), panel.getRealDimension());
-            if(rectangle.intersects(rectangle2) == true)
+            if(rectangle.intersects(rectangle2))
             {
                return panel;
             }
@@ -445,7 +446,8 @@ public class WindowablePanel
 
          if(child instanceof WindowablePanel.HaveHeaderPanel)
          {
-            if(((WindowablePanel.HaveHeaderPanel) child).getWindowablePanelParent().containsWindowablePanel(windowablePanel) == true)
+            if(((HaveHeaderPanel) child).getWindowablePanelParent()
+                                        .containsWindowablePanel(windowablePanel))
             {
                return true;
             }
@@ -453,7 +455,7 @@ public class WindowablePanel
 
          if(child instanceof WindowablePanel)
          {
-            if(((WindowablePanel) child).containsWindowablePanel(windowablePanel) == true)
+            if(((WindowablePanel) child).containsWindowablePanel(windowablePanel))
             {
                return true;
             }
@@ -479,11 +481,11 @@ public class WindowablePanel
          this.labelIcon = new JLabel(icon);
       }
       this.labelTitle = new JLabel(title, SwingConstants.CENTER);
-      if((this.windowable == true) || (this.hideable == true) || (this.closable == true))
+      if((this.windowable) || (this.hideable) || (this.closable))
       {
          this.panelButtons = new JPanel(new FlowLayout());
       }
-      if(this.windowable == true)
+      if(this.windowable)
       {
          this.buttonToWindow = new JToggleButton();
          this.buttonToWindow.setIcon(ResourcesGUI.ICON_DETACH_WINDOW);
@@ -493,7 +495,7 @@ public class WindowablePanel
          this.buttonToWindow.setBorderPainted(false);
          this.buttonToWindow.setFocusPainted(false);
       }
-      if(this.hideable == true)
+      if(this.hideable)
       {
          this.buttonHide = new JToggleButton();
          this.buttonHide.setIcon(ResourcesGUI.ICON_HIDE_NORMAL);
@@ -506,7 +508,7 @@ public class WindowablePanel
          this.buttonHide.setFocusPainted(false);
          this.buttonHide.setRolloverEnabled(true);
       }
-      if(this.closable == true)
+      if(this.closable)
       {
          this.buttonClose = new JButton();
          this.buttonClose.setIcon(ResourcesGUI.ICON_COSE_NORMAL);
@@ -754,11 +756,11 @@ public class WindowablePanel
     */
    public void addWindowablePanel(final WindowablePanel windowablePanel)
    {
-      if(this.containsWindowablePanel(windowablePanel) == true)
+      if(this.containsWindowablePanel(windowablePanel))
       {
          return;
       }
-      if(windowablePanel.containsWindowablePanel(this) == true)
+      if(windowablePanel.containsWindowablePanel(this))
       {
          return;
       }
@@ -828,7 +830,7 @@ public class WindowablePanel
     */
    public Rectangle getRealBounds()
    {
-      if(this.isWindow == true)
+      if(this.isWindow)
       {
          return new Rectangle(this.panelMain.getLocationOnScreen(), this.getRealDimension());
       }
@@ -877,7 +879,7 @@ public class WindowablePanel
     */
    public Dimension getRealDimension()
    {
-      if(this.isWindow == true)
+      if(this.isWindow)
       {
          return SwingUtilities.getWindowAncestor(this.panelMain).getSize();
       }
@@ -1009,7 +1011,7 @@ public class WindowablePanel
     */
    public void setClose(final boolean close)
    {
-      if(this.closable == false)
+      if(!this.closable)
       {
          throw new IllegalStateException("The panel is not closable, so you can't change it's close state");
       }
@@ -1021,7 +1023,7 @@ public class WindowablePanel
 
       this.close = close;
 
-      if(this.close == true)
+      if(this.close)
       {
          this.fireWindowablePanelClose();
       }
@@ -1037,9 +1039,9 @@ public class WindowablePanel
          this.dialog.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
       }
 
-      if(this.close == true)
+      if(this.close)
       {
-         if(this.isWindow == true)
+         if(this.isWindow)
          {
             this.dialog.setVisible(false);
             return;
@@ -1070,7 +1072,7 @@ public class WindowablePanel
          return;
       }
 
-      if(this.isWindow == true)
+      if(this.isWindow)
       {
          this.dialog.setVisible(true);
          return;
@@ -1104,7 +1106,7 @@ public class WindowablePanel
     */
    public void setHide(final boolean hide)
    {
-      if(this.hideable == false)
+      if(!this.hideable)
       {
          throw new IllegalStateException("The panel is not hideable, so you can't change it's hide state");
       }
@@ -1123,10 +1125,10 @@ public class WindowablePanel
          this.dialog.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
       }
 
-      if(this.hide == true)
+      if(this.hide)
       {
          Dimension dimension = null;
-         if(this.isWindow == true)
+         if(this.isWindow)
          {
             dimension = this.dialog.getSize();
          }
@@ -1155,9 +1157,9 @@ public class WindowablePanel
 
       final Dimension size = this.panelMain.getLayout().preferredLayoutSize(this.panelMain);
 
-      if(this.hide == true)
+      if(this.hide)
       {
-         if(this.isWindow == true)
+         if(this.isWindow)
          {
             final Dimension dimension = this.dialog.getSize();
             this.width = dimension.width;
@@ -1177,7 +1179,7 @@ public class WindowablePanel
       }
       else
       {
-         if(this.isWindow == true)
+         if(this.isWindow)
          {
             Debug.println(DebugLevel.DEBUG, "REST=", this.width, "x", this.height);
             this.forceSizeDialog(this.width, this.height);
@@ -1188,7 +1190,7 @@ public class WindowablePanel
       this.buttonHide.setSelected(this.hide);
       this.buttonHide.addActionListener(this);
 
-      if(this.hide == true)
+      if(this.hide)
       {
          this.fireWindowablePanelHide();
       }
@@ -1213,7 +1215,7 @@ public class WindowablePanel
     */
    public void setRealBounds(final int x, final int y, final int width, final int height)
    {
-      if(this.isWindow == true)
+      if(this.isWindow)
       {
          SwingUtilities.getWindowAncestor(this.panelMain).setBounds(x, y, width, height);
          return;
@@ -1230,7 +1232,7 @@ public class WindowablePanel
     */
    public void setWindow(final boolean isWindow)
    {
-      if(this.windowable == false)
+      if(!this.windowable)
       {
          throw new IllegalStateException("The panel is not windowable, so you can't change it's window state");
       }
@@ -1249,18 +1251,18 @@ public class WindowablePanel
          this.dialog.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
       }
 
-      if(this.isWindow == true)
+      if(this.isWindow)
       {
          this.setBorder(null);
          final Point point = this.panelMain.getLocationOnScreen();
          this.remove(this.panelMain);
 
          this.dialog.setContentPane(this.panelMain);
-         if((this.firstShow == true) || (this.hide == true))
+         if((this.firstShow) || (this.hide))
          {
             this.dialog.pack();
          }
-         if(this.firstShow == true)
+         if(this.firstShow)
          {
             this.dialog.setLocation(point);
          }
@@ -1289,7 +1291,7 @@ public class WindowablePanel
       this.buttonToWindow.setSelected(this.isWindow);
       this.buttonToWindow.addActionListener(this);
 
-      if(this.isWindow == true)
+      if(this.isWindow)
       {
          this.fireWindowablePanelDetach();
       }
@@ -1308,7 +1310,7 @@ public class WindowablePanel
    @Override
    public String toString()
    {
-      final StringBuffer stringBuffer = new StringBuffer(WindowablePanel.class.getName());
+      final StringBuilder stringBuffer = new StringBuilder(WindowablePanel.class.getName());
       stringBuffer.append(" [");
       stringBuffer.append(this.getTitle());
       stringBuffer.append("]");

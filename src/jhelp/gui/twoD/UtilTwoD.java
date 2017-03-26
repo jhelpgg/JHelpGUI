@@ -40,7 +40,7 @@ public class UtilTwoD
       stack.push(parent);
       JHelpComponent2D component2d;
 
-      while(stack.isEmpty() == false)
+      while(!stack.isEmpty())
       {
          component2d = stack.pop();
 

@@ -111,7 +111,7 @@ public class JHelpSeparator
 
       int width, height;
 
-      if(horizontal == true)
+      if(horizontal)
       {
          width = this.thickness;
          height = this.thickness + (this.margin << 1);
@@ -149,7 +149,7 @@ public class JHelpSeparator
       g.fillRect(0, 0, width, height);
       g.setColor(this.color);
 
-      if(this.horizontal == true)
+      if(this.horizontal)
       {
          g.fillRoundRect(0, (height - this.thickness) >> 1, width, this.thickness, this.thickness, this.thickness);
       }
@@ -173,7 +173,7 @@ public class JHelpSeparator
    {
       final Container parent = this.getParent();
 
-      if((parent != null) && (this.preferedSizeValid == false))
+      if((parent != null) && (!this.preferedSizeValid))
       {
          // Note : During layout the parent may have first a zero size, so the computed preferred size is just temporary
          // If zero size happen (depends on layouts in hierarchy) we are sure to be recalled when size is know, and this time
@@ -181,7 +181,7 @@ public class JHelpSeparator
          int width = parent.getWidth();
          int height = parent.getHeight();
 
-         if(this.horizontal == true)
+         if(this.horizontal)
          {
             height = this.thickness + (this.margin << 1);
             this.preferedSizeValid = width > 0;

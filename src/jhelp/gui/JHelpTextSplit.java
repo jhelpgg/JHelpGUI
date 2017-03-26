@@ -86,7 +86,7 @@ public class JHelpTextSplit
          nbCellHorizontal++;
       }
 
-      if((this.image != null) && (this.image.exists() == true))
+      if((this.image != null) && (this.image.exists()))
       {
          nbCellHorizontal++;
       }
@@ -96,7 +96,7 @@ public class JHelpTextSplit
          nbCellHorizontal++;
       }
 
-      if(((this.textUp != null) || (this.textDown != null) || ((this.image != null) && (this.image.exists() == true))) && (nbCellHorizontal == 0))
+      if(((this.textUp != null) || (this.textDown != null) || ((this.image != null) && (this.image.exists()))) && (nbCellHorizontal == 0))
       {
          nbCellHorizontal = 1;
       }
@@ -127,7 +127,7 @@ public class JHelpTextSplit
                stringBuilder.append("</td>");
             }
 
-            if((this.image != null) && (this.image.exists() == true))
+            if((this.image != null) && (this.image.exists()))
             {
                stringBuilder.append("<td align=\"CENTER\" valign=\"MIDDLE\" ><img src=\"file://");
                stringBuilder.append(this.image.getAbsolutePath());

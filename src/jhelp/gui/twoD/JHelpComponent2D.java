@@ -37,14 +37,14 @@ public abstract class JHelpComponent2D
     *           Component to add
     * @return {@code true} if component can be add
     */
-   static final boolean validHerarchy(final JHelpContainer2D parent, final JHelpComponent2D component2d)
+   static boolean validHerarchy(final JHelpContainer2D parent, final JHelpComponent2D component2d)
    {
-      if(parent.equals(component2d) == true)
+      if(parent.equals(component2d))
       {
          return false;
       }
 
-      if((component2d instanceof JHelpContainer2D) == false)
+      if(!(component2d instanceof JHelpContainer2D))
       {
          return true;
       }
@@ -53,7 +53,7 @@ public abstract class JHelpComponent2D
 
       for(final JHelpComponent2D child : container2d.children())
       {
-         if(JHelpComponent2D.validHerarchy(parent, child) == false)
+         if(!JHelpComponent2D.validHerarchy(parent, child))
          {
             return false;
          }
@@ -151,7 +151,7 @@ public abstract class JHelpComponent2D
     */
    final void paintInternal(final int x, final int y, final JHelpImage parent, final int clipX, final int clipY, final int clipWidth, final int clipHeight)
    {
-      if(this.visible == false)
+      if(!this.visible)
       {
          return;
       }
@@ -232,7 +232,7 @@ public abstract class JHelpComponent2D
          throw new IllegalStateException("The component " + this + " have already as parent " + this.parent + " so can't give it " + parent + " as parent");
       }
 
-      if(JHelpComponent2D.validHerarchy(parent, this) == false)
+      if(!JHelpComponent2D.validHerarchy(parent, this))
       {
          throw new IllegalStateException("The component " + this + " or one of its children contains the container " + parent + " where you try to add it");
       }
@@ -262,7 +262,7 @@ public abstract class JHelpComponent2D
     */
    protected final Dimension getPreferredSize(final int parrentWidth, final int parentHeight)
    {
-      if((this.preferred != null) && (this.valid == true))
+      if((this.preferred != null) && (this.valid))
       {
          return this.preferred;
       }
@@ -310,14 +310,14 @@ public abstract class JHelpComponent2D
     */
    protected Pair<JHelpComponent2D, JHelpMouseListener> mouseOver(final int x, final int y)
    {
-      if((this.visible == false) //
-            || ((this.mouseListener == null) && (this.focusable == false) && ((this instanceof JHelpContainer2D) == false))//
-            || (this.screenBounds.inside(x, y) == false))
+      if((!this.visible) //
+            || ((this.mouseListener == null) && (!this.focusable) && (!(this instanceof JHelpContainer2D)))//
+            || (!this.screenBounds.inside(x, y)))
       {
          return null;
       }
 
-      if((this.mouseListener == null) && (this.focusable == false) && ((this instanceof JHelpContainer2D) == true))
+      if((this.mouseListener == null) && (!this.focusable) && ((this instanceof JHelpContainer2D)))
       {
          Pair<JHelpComponent2D, JHelpMouseListener> pair;
 

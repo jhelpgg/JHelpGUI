@@ -353,13 +353,13 @@ public class ComponentImageArea
          return;
       }
 
-      if(this.isResize() == true)
+      if(this.isResize())
       {
          x = (x * this.imageArea.getBase().getWidth()) / this.getWidth();
          y = (y * this.imageArea.getBase().getHeight()) / this.getHeight();
       }
 
-      if(this.makeTransparent == true)
+      if(this.makeTransparent)
       {
          this.makeTransparent = false;
          this.imageArea.makeTransparent(x, y);
@@ -399,7 +399,7 @@ public class ComponentImageArea
          return;
       }
 
-      if(this.isResize() == true)
+      if(this.isResize())
       {
          x = (x * this.imageArea.getBase().getWidth()) / this.getWidth();
          y = (y * this.imageArea.getBase().getHeight()) / this.getHeight();
@@ -428,7 +428,7 @@ public class ComponentImageArea
          return;
       }
 
-      if(this.isResize() == true)
+      if(this.isResize())
       {
          x = (x * this.imageArea.getBase().getWidth()) / this.getWidth();
          y = (y * this.imageArea.getBase().getHeight()) / this.getHeight();

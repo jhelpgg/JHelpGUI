@@ -135,7 +135,7 @@ public class SmoothExample
          final JHelpButtonAlignSmooth alignSmooth = JHelpRandom.random(JHelpButtonAlignSmooth.class);
          SmoothExample.this.buttonSmooth.setButtonAlignSmooth(alignSmooth);
          Debug.println(DebugLevel.INFORMATION, "Something ! : ", alignSmooth);
-         SmoothExample.this.actionPrintSomething.setEnabled(SmoothExample.this.actionPrintSomething.isEnabled() == false);
+         SmoothExample.this.actionPrintSomething.setEnabled(!SmoothExample.this.actionPrintSomething.isEnabled());
          SmoothExample.this.showDialog(123);
       }
 
@@ -213,7 +213,7 @@ public class SmoothExample
       @Override
       public void transformComponent(final JHelpComponentSmooth component, final String element, final int indexInList, final boolean selected)
       {
-         if(selected == true)
+         if(selected)
          {
             component.setBackground(JHelpConstantsSmooth.COLOR_RED_0400);
          }
@@ -239,14 +239,14 @@ public class SmoothExample
       SmoothExample.smoothExample.setVisible(true);
    }
 
-   ActionPrintSomething  actionPrintSomething;
+    final ActionPrintSomething actionPrintSomething;
 
-   JHelpButtonSmooth     buttonSmooth;
-   JHelpComboBoxSmooth   comboBoxSmooth;
-   JHelpOptionPaneSmooth optionPaneExit;
-   JHelpOptionPaneSmooth optionPaneSmooth;
-   JHelpProgressSmooth   progressSmooth;
-   JHelpScrollPaneSmooth scrollPaneSmooth;
+    final JHelpButtonSmooth     buttonSmooth;
+    final JHelpComboBoxSmooth   comboBoxSmooth;
+    final JHelpOptionPaneSmooth optionPaneExit;
+    final JHelpOptionPaneSmooth optionPaneSmooth;
+    final JHelpProgressSmooth   progressSmooth;
+    final JHelpScrollPaneSmooth scrollPaneSmooth;
    boolean               sureToExit = false;
 
    public SmoothExample()
@@ -360,7 +360,7 @@ public class SmoothExample
    @Override
    protected boolean canCloseNow()
    {
-      if(this.sureToExit == false)
+      if(!this.sureToExit)
       {
          this.showDialog(this.optionPaneExit.getID());
 

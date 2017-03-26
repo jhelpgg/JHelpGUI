@@ -214,7 +214,7 @@ public class JHelpComboBoxSmooth
          final JHelpLabelTextSmooth labelTextSmooth = (JHelpLabelTextSmooth) component;
          labelTextSmooth.setText(element);
 
-         if(selected == true)
+         if(selected)
          {
             labelTextSmooth.setBackground(JHelpConstantsSmooth.COLOR_CYAN_0900);
          }
@@ -403,7 +403,7 @@ public class JHelpComboBoxSmooth
 
       synchronized(this.listeners)
       {
-         if(this.listeners.contains(listener) == false)
+         if(!this.listeners.contains(listener))
          {
             this.listeners.add(listener);
          }

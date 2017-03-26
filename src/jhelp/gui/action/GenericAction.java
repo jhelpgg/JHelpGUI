@@ -453,7 +453,7 @@ public abstract class GenericAction
          throw new NullPointerException("key musn't be null");
       }
 
-      if(Action.NAME.equals(key) == true)
+      if(Action.NAME.equals(key))
       {
          if(value == null)
          {
@@ -472,7 +472,7 @@ public abstract class GenericAction
             value = this.resourceText.getText(name);
          }
       }
-      else if(Action.SHORT_DESCRIPTION.equals(key) == true)
+      else if(Action.SHORT_DESCRIPTION.equals(key))
       {
          if(value != null)
          {
@@ -493,11 +493,11 @@ public abstract class GenericAction
             this.keyTooltip = null;
          }
       }
-      else if((Action.SMALL_ICON.equals(key) == true) || (Action.LARGE_ICON_KEY.equals(key) == true))
+      else if((Action.SMALL_ICON.equals(key)) || (Action.LARGE_ICON_KEY.equals(key)))
       {
          if(value != null)
          {
-            if((value instanceof Icon) == false)
+            if(!(value instanceof Icon))
             {
                throw new IllegalArgumentException("A javax.swing.Icon or a jhelp.util.gui.JHelpImage should be associate to the key " + key);
             }
@@ -505,11 +505,12 @@ public abstract class GenericAction
             value = JHelpImage.toJHelpImage((Icon) value);
          }
       }
-      else if(Action.ACCELERATOR_KEY.equals(key) == true)
+      else //noinspection StatementWithEmptyBody
+         if(Action.ACCELERATOR_KEY.equals(key))
       {
          // Nothing to do just avoid the else
       }
-      else if("enabled".equals(key) == false)
+      else if(!"enabled".equals(key))
       {
          Debug.println(DebugLevel.VERBOSE, "The key ", key, " is not managed here");
          return;

@@ -372,7 +372,7 @@ public class JHelpOptionPaneSmooth
     */
    public void registerJHelpOptionPaneSmoothListener(final JHelpOptionPaneSmoothListener listener)
    {
-      if((listener != null) && (this.listeners.contains(listener) == false))
+      if((listener != null) && (!this.listeners.contains(listener)))
       {
          this.listeners.add(listener);
       }

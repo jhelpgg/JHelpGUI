@@ -321,7 +321,7 @@ public class JHelpSuggestion<INFORMATION>
       this.detailsLabel = new JLabel("", SwingConstants.CENTER);
       this.detailsLabel.setFont(JHelpConstantsSmooth.FONT_CAPTION.getFont());
 
-      if(showDetails == true)
+      if(showDetails)
       {
          panel.add(new JHelpLimitSizePanel(new JScrollPane(this.detailsLabel), (this.popupWidth << 1) / 3, this.popupHeight), BorderLayout.CENTER);
       }
@@ -345,7 +345,7 @@ public class JHelpSuggestion<INFORMATION>
    {
       int deletePosition = this.attachedComponent.getCaretPosition();
 
-      if(current == false)
+      if(!current)
       {
          deletePosition--;
       }
@@ -395,7 +395,7 @@ public class JHelpSuggestion<INFORMATION>
     */
    void hidePopup()
    {
-      if(this.popupMenu.isShowing() == true)
+      if(this.popupMenu.isShowing())
       {
          this.popupMenu.setVisible(false);
       }
@@ -569,7 +569,10 @@ public class JHelpSuggestion<INFORMATION>
 
                   for(int i = 0; i < size; i++)
                   {
-                     if(this.suggestionModel.getElementAt(i).getKeyWord().equals(word) == true)
+                     //noinspection ConstantConditions
+                     if(this.suggestionModel.getElementAt(i)
+                                            .getKeyWord()
+                                            .equals(word))
                      {
                         // If current word is one of suggestion, don't bother the user
                         size = -1;

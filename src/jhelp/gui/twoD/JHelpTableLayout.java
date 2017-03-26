@@ -193,7 +193,7 @@ public class JHelpTableLayout
    @Override
    public boolean compatible(final JHelpConstraints constraints)
    {
-      return (constraints != null) && ((constraints instanceof JHelpTableLayoutConstraints) == true);
+      return (constraints != null) && ((constraints instanceof JHelpTableLayoutConstraints));
    }
 
    /**
@@ -227,7 +227,7 @@ public class JHelpTableLayout
 
       for(final Pair<JHelpComponent2D, JHelpConstraints> child : children)
       {
-         if(child.element1.isVisible() == false)
+         if(!child.element1.isVisible())
          {
             continue;
          }
@@ -249,7 +249,7 @@ public class JHelpTableLayout
 
       for(final Pair<JHelpComponent2D, JHelpConstraints> child : children)
       {
-         if(child.element1.isVisible() == false)
+         if(!child.element1.isVisible())
          {
             continue;
          }

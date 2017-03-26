@@ -89,14 +89,14 @@ public enum ButtonShape
       {
          final boolean draw = parent.isDrawMode();
 
-         if(draw == false)
+         if(!draw)
          {
             parent.startDrawMode();
          }
 
          parent.drawRectangle(x, y, width, height, color);
 
-         if(draw == false)
+         if(!draw)
          {
             parent.endDrawMode();
          }
@@ -127,14 +127,14 @@ public enum ButtonShape
       {
          final boolean draw = parent.isDrawMode();
 
-         if(draw == false)
+         if(!draw)
          {
             parent.startDrawMode();
          }
 
          parent.fillRectangle(x, y, width, height, color);
 
-         if(draw == false)
+         if(!draw)
          {
             parent.endDrawMode();
          }
@@ -264,14 +264,14 @@ public enum ButtonShape
          final boolean draw = parent.isDrawMode();
          final int arc = this.computeReverseArc(width - ButtonShape.BORDER_2, height - ButtonShape.BORDER_2);
 
-         if(draw == false)
+         if(!draw)
          {
             parent.startDrawMode();
          }
 
          parent.drawRoundRectangle(x, y, width, height, arc, arc, color);
 
-         if(draw == false)
+         if(!draw)
          {
             parent.endDrawMode();
          }
@@ -303,14 +303,14 @@ public enum ButtonShape
          final boolean draw = parent.isDrawMode();
          final int arc = this.computeReverseArc(width - ButtonShape.BORDER_2, height - ButtonShape.BORDER_2);
 
-         if(draw == false)
+         if(!draw)
          {
             parent.startDrawMode();
          }
 
          parent.fillRoundRectangle(x, y, width, height, arc, arc, color);
 
-         if(draw == false)
+         if(!draw)
          {
             parent.endDrawMode();
          }
@@ -339,7 +339,6 @@ public enum ButtonShape
       @Override
       public void fill(final int x, final int y, final int width, final int height, final JHelpDrawable drawable, final JHelpImage parent)
       {
-         parent.isDrawMode();
          final int arc = this.computeReverseArc(width - ButtonShape.BORDER_2, height - ButtonShape.BORDER_2);
          drawable.fillRoundRectangle(x, y, width, height, arc, arc, parent);
       }
@@ -421,14 +420,14 @@ public enum ButtonShape
          final boolean draw = parent.isDrawMode();
          final int arc = Math.min(width, height);
 
-         if(draw == false)
+         if(!draw)
          {
             parent.startDrawMode();
          }
 
          parent.drawRoundRectangle(x, y, width, height, arc, arc, color);
 
-         if(draw == false)
+         if(!draw)
          {
             parent.endDrawMode();
          }
@@ -460,14 +459,14 @@ public enum ButtonShape
          final boolean draw = parent.isDrawMode();
          final int arc = Math.min(width, height);
 
-         if(draw == false)
+         if(!draw)
          {
             parent.startDrawMode();
          }
 
          parent.fillRoundRectangle(x, y, width, height, arc, arc, color);
 
-         if(draw == false)
+         if(!draw)
          {
             parent.endDrawMode();
          }

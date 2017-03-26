@@ -266,12 +266,12 @@ public abstract class DragSource
       final int x = e.getX();
       final int y = e.getY();
 
-      if((this.attach == true) && ((Math.abs(x - this.mouseX) + Math.abs(y - this.mouseY)) > DragSource.DETACH_SENSIBIITY))
+      if((this.attach) && ((Math.abs(x - this.mouseX) + Math.abs(y - this.mouseY)) > DragSource.DETACH_SENSIBIITY))
       {
          this.dragWillStart(this.mouseX, this.mouseY);
          this.detach();
       }
-      else if(this.attach == false)
+      else if(!this.attach)
       {
          this.mouseX = x;
          this.mouseY = y;

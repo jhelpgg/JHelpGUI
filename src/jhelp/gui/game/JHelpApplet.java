@@ -110,7 +110,7 @@ public abstract class JHelpApplet
                                                                                    @Override
                                                                                    protected void doVerySimpleAction()
                                                                                    {
-                                                                                      if(JHelpApplet.this.pause == false)
+                                                                                      if(!JHelpApplet.this.pause)
                                                                                       {
                                                                                          Pair<JHelpAnimation, JHelpSprite> animation;
 
@@ -120,7 +120,8 @@ public abstract class JHelpApplet
                                                                                          {
                                                                                             animation = JHelpApplet.this.animations.get(i);
 
-                                                                                            if(animation.element1.animate(animation.element2) == false)
+                                                                                            if(!animation.element1.animate(
+                                                                                                    animation.element2))
                                                                                             {
                                                                                                JHelpApplet.this.animations.remove(i);
                                                                                             }
@@ -151,7 +152,7 @@ public abstract class JHelpApplet
 
                                                                                                JHelpApplet.this.LOCK.wait(16384);
                                                                                             }
-                                                                                            catch(final Exception exception)
+                                                                                            catch(final Exception ignored)
                                                                                             {
                                                                                             }
 
@@ -256,7 +257,7 @@ public abstract class JHelpApplet
             {
                bufferedWriter.flush();
             }
-            catch(final IOException exception)
+            catch(final IOException ignored)
             {
             }
 
@@ -264,7 +265,7 @@ public abstract class JHelpApplet
             {
                bufferedWriter.close();
             }
-            catch(final IOException exception)
+            catch(final IOException ignored)
             {
             }
          }
@@ -364,7 +365,7 @@ public abstract class JHelpApplet
             {
                bufferedReader.close();
             }
-            catch(final IOException exception)
+            catch(final IOException ignored)
             {
             }
          }
@@ -453,7 +454,7 @@ public abstract class JHelpApplet
    {
       boolean draw = false;
 
-      if(this.image.isDrawMode() == true)
+      if(this.image.isDrawMode())
       {
          draw = true;
          this.image.endDrawMode();
@@ -466,7 +467,7 @@ public abstract class JHelpApplet
 
       sprite.setVisible(true);
 
-      if(draw == true)
+      if(draw)
       {
          this.image.startDrawMode();
       }
@@ -538,12 +539,12 @@ public abstract class JHelpApplet
       {
          try
          {
-            if((this.isLocked == true) && (this.pause == false))
+            if((this.isLocked) && (!this.pause))
             {
                this.LOCK.notify();
             }
          }
-         catch(final Exception exception)
+         catch(final Exception ignored)
          {
          }
       }
@@ -687,12 +688,12 @@ public abstract class JHelpApplet
       {
          try
          {
-            if(this.isLocked == true)
+            if(this.isLocked)
             {
                this.LOCK.notify();
             }
          }
-         catch(final Exception exception)
+         catch(final Exception ignored)
          {
          }
       }
@@ -725,7 +726,7 @@ public abstract class JHelpApplet
 
          while(component != null)
          {
-            if((component instanceof Frame) == true)
+            if((component instanceof Frame))
             {
                this.frame = (Frame) component;
                break;
@@ -763,12 +764,12 @@ public abstract class JHelpApplet
          return defaultValue;
       }
 
-      if("true".equalsIgnoreCase(value) == true)
+      if("true".equalsIgnoreCase(value))
       {
          return true;
       }
 
-      if("false".equalsIgnoreCase(value) == true)
+      if("false".equalsIgnoreCase(value))
       {
          return false;
       }
@@ -886,12 +887,12 @@ public abstract class JHelpApplet
    {
       final String information = this.obtainCookieInformation(informationKey);
 
-      if("true".equalsIgnoreCase(information) == true)
+      if("true".equalsIgnoreCase(information))
       {
          return true;
       }
 
-      if("false".equalsIgnoreCase(information) == true)
+      if("false".equalsIgnoreCase(information))
       {
          return false;
       }
@@ -988,7 +989,7 @@ public abstract class JHelpApplet
    {
       g.drawImage(this.image.getImage(), 0, 0, this);
 
-      if(this.pause == true)
+      if(this.pause)
       {
          this.pauseScreen(g);
       }

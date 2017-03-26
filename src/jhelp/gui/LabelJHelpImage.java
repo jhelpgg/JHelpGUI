@@ -140,7 +140,7 @@ public class LabelJHelpImage
 
       if(this.image != null)
       {
-         if(this.resize == true)
+         if(this.resize)
          {
             g.drawImage(this.image.getImage(), 0, 0, width, height, this);
          }
@@ -150,7 +150,7 @@ public class LabelJHelpImage
          }
       }
 
-      if(this.selected == true)
+      if(this.selected)
       {
          g.setColor(LabelJHelpImage.SELECTED);
          g.fillRect(0, 0, width, height);
@@ -253,7 +253,7 @@ public class LabelJHelpImage
    {
       this.image = null;
 
-      if(this.resize == false)
+      if(!this.resize)
       {
          this.width = 128;
          this.height = 128;

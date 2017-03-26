@@ -153,7 +153,7 @@ public class FoldingAreaSimple
       switch(foldingAreaPosition)
       {
          case TOP:
-            if(fold == true)
+            if(fold)
             {
                wayTriangle = WayTriangle.DOWN;
             }
@@ -163,7 +163,7 @@ public class FoldingAreaSimple
             }
          break;
          case RIGHT:
-            if(fold == true)
+            if(fold)
             {
                wayTriangle = WayTriangle.RIGHT;
             }
@@ -173,7 +173,7 @@ public class FoldingAreaSimple
             }
          break;
          case LEFT:
-            if(fold == true)
+            if(fold)
             {
                wayTriangle = WayTriangle.LEFT;
             }
@@ -183,7 +183,7 @@ public class FoldingAreaSimple
             }
          break;
          case BOTTOM:
-            if(fold == true)
+            if(fold)
             {
                wayTriangle = WayTriangle.UP;
             }

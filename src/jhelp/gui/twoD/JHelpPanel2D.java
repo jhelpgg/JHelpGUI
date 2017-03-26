@@ -70,7 +70,7 @@ public class JHelpPanel2D
     */
    void addComponent2D(final JHelpComponent2D component, final JHelpConstraints constraints, final boolean invalidate)
    {
-      if(this.layout.compatible(constraints) == false)
+      if(!this.layout.compatible(constraints))
       {
          throw new IllegalArgumentException("The constraints " + constraints + " not compatible with layout " + this.layout);
       }
@@ -82,7 +82,7 @@ public class JHelpPanel2D
          this.children.add(new Pair<JHelpComponent2D, JHelpConstraints>(component, constraints));
       }
 
-      if(invalidate == true)
+      if(invalidate)
       {
          this.invalidate();
       }
@@ -104,7 +104,7 @@ public class JHelpPanel2D
    @Override
    protected Dimension computePreferredSize(final int parentWidth, final int parentHeight)
    {
-      if(this.isVisible() == false)
+      if(!this.isVisible())
       {
          return new Dimension();
       }
@@ -135,7 +135,7 @@ public class JHelpPanel2D
    @Override
    protected Pair<JHelpComponent2D, JHelpMouseListener> mouseOver(final int x, final int y)
    {
-      if(this.isVisible() == false)
+      if(!this.isVisible())
       {
          return null;
       }
@@ -146,7 +146,7 @@ public class JHelpPanel2D
       {
          for(final Pair<JHelpComponent2D, JHelpConstraints> child : this.children)
          {
-            if(child.element1.isVisible() == false)
+            if(!child.element1.isVisible())
             {
                continue;
             }
@@ -249,7 +249,7 @@ public class JHelpPanel2D
       {
          for(final Pair<JHelpComponent2D, JHelpConstraints> child : this.children)
          {
-            if(child.element1.isVisible() == false)
+            if(!child.element1.isVisible())
             {
                continue;
             }
@@ -283,7 +283,7 @@ public class JHelpPanel2D
          {
             child = this.children.get(i);
 
-            if(child.element1.equals(component) == true)
+            if(child.element1.equals(component))
             {
                child.element1.willRemove();
                this.children.remove(i);

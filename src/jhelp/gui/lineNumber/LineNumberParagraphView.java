@@ -86,6 +86,7 @@ public class LineNumberParagraphView
       final View parent = this.getParent();
       final int count = parent.getViewCount();
 
+      //noinspection StatementWithEmptyBody
       for(; (index < count) && (this != parent.getView(index)); index++)
       {
          // Nothing to do
@@ -266,7 +267,7 @@ public class LineNumberParagraphView
 
          if((value != null) && (value instanceof CharSequence))
          {
-            final String text = ((CharSequence) value).toString().trim();
+            final String text = value.toString().trim();
 
             if(text.length() > 0)
             {

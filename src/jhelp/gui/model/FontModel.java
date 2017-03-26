@@ -85,7 +85,7 @@ public class FontModel
 
       if(index < 0)
       {
-         if(font.equalsIgnoreCase("Arial") == false)
+         if(!font.equalsIgnoreCase("Arial"))
          {
             index = this.fontNames.indexOf("Arial");
          }

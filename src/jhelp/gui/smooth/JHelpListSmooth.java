@@ -126,7 +126,7 @@ public class JHelpListSmooth<ELEMENT>
       {
          JHelpListSmooth.this.clickOn(mouseInformation.getComponentSmooth());
 
-         if((JHelpListSmooth.this.selectBySimpleClick == true) || (mouseInformation.getClickcount() > 1))
+         if((JHelpListSmooth.this.selectBySimpleClick) || (mouseInformation.getClickcount() > 1))
          {
             JHelpListSmooth.this.fireSelectElement();
          }
@@ -618,7 +618,7 @@ public class JHelpListSmooth<ELEMENT>
     */
    public final void registerSelectListener(final JHelpListSmoothSelectListener<ELEMENT> selectListener)
    {
-      if((selectListener != null) && (this.selectListeners.contains(selectListener) == false))
+      if((selectListener != null) && (!this.selectListeners.contains(selectListener)))
       {
          this.selectListeners.add(selectListener);
       }

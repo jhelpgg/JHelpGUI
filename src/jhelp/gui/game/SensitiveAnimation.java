@@ -293,8 +293,8 @@ public class SensitiveAnimation
          {
             sensitiveElement = this.sensitiveElements.get(index);
 
-            if((sensitiveElement.isVisible() == true) && (sensitiveElement.isEnable() == true)
-                  && (sensitiveElement.containsPosition(x - this.x, y - this.y) == true))
+            if((sensitiveElement.isVisible()) && (sensitiveElement.isEnable())
+                  && (sensitiveElement.containsPosition(x - this.x, y - this.y)))
             {
                return sensitiveElement;
             }
@@ -388,19 +388,20 @@ public class SensitiveAnimation
 
             for(final SensitiveElement sensitiveElement : this.sensitiveElements)
             {
-               if(sensitiveElement.isVisible() == true)
+               if(sensitiveElement.isVisible())
                {
                   this.image.drawImage(sensitiveElement.getX(), sensitiveElement.getY(), sensitiveElement.getImage());
 
-                  if(sensitiveElement.isEnable() == true)
+                  if(sensitiveElement.isEnable())
                   {
                      canShine.add(sensitiveElement);
                   }
                }
             }
 
-            if(((this.sensitiveElementShine == null) || (this.sensitiveElementShine.isEnable() == false) || (this.sensitiveElementShine.isVisible() == false))
-                  && (canShine.isEmpty() == false))
+            if(((this.sensitiveElementShine == null) || (!this.sensitiveElementShine.isEnable()) || (!this
+                    .sensitiveElementShine.isVisible()))
+                  && (!canShine.isEmpty()))
             {
                this.shineStep = 0;
                this.sensitiveElementShine = JHelpRandom.random(canShine);
@@ -478,7 +479,7 @@ public class SensitiveAnimation
 
       if(this.sensitiveElementOver != null)
       {
-         if(leftButtonDown == true)
+         if(leftButtonDown)
          {
             if(this.lastDownSensitiveElement == null)
             {
@@ -495,7 +496,7 @@ public class SensitiveAnimation
             this.lastDownSensitiveElement = null;
          }
       }
-      else if(leftButtonDown == false)
+      else if(!leftButtonDown)
       {
          this.lastDownSensitiveElement = null;
       }
@@ -517,7 +518,7 @@ public class SensitiveAnimation
 
       synchronized(this.sensitiveElements)
       {
-         if(this.sensitiveElements.contains(sensitiveElement) == false)
+         if(!this.sensitiveElements.contains(sensitiveElement))
          {
             this.sensitiveElements.add(sensitiveElement);
          }
@@ -567,7 +568,7 @@ public class SensitiveAnimation
     */
    public void registerInside(final JHelpGameDynamic gameDynamic)
    {
-      if(this.registered == true)
+      if(this.registered)
       {
          return;
       }

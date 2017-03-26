@@ -87,12 +87,12 @@ public final class FilterText
          return true;
       }
 
-      if(this.caseSensitive == false)
+      if(!this.caseSensitive)
       {
          string = string.toLowerCase();
       }
 
-      if(this.accentSensitive == false)
+      if(!this.accentSensitive)
       {
          string = UtilText.removeAccent(string);
       }
@@ -120,7 +120,7 @@ public final class FilterText
 
       synchronized(this.listeners)
       {
-         if(this.listeners.contains(listener) == false)
+         if(!this.listeners.contains(listener))
          {
             this.listeners.add(listener);
          }

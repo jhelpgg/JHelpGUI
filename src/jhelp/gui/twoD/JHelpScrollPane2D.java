@@ -96,7 +96,7 @@ public class JHelpScrollPane2D
    @Override
    protected Dimension computePreferredSize(final int parentWidth, final int parentHeight)
    {
-      if((this.isVisible() == false) || (this.scrollView.isVisible() == false))
+      if((!this.isVisible()) || (!this.scrollView.isVisible()))
       {
          return new Dimension();
       }
@@ -149,7 +149,7 @@ public class JHelpScrollPane2D
    @Override
    protected Pair<JHelpComponent2D, JHelpMouseListener> mouseOver(final int x, final int y)
    {
-      if(this.onlyOnRightClick == false)
+      if(!this.onlyOnRightClick)
       {
          return super.mouseOver(x, y);
       }
@@ -182,7 +182,7 @@ public class JHelpScrollPane2D
    protected void paint(final int x, final int y, final JHelpImage parent)
    {
       final Rectangle bounds = this.getBounds();
-      if((this.scrollView.isVisible() == false) || (bounds.width < 1) || (bounds.height < 1))
+      if((!this.scrollView.isVisible()) || (bounds.width < 1) || (bounds.height < 1))
       {
          return;
       }
@@ -349,7 +349,7 @@ public class JHelpScrollPane2D
    @Override
    public void mouseDragged(final MouseEvent e)
    {
-      if((this.onlyOnRightClick == true) && (SwingUtilities.isRightMouseButton(e) == false))
+      if((this.onlyOnRightClick) && (!SwingUtilities.isRightMouseButton(e)))
       {
          final int x = e.getX();
          final int y = e.getY();
@@ -495,7 +495,7 @@ public class JHelpScrollPane2D
    @Override
    public void mousePressed(final MouseEvent e)
    {
-      if((this.onlyOnRightClick == true) && (SwingUtilities.isRightMouseButton(e) == false))
+      if((this.onlyOnRightClick) && (!SwingUtilities.isRightMouseButton(e)))
       {
          final int x = e.getX();
          final int y = e.getY();
@@ -537,7 +537,7 @@ public class JHelpScrollPane2D
    @Override
    public void mouseReleased(final MouseEvent e)
    {
-      if((this.onlyOnRightClick == true) && (SwingUtilities.isRightMouseButton(e) == false))
+      if((this.onlyOnRightClick) && (!SwingUtilities.isRightMouseButton(e)))
       {
          final int x = e.getX();
          final int y = e.getY();
@@ -638,7 +638,7 @@ public class JHelpScrollPane2D
    public void tryMakeVisible(final Rectangle rectangle)
    {
       final Rectangle bounds = this.getBounds();
-      if((this.scrollView.isVisible() == false) || (bounds.width < 1) || (bounds.height < 1))
+      if((!this.scrollView.isVisible()) || (bounds.width < 1) || (bounds.height < 1))
       {
          return;
       }
@@ -653,7 +653,7 @@ public class JHelpScrollPane2D
       int x = rectangle.x;
       int y = rectangle.y;
 
-      if(bounds.contains(x, y) == true)
+      if(bounds.contains(x, y))
       {
          x = rectangle.width;
          y = rectangle.height;

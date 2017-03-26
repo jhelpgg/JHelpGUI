@@ -89,12 +89,12 @@ public class FixedSizeLayout
 
          final Component component = parent.getComponent(0);
 
-         if(component.isVisible() == false)
+         if(!component.isVisible())
          {
             return;
          }
 
-         component.setBounds(insets.left, insets.right, this.fixedWidth, this.fixedHeight);
+         component.setBounds(insets.left, insets.top, this.fixedWidth, this.fixedHeight);
       }
    }
 

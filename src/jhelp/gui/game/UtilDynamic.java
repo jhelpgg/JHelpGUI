@@ -81,7 +81,7 @@ public class UtilDynamic
     *           Time, in milliseconds, to convert
     * @return Number of frame
     */
-   public static final int millisecondToNumberOfFrame(final int millisecond)
+   public static int millisecondToNumberOfFrame(final int millisecond)
    {
       return (millisecond * JHelpDynamicImage.FPS) / 1000;
    }

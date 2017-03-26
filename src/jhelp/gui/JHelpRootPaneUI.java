@@ -271,7 +271,6 @@ public class JHelpRootPaneUI
                   {
                      f.setExtendedState(state | Frame.MAXIMIZED_BOTH);
                   }
-                  return;
                }
             }
          }
@@ -297,7 +296,7 @@ public class JHelpRootPaneUI
             final Point position = ev.getLocationOnScreen();
             final DropTarget dropTarget = DropTarget.obtainDropTargetForScreenPosition(position.x + ResourcesGUI.TRANSLATE_CURSOR, position.y
                   + ResourcesGUI.TRANSLATE_CURSOR);
-            if((dropTarget == null) || (dropTarget.isAcceptableInformation(dragSource.obtainInformationValue()) == false))
+            if((dropTarget == null) || (!dropTarget.isAcceptableInformation(dragSource.obtainInformationValue())))
             {
                w.setCursor(ResourcesGUI.CANT_DROP_CURSOR);
             }
@@ -437,7 +436,7 @@ public class JHelpRootPaneUI
                final Point position = ev.getLocationOnScreen();
                final DropTarget dropTarget = DropTarget.obtainDropTargetForScreenPosition(position.x + ResourcesGUI.TRANSLATE_CURSOR, position.y
                      + ResourcesGUI.TRANSLATE_CURSOR);
-               if((dropTarget == null) || (dropTarget.isAcceptableInformation(dragSource.obtainInformationValue()) == false))
+               if((dropTarget == null) || (!dropTarget.isAcceptableInformation(dragSource.obtainInformationValue())))
                {
                   w.setCursor(ResourcesGUI.CANT_DROP_CURSOR);
                }
@@ -560,7 +559,7 @@ public class JHelpRootPaneUI
             JHelpRootPaneUI.this.rootPane.repaint();
          }
 
-         if(this.isMovingWindow == true)
+         if(this.isMovingWindow)
          {
             if(JHelpRootPaneUI.this.content instanceof WindowablePanel.HaveHeaderPanel)
             {
@@ -569,7 +568,7 @@ public class JHelpRootPaneUI
                Debug.println(DebugLevel.VERBOSE, "windowablePanel=", windowablePanel);
                final WindowablePanel panel = WindowablePanel.getWindowablePanelIntersetected(windowablePanel);
                Debug.println(DebugLevel.VERBOSE, "panel=", panel);
-               if((panel != null) && (panel.acceptAddOtherWindowablePanel() == true))
+               if((panel != null) && (panel.acceptAddOtherWindowablePanel()))
                {
                   Debug.println(DebugLevel.VERBOSE, "Decide to add");
                   panel.addWindowablePanel(windowablePanel);
@@ -588,7 +587,7 @@ public class JHelpRootPaneUI
                else
                {
                   final Object information = dragSource.obtainInformationValue();
-                  if(dropTarget.isAcceptableInformation(information) == true)
+                  if(dropTarget.isAcceptableInformation(information))
                   {
                      dragSource.fireDragDone();
                      final Point location = dropTarget.obtainDropComponent().getLocationOnScreen();

@@ -105,7 +105,7 @@ public class ColorChooserFrame
     */
    void doColorChooseCanceled(final ColorChooser colorChooser)
    {
-      if(this.closeCancel == false)
+      if(!this.closeCancel)
       {
          return;
       }
@@ -117,7 +117,7 @@ public class ColorChooserFrame
          this.colorChooserListener.colorChooseCanceled(colorChooser);
       }
 
-      if(this.closeEnter == false)
+      if(!this.closeEnter)
       {
          this.closeFrame();
       }
@@ -172,7 +172,7 @@ public class ColorChooserFrame
    {
       this.closeEnter = true;
 
-      if(this.closeCancel == true)
+      if(this.closeCancel)
       {
          this.doColorChooseCanceled(this.colorChooser);
       }

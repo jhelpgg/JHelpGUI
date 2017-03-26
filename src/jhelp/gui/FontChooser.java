@@ -249,7 +249,7 @@ public class FontChooser
 
          this.fontChooser.removeFontChooserListener(this);
 
-         if(this.validate == true)
+         if(this.validate)
          {
             return this.fontChooser.actualFont;
          }
@@ -278,11 +278,11 @@ public class FontChooser
 
       while((component != null) && (frame == null) && (dialog == null))
       {
-         if((component instanceof Frame) == true)
+         if((component instanceof Frame))
          {
             frame = (Frame) component;
          }
-         else if((component instanceof Dialog) == true)
+         else if((component instanceof Dialog))
          {
             dialog = (Dialog) component;
          }
@@ -419,19 +419,20 @@ public class FontChooser
 
       int style = Font.PLAIN;
 
-      if(this.checkBoxBold.isSelected() == true)
+      if(this.checkBoxBold.isSelected())
       {
          style |= Font.BOLD;
       }
 
-      if(this.checkBoxItalic.isSelected() == true)
+      if(this.checkBoxItalic.isSelected())
       {
          style |= Font.ITALIC;
       }
 
       final int size = ((Integer) this.spinnerSize.getValue()).intValue();
 
-      if((size == this.actualFont.getSize()) && (style == this.actualFont.getStyle()) && (this.actualFont.getFamily().equals(name) == true))
+      if((size == this.actualFont.getSize()) && (style == this.actualFont.getStyle()) && (this.actualFont.getFamily()
+                                                                                                         .equals(name)))
       {
          return;
       }
@@ -523,7 +524,7 @@ public class FontChooser
          throw new NullPointerException("font musn't be null");
       }
 
-      if(font.equals(this.actualFont) == true)
+      if(font.equals(this.actualFont))
       {
          return;
       }

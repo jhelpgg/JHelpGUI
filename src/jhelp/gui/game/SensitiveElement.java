@@ -135,7 +135,7 @@ public abstract class SensitiveElement
       {
          if(this.imageTransition != null)
          {
-            if(this.imageTransition.isAnimating() == true)
+            if(this.imageTransition.isAnimating())
             {
                return this.imageTransition.getInterpolated();
             }
@@ -143,7 +143,7 @@ public abstract class SensitiveElement
             this.imageTransition = null;
          }
 
-         if(this.isGrey == true)
+         if(this.isGrey)
          {
             final JHelpImage grey = new JHelpImage(this.image.getWidth(), this.image.getHeight());
             grey.startDrawMode();
@@ -267,7 +267,7 @@ public abstract class SensitiveElement
 
       if(gameDynamic != null)
       {
-         if(this.enable == true)
+         if(this.enable)
          {
             this.toColor(gameDynamic, millisecond);
          }
@@ -333,7 +333,7 @@ public abstract class SensitiveElement
    {
       synchronized(this.lock)
       {
-         if(this.isGrey == false)
+         if(!this.isGrey)
          {
             return;
          }
@@ -367,7 +367,7 @@ public abstract class SensitiveElement
    {
       synchronized(this.lock)
       {
-         if(this.isGrey == true)
+         if(this.isGrey)
          {
             return;
          }

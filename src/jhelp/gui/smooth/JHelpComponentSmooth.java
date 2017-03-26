@@ -468,7 +468,7 @@ public abstract class JHelpComponentSmooth
    {
       final Rectangle bounds = this.getBounds();
 
-      if(bounds.contains(x, y) == true)
+      if(bounds.contains(x, y))
       {
          return this;
       }
@@ -491,7 +491,7 @@ public abstract class JHelpComponentSmooth
 
       synchronized(this.mouseListeners)
       {
-         if(this.mouseListeners.contains(mouseListener) == false)
+         if(!this.mouseListeners.contains(mouseListener))
          {
             this.mouseListeners.add(mouseListener);
          }
@@ -503,7 +503,7 @@ public abstract class JHelpComponentSmooth
     */
    public void scrollToVisible()
    {
-      if(this.visible == false)
+      if(!this.visible)
       {
          return;
       }

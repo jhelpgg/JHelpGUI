@@ -377,10 +377,18 @@ public class KeyMapper
       JHelpMask mask;
       final JHelpImage image = this.sprite.getImage();
       image.startDrawMode();
+      MouseSensitiveArea mouseSensitiveArea;
 
       for(final ActionKey actionKey : ActionKey.values())
       {
-         bounds = this.sensitiveAreas.get(actionKey).getBounds();
+         mouseSensitiveArea = this.sensitiveAreas.get(actionKey);
+
+         if(mouseSensitiveArea == null)
+         {
+            continue;
+         }
+
+         bounds = mouseSensitiveArea.getBounds();
          mask = ResourcesKeyMapper.obtainMask(this.game2d.getKeyCode(actionKey));
 
          if(this.imageKeyBackground == null)
@@ -462,7 +470,7 @@ public class KeyMapper
    public boolean actionState(final Map<ActionKey, Boolean> actionsStates, final int mouseX, final int mouseY, final boolean buttonLeft,
          final boolean buttonMiddle, final boolean buttonRight)
    {
-      if(actionsStates.get(ActionKey.ACTION_EXIT) == true)
+      if(actionsStates.get(ActionKey.ACTION_EXIT))
       {
          this.removeFromJHelpGame2D();
       }
@@ -606,7 +614,7 @@ public class KeyMapper
    public void mouseOverArea(final MouseSensitiveArea mouseSensitiveArea, final int relativeX, final int relativeY, final int abslouteX, final int absoluteY,
          final boolean leftButtonDown, final boolean middleButtonDown, final boolean rightButtonDown)
    {
-      if(leftButtonDown == true)
+      if(leftButtonDown)
       {
          this.selected = ActionKey.values()[mouseSensitiveArea.getIdentifer()];
 
@@ -666,10 +674,16 @@ public class KeyMapper
       final int y = (main.getHeight() - this.imageKeyMapper.getHeight()) >> 1;
       this.sprite = this.game2d.createSprite(x, y, this.imageKeyMapper);
       this.sprite.setVisible(true);
+      MouseSensitiveArea mouseSensitiveArea;
 
       for(final ActionKey actionKey : ActionKey.values())
       {
-         game2d.addArea(this.sensitiveAreas.get(actionKey).setTranslation(x, y));
+         mouseSensitiveArea = this.sensitiveAreas.get(actionKey);
+
+         if(mouseSensitiveArea != null)
+         {
+            game2d.addArea(mouseSensitiveArea.setTranslation(x, y));
+         }
       }
 
       game2d.registerMouseSensitiveAreaListener(this);

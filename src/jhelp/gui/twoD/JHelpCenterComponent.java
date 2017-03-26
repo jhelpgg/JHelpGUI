@@ -60,7 +60,7 @@ public class JHelpCenterComponent
    @Override
    protected Dimension computePreferredSize(final int parentWidth, final int parentHeight)
    {
-      if(this.component2d.isVisible() == false)
+      if(!this.component2d.isVisible())
       {
          return new Dimension();
       }
@@ -84,7 +84,7 @@ public class JHelpCenterComponent
    @Override
    protected Pair<JHelpComponent2D, JHelpMouseListener> mouseOver(final int x, final int y)
    {
-      if(this.isVisible() == false)
+      if(!this.isVisible())
       {
          return null;
       }
@@ -109,7 +109,7 @@ public class JHelpCenterComponent
    @Override
    protected void paint(final int x, final int y, final JHelpImage parent)
    {
-      if(this.component2d.isVisible() == false)
+      if(!this.component2d.isVisible())
       {
          return;
       }

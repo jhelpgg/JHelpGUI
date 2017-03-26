@@ -109,7 +109,7 @@ class JHelpOptionPane2D
          switch(identifier)
          {
             case OK_YES:
-               if(this.editText.isVisible() == true)
+               if(this.editText.isVisible())
                {
                   this.optionPaneListener.optionPaneTextTyped(this.actionID, this.developerInformation, this.editText.getText());
                }
@@ -192,7 +192,7 @@ class JHelpOptionPane2D
          this.editText.setText(editText);
       }
 
-      if(hasNo == true)
+      if(hasNo)
       {
          this.labelTextButtonOkYes.setText(ResourcesGUI.RESOURCE_TEXT.getText(ResourcesGUI.OPTION_PANE_YES));
       }

@@ -5,19 +5,20 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui.smooth;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import jhelp.util.gui.JHelpImage;
 
 /**
  * Component that draw one image
- * 
+ *
  * @author JHelp
  */
 public class JHelpLabelImageSmooth
@@ -39,7 +40,7 @@ public class JHelpLabelImageSmooth
 
    /**
     * Create a new instance of JHelpLabelImageSmooth
-    * 
+    *
     * @param image
     *           Image to draw
     */
@@ -50,7 +51,7 @@ public class JHelpLabelImageSmooth
 
    /**
     * Compute the resized image
-    * 
+    *
     * @param width
     *           Resized image width
     * @param height
@@ -76,7 +77,7 @@ public class JHelpLabelImageSmooth
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @return Preferred size
     * @see jhelp.gui.smooth.JHelpComponentSmooth#getPreferredSizeInternal()
     */
@@ -99,7 +100,7 @@ public class JHelpLabelImageSmooth
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param image
     *           Image parent where draw the component
     * @param x
@@ -140,7 +141,7 @@ public class JHelpLabelImageSmooth
 
    /**
     * The original image to draw
-    * 
+    *
     * @return Image to draw
     */
    public JHelpImage getImage()
@@ -161,7 +162,7 @@ public class JHelpLabelImageSmooth
 
    /**
     * Defines/change/remove the image
-    * 
+    *
     * @param image
     *           New image or {@code null} for remove image
     */
@@ -171,6 +172,20 @@ public class JHelpLabelImageSmooth
       {
          this.original = image;
          this.precomputed = null;
+      }
+   }
+
+   public Point undoScale(final int mouseX, final int mouseY)
+   {
+      synchronized(this.lock)
+      {
+         if((this.original == null) || (this.precomputed == null))
+         {
+            return new Point(mouseX, mouseY);
+         }
+
+         return new Point((mouseX * this.original.getWidth()) / this.precomputed.getWidth(), //
+               (mouseY * this.original.getHeight()) / this.precomputed.getHeight());
       }
    }
 }

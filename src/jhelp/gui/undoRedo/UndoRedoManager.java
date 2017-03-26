@@ -98,7 +98,7 @@ public class UndoRedoManager
     */
    public void redo()
    {
-      if(this.canRedo() == false)
+      if(!this.canRedo())
       {
          throw new IllegalStateException("Nothing to redo");
       }
@@ -122,7 +122,7 @@ public class UndoRedoManager
          throw new NullPointerException("undoRedoAction musn't be null");
       }
 
-      if(doIt == true)
+      if(doIt)
       {
          // Do the action
          undoRedoAction.redo();
@@ -173,7 +173,7 @@ public class UndoRedoManager
       }
 
       // If at least one compression append, just add at the end
-      if(compress == true)
+      if(compress)
       {
          this.undoRedoReadIndex = this.undoRedoIndex = max;
          this.undoRedoActionList[this.undoRedoIndex++] = undoRedoAction;
@@ -204,7 +204,7 @@ public class UndoRedoManager
       if(this.undoRedoReadIndex > indexUndoRedo)
       {
          final int temp = this.undoRedoReadIndex;
-         while(this.canUndo() == true)
+         while(this.canUndo())
          {
             this.undo();
          }
@@ -235,7 +235,7 @@ public class UndoRedoManager
     */
    public void undo()
    {
-      if(this.canUndo() == false)
+      if(!this.canUndo())
       {
          throw new IllegalStateException("Nothing to undo");
       }

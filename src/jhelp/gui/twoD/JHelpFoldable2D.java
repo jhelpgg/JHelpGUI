@@ -270,7 +270,7 @@ public class JHelpFoldable2D
                                                                 alertListeners = true;
                                                              }
 
-                                                             if(alertListeners == true)
+                                                             if(alertListeners)
                                                              {
                                                                 JHelpFoldable2D.this.fireFoldChanged();
                                                              }
@@ -406,7 +406,7 @@ public class JHelpFoldable2D
    @Override
    protected Dimension computePreferredSize(final int parentWidth, final int parentHeight)
    {
-      if(this.isVisible() == false)
+      if(!this.isVisible())
       {
          return new Dimension();
       }
@@ -506,12 +506,12 @@ public class JHelpFoldable2D
          break;
       }
 
-      if(this.component2d.isVisible() == false)
+      if(!this.component2d.isVisible())
       {
          return null;
       }
 
-      if(overPanel == true)
+      if(overPanel)
       {
          return this.component2d.mouseOver(x, y);
       }
@@ -588,7 +588,7 @@ public class JHelpFoldable2D
          break;
       }
 
-      if((widthPanel > 0) && (heightPanel > 0) && (this.component2d.isVisible() == true))
+      if((widthPanel > 0) && (heightPanel > 0) && (this.component2d.isVisible()))
       {
          final JHelpImage image = new JHelpImage(widthPanel, heightPanel);
          image.startDrawMode();
@@ -610,7 +610,7 @@ public class JHelpFoldable2D
       this.foldWay = -this.foldWay;
       this.fireFoldWillChange();
 
-      if(this.onFolding == false)
+      if(!this.onFolding)
       {
          this.onFolding = true;
          ThreadManager.THREAD_MANAGER.delayedThread(this.updateFold, null, JHelpFoldable2D.TIME);

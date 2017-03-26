@@ -1,11 +1,12 @@
 /**
  * <h1>License :</h1> <br>
- * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any
+ * damage it may
  * cause.<br>
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui.twoD;
@@ -18,573 +19,584 @@ import jhelp.util.gui.JHelpFont;
 import jhelp.util.gui.JHelpImage;
 import jhelp.util.gui.JHelpRichText;
 import jhelp.util.gui.JHelpTextAlign;
-import jhelp.util.gui.JHelpTextLine;
+import jhelp.util.gui.JHelpTextLineAlpha;
 import jhelp.util.list.Pair;
 import jhelp.util.resources.ResourceText;
 import jhelp.util.resources.ResourceTextListener;
 
 /**
  * Label with text in it
- * 
+ *
  * @author JHelp
  */
 public class JHelpLabelText2D
-      extends JHelpComponent2D
-      implements ResourceTextListener
+        extends JHelpComponent2D
+        implements ResourceTextListener
 {
-   /** Actual height */
-   private int            actualHeight;
-   /** Actual width */
-   private int            actualWidth;
-   /** Background color */
-   private int            background;
-   /** Font to use */
-   private JHelpFont      font;
-   /** Foreground color */
-   private int            foreground;
-   /** Image text */
-   private JHelpImage     imageText;
-   /** Resource key */
-   private String         resourceKey;
-   /** Resource text */
-   private ResourceText   resourceText;
-   /** Rich text to use */
-   private JHelpRichText  richText;
-   /** Actual text */
-   private String         text;
-   /** Text align */
-   private JHelpTextAlign textAlign;
+    /** Actual height */
+    private int            actualHeight;
+    /** Actual width */
+    private int            actualWidth;
+    /** Background color */
+    private int            background;
+    /** Font to use */
+    private JHelpFont      font;
+    /** Foreground color */
+    private int            foreground;
+    /** Image text */
+    private JHelpImage     imageText;
+    /** Resource key */
+    private String         resourceKey;
+    /** Resource text */
+    private ResourceText   resourceText;
+    /** Rich text to use */
+    private JHelpRichText  richText;
+    /** Actual text */
+    private String         text;
+    /** Text align */
+    private JHelpTextAlign textAlign;
 
-   /**
-    * Create a new instance of JHelpLabelText2D
-    * 
-    * @param font
-    *           Font to use
-    * @param richText
-    *           Rich text
-    * @param text
-    *           Actual text
-    * @param textAlign
-    *           Text align
-    * @param foreground
-    *           Foreground color
-    * @param background
-    *           Background color
-    */
-   private JHelpLabelText2D(final JHelpFont font, final JHelpRichText richText, final String text, final JHelpTextAlign textAlign, final int foreground,
-         final int background)
-   {
-      if(font == null)
-      {
-         this.font = JHelpFont.DEFAULT;
-      }
-      else
-      {
-         this.font = font;
-      }
+    /**
+     * Create a new instance of JHelpLabelText2D
+     */
+    public JHelpLabelText2D()
+    {
+        this(JHelpFont.DEFAULT, null, "", JHelpTextAlign.LEFT, 0xFF000000, 0xFFFFFFFF);
+    }
 
-      this.richText = richText;
+    /**
+     * Create a new instance of JHelpLabelText2D
+     *
+     * @param font
+     *           Font to use
+     * @param richText
+     *           Rich text
+     * @param text
+     *           Actual text
+     * @param textAlign
+     *           Text align
+     * @param foreground
+     *           Foreground color
+     * @param background
+     *           Background color
+     */
+    private JHelpLabelText2D(final JHelpFont font, final JHelpRichText richText, final String text,
+                             final JHelpTextAlign textAlign, final int foreground,
+                             final int background)
+    {
+        if (font == null)
+        {
+            this.font = JHelpFont.DEFAULT;
+        }
+        else
+        {
+            this.font = font;
+        }
 
-      if(text == null)
-      {
-         this.text = "";
-      }
-      else
-      {
-         this.text = text;
-      }
+        this.richText = richText;
 
-      if(textAlign == null)
-      {
-         this.textAlign = JHelpTextAlign.LEFT;
-      }
-      else
-      {
-         this.textAlign = textAlign;
-      }
+        if (text == null)
+        {
+            this.text = "";
+        }
+        else
+        {
+            this.text = text;
+        }
 
-      this.foreground = foreground;
-      this.background = background;
+        if (textAlign == null)
+        {
+            this.textAlign = JHelpTextAlign.LEFT;
+        }
+        else
+        {
+            this.textAlign = textAlign;
+        }
 
-      this.actualWidth = this.actualHeight = -1;
-      this.updateTextImage();
-   }
+        this.foreground = foreground;
+        this.background = background;
 
-   /**
-    * Create a new instance of JHelpLabelText2D
-    */
-   public JHelpLabelText2D()
-   {
-      this(JHelpFont.DEFAULT, null, "", JHelpTextAlign.LEFT, 0xFF000000, 0xFFFFFFFF);
-   }
+        this.actualWidth = this.actualHeight = -1;
+        this.updateTextImage();
+    }
 
-   /**
-    * Create a new instance of JHelpLabelText2D
-    * 
-    * @param font
-    *           Font to use
-    * @param richText
-    *           Rich text to use
-    */
-   public JHelpLabelText2D(final JHelpFont font, final JHelpRichText richText)
-   {
-      this(font, richText, "", JHelpTextAlign.LEFT, 0xFF000000, 0xFFFFFFFF);
-   }
+    /**
+     * Update image text
+     */
+    private void updateTextImage()
+    {
+        if (this.richText != null)
+        {
+            this.imageText = this.richText.createImage(this.text, this.font, this.foreground);
+        }
+        else
+        {
+            final Pair<List<JHelpTextLineAlpha>, Dimension> pair = this.font.computeTextLinesAlpha(this.text,
+                                                                                                   this.textAlign);
+            if ((this.imageText == null) || (this.imageText.getWeight() != pair.element2.width) || (this.imageText
+                                                                                                            .getHeight()
+                                                                                                            != pair
+                    .element2.height))
+            {
+                this.imageText = new JHelpImage(pair.element2.width, pair.element2.height);
+            }
 
-   /**
-    * Create a new instance of JHelpLabelText2D
-    * 
-    * @param font
-    *           Font to use
-    * @param richText
-    *           Rich text to use
-    * @param foreground
-    *           Foregroud color
-    * @param background
-    *           Background color
-    */
-   public JHelpLabelText2D(final JHelpFont font, final JHelpRichText richText, final int foreground, final int background)
-   {
-      this(font, richText, "", JHelpTextAlign.LEFT, foreground, background);
-   }
+            this.imageText.startDrawMode();
+            this.imageText.clear(0);
 
-   /**
-    * Create a new instance of JHelpLabelText2D
-    * 
-    * @param font
-    *           Font to use
-    * @param text
-    *           Text to print
-    */
-   public JHelpLabelText2D(final JHelpFont font, final String text)
-   {
-      this(font, null, text, JHelpTextAlign.LEFT, 0xFF000000, 0xFFFFFFFF);
-   }
+            for (final JHelpTextLineAlpha textLine : pair.element1)
+            {
+                this.imageText.paintAlphaMask(textLine.getX(), textLine.getY(), textLine.getMask(), this.foreground, 0,
+                                              false);
+            }
 
-   /**
-    * Create a new instance of JHelpLabelText2D
-    * 
-    * @param font
-    *           Font to use
-    * @param text
-    *           Text to print
-    * @param foreground
-    *           Foreground color
-    * @param background
-    *           Background color
-    */
-   public JHelpLabelText2D(final JHelpFont font, final String text, final int foreground, final int background)
-   {
-      this(font, null, text, JHelpTextAlign.LEFT, foreground, background);
-   }
+            this.imageText.endDrawMode();
+        }
 
-   /**
-    * Create a new instance of JHelpLabelText2D
-    * 
-    * @param font
-    *           Font to use
-    * @param text
-    *           Text to print
-    * @param textAlign
-    *           Text align
-    * @param foreground
-    *           Foreground color
-    * @param background
-    *           Background color
-    */
-   public JHelpLabelText2D(final JHelpFont font, final String text, final JHelpTextAlign textAlign, final int foreground, final int background)
-   {
-      this(font, null, text, textAlign, foreground, background);
-   }
+        if ((this.imageText.getWidth() != this.actualWidth) || (this.imageText.getHeight() != this.actualHeight))
+        {
+            this.actualWidth = this.imageText.getWidth();
+            this.actualHeight = this.imageText.getHeight();
+            this.invalidate();
+        }
+    }
 
-   /**
-    * Create a new instance of JHelpLabelText2D based on rich text (Be able transform text to image, see {@link JHelpRichText}
-    * 
-    * @param richText
-    *           Rich text to use
-    */
-   public JHelpLabelText2D(final JHelpRichText richText)
-   {
-      this(JHelpFont.DEFAULT, richText, "", JHelpTextAlign.LEFT, 0xFF000000, 0xFFFFFFFF);
-   }
+    /**
+     * Create a new instance of JHelpLabelText2D
+     *
+     * @param font
+     *           Font to use
+     * @param richText
+     *           Rich text to use
+     */
+    public JHelpLabelText2D(final JHelpFont font, final JHelpRichText richText)
+    {
+        this(font, richText, "", JHelpTextAlign.LEFT, 0xFF000000, 0xFFFFFFFF);
+    }
 
-   /**
-    * Create a new instance of JHelpLabelText2D based on rich text (Be able transform text to image, see {@link JHelpRichText}
-    * 
-    * @param richText
-    *           Rich text to use
-    * @param foreground
-    *           Foreground color
-    * @param background
-    *           Background color
-    */
-   public JHelpLabelText2D(final JHelpRichText richText, final int foreground, final int background)
-   {
-      this(JHelpFont.DEFAULT, richText, "", JHelpTextAlign.LEFT, foreground, background);
-   }
+    /**
+     * Create a new instance of JHelpLabelText2D
+     *
+     * @param font
+     *           Font to use
+     * @param richText
+     *           Rich text to use
+     * @param foreground
+     *           Foregroud color
+     * @param background
+     *           Background color
+     */
+    public JHelpLabelText2D(final JHelpFont font, final JHelpRichText richText, final int foreground, final int background)
+    {
+        this(font, richText, "", JHelpTextAlign.LEFT, foreground, background);
+    }
 
-   /**
-    * Create a new instance of JHelpLabelText2D
-    * 
-    * @param text
-    *           Text to print
-    */
-   public JHelpLabelText2D(final String text)
-   {
-      this(JHelpFont.DEFAULT, null, text, JHelpTextAlign.LEFT, 0xFF000000, 0xFFFFFFFF);
-   }
+    /**
+     * Create a new instance of JHelpLabelText2D
+     *
+     * @param font
+     *           Font to use
+     * @param text
+     *           Text to print
+     */
+    public JHelpLabelText2D(final JHelpFont font, final String text)
+    {
+        this(font, null, text, JHelpTextAlign.LEFT, 0xFF000000, 0xFFFFFFFF);
+    }
 
-   /**
-    * Create a new instance of JHelpLabelText2D
-    * 
-    * @param text
-    *           Text to print
-    * @param textAlign
-    *           Text align
-    */
-   public JHelpLabelText2D(final String text, final JHelpTextAlign textAlign)
-   {
-      this(JHelpFont.DEFAULT, null, text, textAlign, 0xFF000000, 0xFFFFFFFF);
-   }
+    /**
+     * Create a new instance of JHelpLabelText2D
+     *
+     * @param font
+     *           Font to use
+     * @param text
+     *           Text to print
+     * @param foreground
+     *           Foreground color
+     * @param background
+     *           Background color
+     */
+    public JHelpLabelText2D(final JHelpFont font, final String text, final int foreground, final int background)
+    {
+        this(font, null, text, JHelpTextAlign.LEFT, foreground, background);
+    }
 
-   /**
-    * Create a new instance of JHelpLabelText2D
-    * 
-    * @param text
-    *           Text to print
-    * @param textAlign
-    *           Text align
-    * @param foreground
-    *           Foreground color
-    * @param background
-    *           Background color
-    */
-   public JHelpLabelText2D(final String text, final JHelpTextAlign textAlign, final int foreground, final int background)
-   {
-      this(JHelpFont.DEFAULT, null, text, textAlign, foreground, background);
-   }
+    /**
+     * Create a new instance of JHelpLabelText2D
+     *
+     * @param font
+     *           Font to use
+     * @param text
+     *           Text to print
+     * @param textAlign
+     *           Text align
+     * @param foreground
+     *           Foreground color
+     * @param background
+     *           Background color
+     */
+    public JHelpLabelText2D(final JHelpFont font, final String text, final JHelpTextAlign textAlign, final int foreground,
+                            final int background)
+    {
+        this(font, null, text, textAlign, foreground, background);
+    }
 
-   /**
-    * Update image text
-    */
-   private void updateTextImage()
-   {
-      if(this.richText != null)
-      {
-         this.imageText = this.richText.createImage(this.text, this.font, this.foreground);
-      }
-      else
-      {
-         final Pair<List<JHelpTextLine>, Dimension> pair = this.font.computeTextLines(this.text, this.textAlign);
-         if((this.imageText == null) || (this.imageText.getWeight() != pair.element2.width) || (this.imageText.getHeight() != pair.element2.height))
-         {
-            this.imageText = new JHelpImage(pair.element2.width, pair.element2.height);
-         }
+    /**
+     * Create a new instance of JHelpLabelText2D based on rich text (Be able transform text to image, see
+     * {@link JHelpRichText}
+     *
+     * @param richText
+     *           Rich text to use
+     */
+    public JHelpLabelText2D(final JHelpRichText richText)
+    {
+        this(JHelpFont.DEFAULT, richText, "", JHelpTextAlign.LEFT, 0xFF000000, 0xFFFFFFFF);
+    }
 
-         this.imageText.startDrawMode();
-         this.imageText.clear(0);
-         for(final JHelpTextLine textLine : pair.element1)
-         {
-            this.imageText.paintMask(textLine.getX(), textLine.getY(), textLine.getMask(), this.foreground, 0, false);
-         }
-         this.imageText.endDrawMode();
-      }
+    /**
+     * Create a new instance of JHelpLabelText2D based on rich text (Be able transform text to image, see
+     * {@link JHelpRichText}
+     *
+     * @param richText
+     *           Rich text to use
+     * @param foreground
+     *           Foreground color
+     * @param background
+     *           Background color
+     */
+    public JHelpLabelText2D(final JHelpRichText richText, final int foreground, final int background)
+    {
+        this(JHelpFont.DEFAULT, richText, "", JHelpTextAlign.LEFT, foreground, background);
+    }
 
-      if((this.imageText.getWidth() != this.actualWidth) || (this.imageText.getHeight() != this.actualHeight))
-      {
-         this.actualWidth = this.imageText.getWidth();
-         this.actualHeight = this.imageText.getHeight();
-         this.invalidate();
-      }
-   }
+    /**
+     * Create a new instance of JHelpLabelText2D
+     *
+     * @param text
+     *           Text to print
+     */
+    public JHelpLabelText2D(final String text)
+    {
+        this(JHelpFont.DEFAULT, null, text, JHelpTextAlign.LEFT, 0xFF000000, 0xFFFFFFFF);
+    }
 
-   /**
-    * Compute label text preferred size <br>
-    * <br>
-    * <b>Parent documentation:</b><br>
-    * {@inheritDoc}
-    * 
-    * @param parentWidth
-    *           Parent width
-    * @param parentHeight
-    *           Parent height
-    * @return Label text preferred size
-    * @see jhelp.gui.twoD.JHelpComponent2D#computePreferredSize(int, int)
-    */
-   @Override
-   protected Dimension computePreferredSize(final int parentWidth, final int parentHeight)
-   {
-      return new Dimension(this.actualWidth, this.actualHeight);
-   }
+    /**
+     * Create a new instance of JHelpLabelText2D
+     *
+     * @param text
+     *           Text to print
+     * @param textAlign
+     *           Text align
+     */
+    public JHelpLabelText2D(final String text, final JHelpTextAlign textAlign)
+    {
+        this(JHelpFont.DEFAULT, null, text, textAlign, 0xFF000000, 0xFFFFFFFF);
+    }
 
-   /**
-    * Paint the label text <br>
-    * <br>
-    * <b>Parent documentation:</b><br>
-    * {@inheritDoc}
-    * 
-    * @param x
-    *           X location
-    * @param y
-    *           Y location
-    * @param parent
-    *           Parent where draw
-    * @see jhelp.gui.twoD.JHelpComponent2D#paint(int, int, jhelp.util.gui.JHelpImage)
-    */
-   @Override
-   protected void paint(final int x, final int y, final JHelpImage parent)
-   {
-      final Rectangle bounds = this.getBounds();
-      parent.fillRectangle(x, y, bounds.width, bounds.height, this.background);
-      int xx = x;
-      switch(this.textAlign)
-      {
-         case CENTER:
-            xx += (bounds.width - this.actualWidth) >> 1;
-         break;
-         case LEFT:
-         break;
-         case RIGHT:
-            xx += bounds.width - this.actualWidth;
-         break;
-      }
-      parent.drawImage(xx, y, this.imageText);
-   }
+    /**
+     * Create a new instance of JHelpLabelText2D
+     *
+     * @param text
+     *           Text to print
+     * @param textAlign
+     *           Text align
+     * @param foreground
+     *           Foreground color
+     * @param background
+     *           Background color
+     */
+    public JHelpLabelText2D(final String text, final JHelpTextAlign textAlign, final int foreground, final int background)
+    {
+        this(JHelpFont.DEFAULT, null, text, textAlign, foreground, background);
+    }
 
-   /**
-    * Background color
-    * 
-    * @return Background color
-    */
-   public int getBackground()
-   {
-      return this.background;
-   }
+    /**
+     * Compute label text preferred size <br>
+     * <br>
+     * <b>Parent documentation:</b><br>
+     * {@inheritDoc}
+     *
+     * @param parentWidth
+     *           Parent width
+     * @param parentHeight
+     *           Parent height
+     * @return Label text preferred size
+     * @see jhelp.gui.twoD.JHelpComponent2D#computePreferredSize(int, int)
+     */
+    @Override
+    protected Dimension computePreferredSize(final int parentWidth, final int parentHeight)
+    {
+        return new Dimension(this.actualWidth, this.actualHeight);
+    }
 
-   /**
-    * Label text font
-    * 
-    * @return Label text font
-    */
-   public JHelpFont getFont()
-   {
-      return this.font;
-   }
+    /**
+     * Paint the label text <br>
+     * <br>
+     * <b>Parent documentation:</b><br>
+     * {@inheritDoc}
+     *
+     * @param x
+     *           X location
+     * @param y
+     *           Y location
+     * @param parent
+     *           Parent where draw
+     * @see jhelp.gui.twoD.JHelpComponent2D#paint(int, int, jhelp.util.gui.JHelpImage)
+     */
+    @Override
+    protected void paint(final int x, final int y, final JHelpImage parent)
+    {
+        final Rectangle bounds = this.getBounds();
+        parent.fillRectangle(x, y, bounds.width, bounds.height, this.background);
+        int xx = x;
+        switch (this.textAlign)
+        {
+            case CENTER:
+                xx += (bounds.width - this.actualWidth) >> 1;
+                break;
+            case LEFT:
+                break;
+            case RIGHT:
+                xx += bounds.width - this.actualWidth;
+                break;
+        }
+        parent.drawImage(xx, y, this.imageText);
+    }
 
-   /**
-    * Foreground color
-    * 
-    * @return Foreground color
-    */
-   public int getForeground()
-   {
-      return this.foreground;
-   }
+    /**
+     * Background color
+     *
+     * @return Background color
+     */
+    public int getBackground()
+    {
+        return this.background;
+    }
 
-   /**
-    * Resource key
-    * 
-    * @return Resource key
-    */
-   public String getResourceKey()
-   {
-      return this.resourceKey;
-   }
+    /**
+     * Change background color
+     *
+     * @param background
+     *           New background color
+     */
+    public void setBackground(final int background)
+    {
+        this.background = background;
+        this.updateTextImage();
+    }
 
-   /**
-    * Assoiciated rich text
-    * 
-    * @return Assoiciated rich text
-    */
-   public JHelpRichText getRichText()
-   {
-      return this.richText;
-   }
+    /**
+     * Label text font
+     *
+     * @return Label text font
+     */
+    public JHelpFont getFont()
+    {
+        return this.font;
+    }
 
-   /**
-    * Printed text
-    * 
-    * @return Printed text
-    */
-   public String getText()
-   {
-      return this.text;
-   }
+    /**
+     * Change text font
+     *
+     * @param font
+     *           New text font
+     */
+    public void setFont(final JHelpFont font)
+    {
+        if (font == null)
+        {
+            this.font = JHelpFont.DEFAULT;
+        }
+        else
+        {
+            this.font = font;
+        }
 
-   /**
-    * Text align
-    * 
-    * @return Text align
-    */
-   public JHelpTextAlign getTextAlign()
-   {
-      return this.textAlign;
-   }
+        this.updateTextImage();
+    }
 
-   /**
-    * Link the label to resource, to print a resource text, and update it automaticaly if language change.<br>
-    * To change/remove this link before call {@link #unlinkToResourceText()}
-    * 
-    * @param resourceText
-    *           Resource text
-    * @param resourceKey
-    *           Resource key
-    */
-   public void linkToResourceText(final ResourceText resourceText, final String resourceKey)
-   {
-      if(resourceText == null)
-      {
-         throw new NullPointerException("resourceText musn't be null");
-      }
+    /**
+     * Foreground color
+     *
+     * @return Foreground color
+     */
+    public int getForeground()
+    {
+        return this.foreground;
+    }
 
-      if(resourceKey == null)
-      {
-         throw new NullPointerException("resourceKey musn't be null");
-      }
+    /**
+     * Change text foreground
+     *
+     * @param foreground
+     *           New text foreground
+     */
+    public void setForeground(final int foreground)
+    {
+        this.foreground = foreground;
+        this.updateTextImage();
+    }
 
-      if(this.resourceKey != null)
-      {
-         throw new IllegalStateException("Already linked to a resource text");
-      }
+    /**
+     * Resource key
+     *
+     * @return Resource key
+     */
+    public String getResourceKey()
+    {
+        return this.resourceKey;
+    }
 
-      this.resourceText = resourceText;
-      resourceText.register(this);
-      this.text = resourceText.getText(resourceKey);
-      this.updateTextImage();
-   }
+    /**
+     * Assoiciated rich text
+     *
+     * @return Assoiciated rich text
+     */
+    public JHelpRichText getRichText()
+    {
+        return this.richText;
+    }
 
-   /**
-    * Called when resource text launguage changed <br>
-    * <br>
-    * <b>Parent documentation:</b><br>
-    * {@inheritDoc}
-    * 
-    * @param resourceText
-    *           Resource text where language changed
-    * @see jhelp.util.resources.ResourceTextListener#resourceTextLanguageChanged(jhelp.util.resources.ResourceText)
-    */
-   @Override
-   public void resourceTextLanguageChanged(final ResourceText resourceText)
-   {
-      this.text = this.resourceText.getText(this.resourceKey);
-      this.updateTextImage();
-   }
+    /**
+     * Defines the rich text.<br>
+     * Use {@code null}to not use rich text.<br>
+     * See {@link JHelpRichText}
+     *
+     * @param richText
+     *           Rich text to associate of {@code null}
+     */
+    public void setRichText(final JHelpRichText richText)
+    {
+        this.richText = richText;
+        this.updateTextImage();
+    }
 
-   /**
-    * Change background color
-    * 
-    * @param background
-    *           New background color
-    */
-   public void setBackground(final int background)
-   {
-      this.background = background;
-      this.updateTextImage();
-   }
+    /**
+     * Printed text
+     *
+     * @return Printed text
+     */
+    public String getText()
+    {
+        return this.text;
+    }
 
-   /**
-    * Change text font
-    * 
-    * @param font
-    *           New text font
-    */
-   public void setFont(final JHelpFont font)
-   {
-      if(font == null)
-      {
-         this.font = JHelpFont.DEFAULT;
-      }
-      else
-      {
-         this.font = font;
-      }
+    /**
+     * Defines the new text.<br>
+     * Does nothing if the label is linked to a resource text
+     *
+     * @param text
+     *           New text
+     */
+    public void setText(final String text)
+    {
+        if (this.resourceKey != null)
+        {
+            return;
+        }
 
-      this.updateTextImage();
-   }
+        if (text == null)
+        {
+            this.text = "";
+        }
+        else
+        {
+            this.text = text;
+        }
 
-   /**
-    * Change text foreground
-    * 
-    * @param foreground
-    *           New text foreground
-    */
-   public void setForeground(final int foreground)
-   {
-      this.foreground = foreground;
-      this.updateTextImage();
-   }
+        this.updateTextImage();
+    }
 
-   /**
-    * Defines the rich text.<br>
-    * Use {@code null}to not use rich text.<br>
-    * See {@link JHelpRichText}
-    * 
-    * @param richText
-    *           Rich text to associate of {@code null}
-    */
-   public void setRichText(final JHelpRichText richText)
-   {
-      this.richText = richText;
-      this.updateTextImage();
-   }
+    /**
+     * Text align
+     *
+     * @return Text align
+     */
+    public JHelpTextAlign getTextAlign()
+    {
+        return this.textAlign;
+    }
 
-   /**
-    * Defines the new text.<br>
-    * Does nothing if the label is linked to a resource text
-    * 
-    * @param text
-    *           New text
-    */
-   public void setText(final String text)
-   {
-      if(this.resourceKey != null)
-      {
-         return;
-      }
+    /**
+     * Change text align
+     *
+     * @param textAlign
+     *           New text align
+     */
+    public void setTextAlign(final JHelpTextAlign textAlign)
+    {
+        if (textAlign == null)
+        {
+            this.textAlign = JHelpTextAlign.LEFT;
+        }
+        else
+        {
+            this.textAlign = textAlign;
+        }
 
-      if(text == null)
-      {
-         this.text = "";
-      }
-      else
-      {
-         this.text = text;
-      }
+        this.updateTextImage();
+    }
 
-      this.updateTextImage();
-   }
+    /**
+     * Link the label to resource, to print a resource text, and update it automaticaly if language change.<br>
+     * To change/remove this link before call {@link #unlinkToResourceText()}
+     *
+     * @param resourceText
+     *           Resource text
+     * @param resourceKey
+     *           Resource key
+     */
+    public void linkToResourceText(final ResourceText resourceText, final String resourceKey)
+    {
+        if (resourceText == null)
+        {
+            throw new NullPointerException("resourceText musn't be null");
+        }
 
-   /**
-    * Change text align
-    * 
-    * @param textAlign
-    *           New text align
-    */
-   public void setTextAlign(final JHelpTextAlign textAlign)
-   {
-      if(textAlign == null)
-      {
-         this.textAlign = JHelpTextAlign.LEFT;
-      }
-      else
-      {
-         this.textAlign = textAlign;
-      }
+        if (resourceKey == null)
+        {
+            throw new NullPointerException("resourceKey musn't be null");
+        }
 
-      this.updateTextImage();
-   }
+        if (this.resourceKey != null)
+        {
+            throw new IllegalStateException("Already linked to a resource text");
+        }
 
-   /**
-    * Unlik resouce text from label text
-    */
-   public void unlinkToResourceText()
-   {
-      if(this.resourceText != null)
-      {
-         this.resourceText.unregister(this);
-      }
+        this.resourceText = resourceText;
+        resourceText.register(this);
+        this.text = resourceText.getText(resourceKey);
+        this.updateTextImage();
+    }
 
-      this.resourceText = null;
-      this.resourceKey = null;
-   }
+    /**
+     * Called when resource text launguage changed <br>
+     * <br>
+     * <b>Parent documentation:</b><br>
+     * {@inheritDoc}
+     *
+     * @param resourceText
+     *           Resource text where language changed
+     * @see jhelp.util.resources.ResourceTextListener#resourceTextLanguageChanged(jhelp.util.resources.ResourceText)
+     */
+    @Override
+    public void resourceTextLanguageChanged(final ResourceText resourceText)
+    {
+        this.text = this.resourceText.getText(this.resourceKey);
+        this.updateTextImage();
+    }
+
+    /**
+     * Unlik resouce text from label text
+     */
+    public void unlinkToResourceText()
+    {
+        if (this.resourceText != null)
+        {
+            this.resourceText.unregister(this);
+        }
+
+        this.resourceText = null;
+        this.resourceKey = null;
+    }
 }

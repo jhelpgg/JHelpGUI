@@ -103,32 +103,32 @@ public class AppletSample
 
       this.spriteRedCircle.setPosition(mouseX - (this.spriteRedCircle.getWidth() >> 1), mouseY - (this.spriteRedCircle.getHeight() >> 1));
 
-      if(actionKeyState.get(ActionKey.ACTION_UP) == true)
+      if(actionKeyState.get(ActionKey.ACTION_UP))
       {
          this.spriteGreenTriangle.translate(0, -5);
       }
 
-      if(actionKeyState.get(ActionKey.ACTION_DOWN) == true)
+      if(actionKeyState.get(ActionKey.ACTION_DOWN))
       {
          this.spriteGreenTriangle.translate(0, 5);
       }
 
-      if(actionKeyState.get(ActionKey.ACTION_LEFT) == true)
+      if(actionKeyState.get(ActionKey.ACTION_LEFT))
       {
          this.spriteGreenTriangle.translate(-5, 0);
       }
 
-      if(actionKeyState.get(ActionKey.ACTION_RIGHT) == true)
+      if(actionKeyState.get(ActionKey.ACTION_RIGHT))
       {
          this.spriteGreenTriangle.translate(5, 0);
       }
 
-      if(actionKeyState.get(ActionKey.ACTION_CANCEL) == true)
+      if(actionKeyState.get(ActionKey.ACTION_CANCEL))
       {
          this.spriteGreenTriangle.setPosition((width - this.spriteGreenTriangle.getWidth()) >> 1, (height - this.spriteGreenTriangle.getHeight()) >> 1);
       }
 
-      if((actionKeyState.get(ActionKey.ACTION_FIRE) == true) && (this.animation.isPlaying() == false))
+      if((actionKeyState.get(ActionKey.ACTION_FIRE)) && (!this.animation.isPlaying()))
       {
          this.playAnimation(this.animation, this.spriteAnimate);
       }

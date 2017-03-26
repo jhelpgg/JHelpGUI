@@ -123,7 +123,7 @@ public class JHelpAutoStyledTextArea
       @Override
       public void keyPressed(final KeyEvent keyEvent)
       {
-         if((keyEvent.getKeyCode() == KeyEvent.VK_F) && (keyEvent.isControlDown() == true) && (keyEvent.isShiftDown() == true))
+         if((keyEvent.getKeyCode() == KeyEvent.VK_F) && (keyEvent.isControlDown()) && (keyEvent.isShiftDown()))
          {
             ThreadManager.THREAD_MANAGER.delayedThread(JHelpAutoStyledTextArea.this.refreshFormat, null, 123L);
          }
@@ -207,7 +207,7 @@ public class JHelpAutoStyledTextArea
          int read = 0;
          int end = 0;
 
-         while(stringTokenizer.hasMoreTokens() == true)
+         while(stringTokenizer.hasMoreTokens())
          {
             read = end;
             line = stringTokenizer.nextToken();
@@ -287,7 +287,7 @@ public class JHelpAutoStyledTextArea
 
                stringBuilder.append(line.substring(start));
 
-               if(stringTokenizer.hasMoreElements() == true)
+               if(stringTokenizer.hasMoreElements())
                {
                   stringBuilder.append('\n');
                }
@@ -344,7 +344,8 @@ public class JHelpAutoStyledTextArea
          final Style defaultStyle = JHelpAutoStyledTextArea.this.autoStyledDocument.getStyle(styleName);
 
          // Compute symbols areas, if the symbol style is not the default one
-         if((JHelpAutoStyledTextArea.this.symbolStyle != null) && (styleName.equals(JHelpAutoStyledTextArea.this.symbolStyle) == false))
+         if((JHelpAutoStyledTextArea.this.symbolStyle != null) && (!styleName.equals(
+                 JHelpAutoStyledTextArea.this.symbolStyle)))
          {
             int index = UtilText.indexOf(text, JHelpAutoStyledTextArea.SYMBOLS);
 
@@ -364,7 +365,7 @@ public class JHelpAutoStyledTextArea
             {
                matcher = pattern.element1.matcher(text);
 
-               while(matcher.find() == true)
+               while(matcher.find())
                {
                   styleAreaList.addArea(matcher.start(pattern.element2), matcher.end(pattern.element2), styleName);
                }
@@ -597,13 +598,13 @@ public class JHelpAutoStyledTextArea
    private final TaskRestoreParagraph            taskRestoreParagraph;
    /** Style association map */
    // HashMap<String, String> associatedStyle;
-   HashMap<String, List<Pair<Pattern, Integer>>> associatedStyle;
+   final         HashMap<String, List<Pair<Pattern, Integer>>> associatedStyle;
    /** Document to add style */
-   DefaultStyledDocument                         autoStyledDocument;
+   final DefaultStyledDocument                         autoStyledDocument;
    /** Default style name */
    String                                        defaultStyle;
    /** Automatic refresh */
-   RefreshFormat                                 refreshFormat;
+   final RefreshFormat                                 refreshFormat;
    /** Symbol style name */
    String                                        symbolStyle;
 
@@ -649,7 +650,7 @@ public class JHelpAutoStyledTextArea
 
       if((additionalText != null) || //
             ((background != null) && //
-                  (((background instanceof Integer) == false) || (((Integer) background) != 0))))
+                  ((!(background instanceof Integer)) || (((Integer) background) != 0))))
       {
          final SimpleAttributeSet mutableAttributeSet = new SimpleAttributeSet(attributeSet);
          mutableAttributeSet.addAttribute(LineNumberParagraphView.ATTRIBUTE_NUMBER_BACKGROUND, 0);
@@ -676,12 +677,12 @@ public class JHelpAutoStyledTextArea
       this.setForeground(StyleConstants.getForeground(style));
       int flag = 0;
 
-      if(StyleConstants.isBold(style) == true)
+      if(StyleConstants.isBold(style))
       {
          flag |= Font.BOLD;
       }
 
-      if(StyleConstants.isItalic(style) == true)
+      if(StyleConstants.isItalic(style))
       {
          flag |= Font.ITALIC;
       }
@@ -892,7 +893,7 @@ public class JHelpAutoStyledTextArea
          StyleConstants.setBackground(style, background);
       }
 
-      if((name.equals(this.defaultStyle) == true) || (name.equals(JHelpAutoStyledTextArea.DEFAULT_STYLE) == true))
+      if((name.equals(this.defaultStyle)) || (name.equals(JHelpAutoStyledTextArea.DEFAULT_STYLE)))
       {
          this.updateDefaultStyle();
       }

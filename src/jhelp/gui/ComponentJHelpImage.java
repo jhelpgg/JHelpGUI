@@ -247,7 +247,7 @@ public class ComponentJHelpImage
     */
    public void setImageOverActive(final boolean active)
    {
-      if(active == false)
+      if(!active)
       {
          if(this.imageOver != null)
          {

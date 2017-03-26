@@ -107,7 +107,7 @@ class JHelpDialogSmooth
    }
 
    /** Animation time in milliseconds */
-   private static final long                   ANIMATION_TIME = 2048l;
+   private static final long                   ANIMATION_TIME = 2048L;
 
    /** Constriants special dialog */
    private static final JHelpConstraintsSmooth CONSTRAINTS    = new JHelpConstraintsSmooth()

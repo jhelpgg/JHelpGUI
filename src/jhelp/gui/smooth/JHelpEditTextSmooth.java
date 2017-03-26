@@ -93,7 +93,7 @@ public class JHelpEditTextSmooth
       public UndoRedoAction compress(final UndoRedoAction nextUndoRedo)
       {
          // May be a previous compression make this action dummy (does nothing), so we can remove it now in that case
-         if((this.before.equals(this.after) == true) && (this.cursorBefore == this.cursorAfter))
+         if((this.before.equals(this.after)) && (this.cursorBefore == this.cursorAfter))
          {
             return nextUndoRedo;
          }
@@ -243,7 +243,7 @@ public class JHelpEditTextSmooth
    private void textChanged(final String before, final int cursorBefore)
    {
       // /Control if its a real change
-      if((before.equals(this.stringBuilder.toString()) == true) && (cursorBefore == this.cursorPosition))
+      if((before.equals(this.stringBuilder.toString())) && (cursorBefore == this.cursorPosition))
       {
          return;
       }
@@ -308,7 +308,7 @@ public class JHelpEditTextSmooth
    {
       this.drawBackground(image, x, y, width, height);
       final Rectangle bounds = this.getBounds();
-      final int position = this.hasFocus() == true
+      final int position = this.hasFocus()
             ? this.cursorPosition
             : -1;
 
@@ -332,7 +332,7 @@ public class JHelpEditTextSmooth
    @Override
    protected void processKeyEvent(final SmoothKeyInformation keyInformation)
    {
-      if((this.hasFocus() == false) || (this.isFocusable() == false))
+      if((!this.hasFocus()) || (!this.isFocusable()))
       {
          return;
       }
@@ -385,9 +385,9 @@ public class JHelpEditTextSmooth
             this.textChanged(before, cursorBefore);
             return;
          case KeyEvent.VK_V:
-            if(keyInformation.controlDown == true)
+            if(keyInformation.controlDown)
             {
-               if(ClipBoardManager.CLIP_BOARD.isStringStore() == true)
+               if(ClipBoardManager.CLIP_BOARD.isStringStore())
                {
                   this.appendAtCursorPosition(ClipBoardManager.CLIP_BOARD.obtainString());
                }
@@ -495,7 +495,7 @@ public class JHelpEditTextSmooth
    @Override
    public boolean isFocusable()
    {
-      return (this.editable == true) && (this.isVisible() == true);
+      return (this.editable) && (this.isVisible());
    }
 
    /**
@@ -513,7 +513,7 @@ public class JHelpEditTextSmooth
 
       synchronized(this.lock)
       {
-         if(this.editTextListeners.contains(editTextListener) == false)
+         if(!this.editTextListeners.contains(editTextListener))
          {
             this.editTextListeners.add(editTextListener);
          }

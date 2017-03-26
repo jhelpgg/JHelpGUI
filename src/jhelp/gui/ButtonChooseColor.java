@@ -305,7 +305,7 @@ public class ButtonChooseColor
          throw new NullPointerException("color musn't be null");
       }
 
-      if(color.equals(this.color) == true)
+      if(color.equals(this.color))
       {
          return;
       }

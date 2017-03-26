@@ -118,7 +118,7 @@ public class JHelpLabel
          foreground = Color.BLACK;
       }
 
-      if(this.selected == true)
+      if(this.selected)
       {
          background = this.selectedColor;
       }
@@ -128,7 +128,7 @@ public class JHelpLabel
       final int y = (height - image.getHeight()) >> 1;
       graphics.drawImage(image.getImage(), x, y, null);
 
-      if(this.focused == true)
+      if(this.focused)
       {
          graphics.setColor(this.focusedColor);
          graphics.drawRect(x, y, image.getWidth(), image.getHeight());
@@ -234,7 +234,7 @@ public class JHelpLabel
 
       this.focusedColor = focusedColor;
 
-      if(this.focused == true)
+      if(this.focused)
       {
          this.repaint();
       }
@@ -307,7 +307,7 @@ public class JHelpLabel
 
       this.selectedColor = selectedColor;
 
-      if(this.selected == true)
+      if(this.selected)
       {
          this.repaint();
       }

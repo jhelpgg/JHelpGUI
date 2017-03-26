@@ -5,10 +5,12 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui.samples.game;
+
+import jhelp.gui.samples.game.ui.SampleDynamicFrame;
 
 public class SampleDynamic
 {
@@ -18,6 +20,7 @@ public class SampleDynamic
     */
    public static void main(final String[] args)
    {
-
+      final SampleDynamicFrame frame = new SampleDynamicFrame();
+      frame.setVisible(true);
    }
 }

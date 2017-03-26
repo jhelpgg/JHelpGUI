@@ -99,7 +99,7 @@ public class ConsolePrintStream
             return;
          }
 
-         if(this.utf8 == true)
+         if(this.utf8)
          {
             ConsolePrintStream.this.append(new String(b, off, len, "UTF-8"));
          }

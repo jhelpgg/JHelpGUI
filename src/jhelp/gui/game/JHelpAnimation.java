@@ -33,13 +33,13 @@ public final class JHelpAnimation
    static class Frame
    {
       /** Frame position */
-      public int           frame;
+      public final int           frame;
       /** Interpolation to use to go to this frame */
-      public Interpolation interpolation;
+      public final Interpolation interpolation;
       /** Sprite position X */
-      public int           x;
+      public final int           x;
       /** Sprite position Y */
-      public int           y;
+      public final int           y;
 
       /**
        * Create a new instance of Frame
@@ -272,6 +272,7 @@ public final class JHelpAnimation
          return false;
       }
 
+      assert frameEnd != null;
       if(framePosition == frameEnd.frame)
       {
          sprite.setPosition(frameEnd.x, frameEnd.y);

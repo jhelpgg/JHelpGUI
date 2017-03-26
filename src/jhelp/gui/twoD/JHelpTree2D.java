@@ -62,9 +62,9 @@ public class JHelpTree2D<INFORMATION>
       /** Area bottom right corner X */
       final int        xx;
       /** Area top left corner Y */
-      int              y;
+      final int              y;
       /** Area bottom right corner Y */
-      int              yy;
+      final int              yy;
 
       /**
        * Create a new instance of Area
@@ -462,7 +462,7 @@ public class JHelpTree2D<INFORMATION>
       JHelpImage image = null;
       String text = null;
 
-      if(this.treeModel.useImageRepresentation(information) == true)
+      if(this.treeModel.useImageRepresentation(information))
       {
          image = this.treeModel.obtainImageRepresentation(information);
       }
@@ -492,7 +492,7 @@ public class JHelpTree2D<INFORMATION>
       {
          if(numberOfChildren > 0)
          {
-            if(expand == true)
+            if(expand)
             {
                this.areas.add(new Area<INFORMATION>(JHelpTree2D.AREA_COLLAPSE_BUTTON, information, x, y + ((height - JHelpTree2D.MOVE_Y) >> 1),
                      JHelpTree2D.MOVE_X, JHelpTree2D.MOVE_Y, JHelpTree2D.IMAGE_COLLAPSE));
@@ -509,7 +509,7 @@ public class JHelpTree2D<INFORMATION>
 
       int width = x + JHelpTree2D.MOVE_X + image.getWidth();
 
-      if(expand == true)
+      if(expand)
       {
          Dimension size;
          for(int child = 0; child < numberOfChildren; child++)
@@ -539,7 +539,7 @@ public class JHelpTree2D<INFORMATION>
       {
          for(final Area<INFORMATION> area : this.areas)
          {
-            if(area.inside(x, y) == true)
+            if(area.inside(x, y))
             {
                return area;
             }
@@ -757,7 +757,7 @@ public class JHelpTree2D<INFORMATION>
          throw new NullPointerException("treeClickOnListener musn't be null");
       }
 
-      if(this.treeClickOnListeners.contains(treeClickOnListener) == false)
+      if(!this.treeClickOnListeners.contains(treeClickOnListener))
       {
          this.treeClickOnListeners.add(treeClickOnListener);
       }
@@ -793,7 +793,7 @@ public class JHelpTree2D<INFORMATION>
          throw new NullPointerException("font musn't be null");
       }
 
-      if(this.font.equals(font) == true)
+      if(this.font.equals(font))
       {
          return;
       }
@@ -847,7 +847,7 @@ public class JHelpTree2D<INFORMATION>
    {
       for(final Area<INFORMATION> area : this.areas)
       {
-         if(area.node.equals(information) == true)
+         if(area.node.equals(information))
          {
             this.selectedArea = area;
             return;
@@ -865,7 +865,7 @@ public class JHelpTree2D<INFORMATION>
     */
    public void setTreeModel(final JHelpTreeModel<INFORMATION> treeModel)
    {
-      if(treeModel.equals(this.treeModel) == true)
+      if(treeModel.equals(this.treeModel))
       {
          return;
       }

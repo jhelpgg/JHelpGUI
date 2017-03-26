@@ -275,7 +275,7 @@ public class EditImageArea
    }
 
    /** File name extension */
-   private static final String      END_FILE_NAME = "." + ImageArea.EXTENTION;
+   private static final String      END_FILE_NAME = "." + ImageArea.EXTENSION;
 
    /** Component that carray the image area to edit */
    private final ComponentImageArea componentImageArea;
@@ -315,7 +315,7 @@ public class EditImageArea
 
       this.fileChooser = fileChooser;
       this.filterArea = new FileFilter();
-      this.filterArea.addExtension(ImageArea.EXTENTION);
+      this.filterArea.addExtension(ImageArea.EXTENSION);
       this.filterImage = FileFilter.createFilterForImageByFileImageInformation();
 
       this.componentImageArea = new ComponentImageArea();
@@ -497,7 +497,7 @@ public class EditImageArea
                {
                   inputStream.close();
                }
-               catch(final Exception exception)
+               catch(final Exception ignored)
                {
                }
             }
@@ -529,7 +529,7 @@ public class EditImageArea
       {
          final String name = file.getName();
 
-         if(name.endsWith(EditImageArea.END_FILE_NAME) == false)
+         if(!name.endsWith(EditImageArea.END_FILE_NAME))
          {
             file = new File(file.getParent(), name + EditImageArea.END_FILE_NAME);
          }
@@ -556,7 +556,7 @@ public class EditImageArea
                {
                   outputStream.flush();
                }
-               catch(final Exception exception)
+               catch(final Exception ignored)
                {
                }
 
@@ -564,7 +564,7 @@ public class EditImageArea
                {
                   outputStream.close();
                }
-               catch(final Exception exception)
+               catch(final Exception ignored)
                {
                }
             }

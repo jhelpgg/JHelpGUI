@@ -1,11 +1,12 @@
 /**
  * <h1>License :</h1> <br>
- * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any
+ * damage it may
  * cause.<br>
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui.smooth;
@@ -25,7 +26,7 @@ import jhelp.gui.smooth.event.SmoothMouseInformation;
 import jhelp.util.gui.JHelpFont;
 import jhelp.util.gui.JHelpImage;
 import jhelp.util.gui.JHelpTextAlign;
-import jhelp.util.gui.JHelpTextLine;
+import jhelp.util.gui.JHelpTextLineAlpha;
 import jhelp.util.list.Pair;
 
 /**
@@ -33,477 +34,479 @@ import jhelp.util.list.Pair;
  * Button is based on one action, action have text and may be an icon<br>
  * If action have icon {@link JHelpButtonAlignSmooth} decide how place text and icon, else text is print centered.<br>
  * The action is execute each time user click on button
- * 
+ *
  * @author JHelp
  */
 public class JHelpButtonSmooth
-      extends JHelpComponentSmooth
-      implements PropertyChangeListener
+        extends JHelpComponentSmooth
+        implements PropertyChangeListener
 {
-   /** Action linked to button */
-   private final GenericAction    action;
-   /** How place text and icon */
-   private JHelpButtonAlignSmooth buttonAlign;
-   /** Font to use */
-   private JHelpFont              font;
-   /** Indicates if text is upper case automatically */
-   private boolean                forceUpperCase;
-   /** Foreground color */
-   private int                    foreground;
-   /** Lock for synchronization */
-   private final Object           lock = new Object();
-   /** Pre-computed image button */
-   private JHelpImage             precomputed;
+    /**
+     * Action linked to button
+     */
+    private final GenericAction action;
+    /**
+     * Lock for synchronization
+     */
+    private final Object lock = new Object();
+    /**
+     * How place text and icon
+     */
+    private JHelpButtonAlignSmooth buttonAlign;
+    /**
+     * Font to use
+     */
+    private JHelpFont              font;
+    /**
+     * Indicates if text is upper case automatically
+     */
+    private boolean                forceUpperCase;
+    /**
+     * Foreground color
+     */
+    private int                    foreground;
+    /**
+     * Pre-computed image button
+     */
+    private JHelpImage             precomputed;
 
-   /**
-    * Create a new instance of JHelpButtonSmooth
-    * 
-    * @param action
-    *           Action linked
-    */
-   public JHelpButtonSmooth(final GenericAction action)
-   {
-      this(action, JHelpButtonAlignSmooth.ICON_LEFT_TEXT_RIGHT, JHelpConstantsSmooth.FONT_BUTTON);
-   }
+    /**
+     * Create a new instance of JHelpButtonSmooth
+     *
+     * @param action Action linked
+     */
+    public JHelpButtonSmooth(final GenericAction action)
+    {
+        this(action, JHelpButtonAlignSmooth.ICON_LEFT_TEXT_RIGHT, JHelpConstantsSmooth.FONT_BUTTON);
+    }
 
-   /**
-    * Create a new instance of JHelpButtonSmooth
-    * 
-    * @param action
-    *           Action to execute
-    * @param buttonAlign
-    *           How place text and icon
-    */
-   public JHelpButtonSmooth(final GenericAction action, final JHelpButtonAlignSmooth buttonAlign)
-   {
-      this(action, buttonAlign, JHelpConstantsSmooth.FONT_BUTTON);
-   }
+    /**
+     * Create a new instance of JHelpButtonSmooth
+     *
+     * @param action      Action to execute
+     * @param buttonAlign How place text and icon
+     * @param font        Font to use
+     */
+    public JHelpButtonSmooth(final GenericAction action, final JHelpButtonAlignSmooth buttonAlign, final JHelpFont font)
+    {
+        if (action == null)
+        {
+            throw new NullPointerException("action musn't be null");
+        }
 
-   /**
-    * Create a new instance of JHelpButtonSmooth
-    * 
-    * @param action
-    *           Action to execute
-    * @param buttonAlign
-    *           How place text and icon
-    * @param font
-    *           Font to use
-    */
-   public JHelpButtonSmooth(final GenericAction action, final JHelpButtonAlignSmooth buttonAlign, final JHelpFont font)
-   {
-      if(action == null)
-      {
-         throw new NullPointerException("action musn't be null");
-      }
+        if (buttonAlign == null)
+        {
+            throw new NullPointerException("buttonAlign musn't be null");
+        }
 
-      if(buttonAlign == null)
-      {
-         throw new NullPointerException("buttonAlign musn't be null");
-      }
+        if (font == null)
+        {
+            throw new NullPointerException("font musn't be null");
+        }
 
-      if(font == null)
-      {
-         throw new NullPointerException("font musn't be null");
-      }
+        this.setBackgroundAndShadowColor(JHelpConstantsSmooth.COLOR_WHITE);
+        this.foreground = JHelpConstantsSmooth.COLOR_BLACK;
+        this.action = action;
+        this.precomputed = null;
+        this.font = font;
+        this.buttonAlign = buttonAlign;
+        this.action.addPropertyChangeListener(this);
+        this.forceUpperCase = true;
+    }
 
-      this.setBackgroundAndShadowColor(JHelpConstantsSmooth.COLOR_WHITE);
-      this.foreground = JHelpConstantsSmooth.COLOR_BLACK;
-      this.action = action;
-      this.precomputed = null;
-      this.font = font;
-      this.buttonAlign = buttonAlign;
-      this.action.addPropertyChangeListener(this);
-      this.forceUpperCase = true;
-   }
+    /**
+     * Create a new instance of JHelpButtonSmooth
+     *
+     * @param action      Action to execute
+     * @param buttonAlign How place text and icon
+     */
+    public JHelpButtonSmooth(final GenericAction action, final JHelpButtonAlignSmooth buttonAlign)
+    {
+        this(action, buttonAlign, JHelpConstantsSmooth.FONT_BUTTON);
+    }
 
-   /**
-    * Create a new instance of JHelpButtonSmooth
-    * 
-    * @param action
-    *           Action to execute
-    * @param font
-    *           Font to use
-    */
-   public JHelpButtonSmooth(final GenericAction action, final JHelpFont font)
-   {
-      this(action, JHelpButtonAlignSmooth.ICON_LEFT_TEXT_RIGHT, font);
-   }
+    /**
+     * Create a new instance of JHelpButtonSmooth
+     *
+     * @param action Action to execute
+     * @param font   Font to use
+     */
+    public JHelpButtonSmooth(final GenericAction action, final JHelpFont font)
+    {
+        this(action, JHelpButtonAlignSmooth.ICON_LEFT_TEXT_RIGHT, font);
+    }
 
-   /**
-    * Compute, if need, image button
-    */
-   private void computeImage()
-   {
-      if(this.precomputed != null)
-      {
-         return;
-      }
+    /**
+     * Button preferred size <br>
+     * <br>
+     * <b>Parent documentation:</b><br>
+     * {@inheritDoc}
+     *
+     * @return Button preferred size
+     * @see jhelp.gui.smooth.JHelpComponentSmooth#getPreferredSizeInternal()
+     */
+    @Override
+    protected Dimension getPreferredSizeInternal()
+    {
+        synchronized (this.lock)
+        {
+            this.computeImage();
 
-      int textX = 0;
-      int textY = 0;
-      int imageX = 0;
-      int imageY = 0;
-      int width = 0;
-      int height = 0;
+            return new Dimension(this.precomputed.getWidth(), this.precomputed.getHeight());
+        }
+    }
 
-      Pair<List<JHelpTextLine>, Dimension> pair = null;
-      final JHelpImage image = this.action.getLargeIcon();
+    /**
+     * Compute, if need, image button
+     */
+    private void computeImage()
+    {
+        if (this.precomputed != null)
+        {
+            return;
+        }
 
-      if((this.buttonAlign != JHelpButtonAlignSmooth.ICON_ONLY_IF_EXISTS) || (image == null))
-      {
-         String text = this.action.getPrintName();
+        int textX  = 0;
+        int textY  = 0;
+        int imageX = 0;
+        int imageY = 0;
+        int width  = 0;
+        int height = 0;
 
-         if(this.forceUpperCase == true)
-         {
-            text = text.toUpperCase();
-         }
+        Pair<List<JHelpTextLineAlpha>, Dimension> pair  = null;
+        final JHelpImage                          image = this.action.getLargeIcon();
 
-         pair = this.font.computeTextLines(text, JHelpTextAlign.CENTER);
-      }
+        if ((this.buttonAlign != JHelpButtonAlignSmooth.ICON_ONLY_IF_EXISTS) || (image == null))
+        {
+            String text = this.action.getPrintName();
 
-      if(image == null)
-      {
-         width = pair.element2.width;
-         height = pair.element2.height;
-      }
-      else
-      {
-         switch(this.buttonAlign)
-         {
-            case ICON_LEFT_TEXT_RIGHT:
-               width = image.getWidth() + 3 + pair.element2.width;
-               height = Math.max(image.getHeight(), pair.element2.height);
-               textX = image.getWidth() + 3;
-               textY = (height - pair.element2.height) >> 1;
-               imageX = 0;
-               imageY = (height - image.getHeight()) >> 1;
-            break;
-            case ICON_ONLY_IF_EXISTS:
-               width = image.getWidth();
-               height = image.getHeight();
-               imageX = 0;
-               imageY = 0;
-            break;
-            case ICON_UP_TEXT_BOTTOM:
-               width = Math.max(pair.element2.width, image.getWidth());
-               height = image.getHeight() + 3 + pair.element2.height;
-               textX = (width - pair.element2.width) >> 1;
-               textY = image.getHeight() + 3;
-               imageX = (width - image.getWidth()) >> 1;
-               imageY = 0;
-            break;
-            case TEXT_LEFT_ICON_RIGHT:
-               width = pair.element2.width + 3 + image.getWidth();
-               height = Math.max(image.getHeight(), pair.element2.height);
-               textX = 0;
-               textY = (height - pair.element2.height) >> 1;
-               imageX = pair.element2.width + 3;
-               imageY = (height - image.getHeight()) >> 1;
-            break;
-            case TEXT_OVER_ICON:
-               width = Math.max(pair.element2.width, image.getWidth());
-               height = Math.max(image.getHeight(), pair.element2.height);
-               textX = (width - pair.element2.width) >> 1;
-               textY = (height - pair.element2.height) >> 1;
-               imageX = (width - image.getWidth()) >> 1;
-               imageY = (height - image.getHeight()) >> 1;
-            break;
-            case TEXT_UP_ICON_BOTTOM:
-               width = Math.max(pair.element2.width, image.getWidth());
-               height = pair.element2.height + 3 + image.getHeight();
-               textX = (width - pair.element2.width) >> 1;
-               textY = 0;
-               imageX = (width - image.getWidth()) >> 1;
-               imageY = pair.element2.height + 3;
-            break;
-         }
-      }
-
-      this.precomputed = new JHelpImage(width, height);
-      this.precomputed.startDrawMode();
-
-      if(image != null)
-      {
-         this.precomputed.drawImage(imageX, imageY, image);
-      }
-
-      if(pair != null)
-      {
-         if((this.buttonAlign == JHelpButtonAlignSmooth.TEXT_OVER_ICON) && (image != null))
-         {
-            int background = this.getBackground();
-
-            if(background == 0)
+            if (this.forceUpperCase)
             {
-               background = 0xFF000000 | (this.foreground ^ 0x00FFFFFF);
+                text = text.toUpperCase();
             }
 
-            for(int yy = -1; yy <= 1; yy++)
+            pair = this.font.computeTextLinesAlpha(text, JHelpTextAlign.CENTER);
+        }
+
+        if (image == null)
+        {
+            width = pair.element2.width;
+            height = pair.element2.height;
+        }
+        else
+        {
+            switch (this.buttonAlign)
             {
-               for(int xx = -1; xx <= 1; xx++)
-               {
-                  for(final JHelpTextLine textLine : pair.element1)
-                  {
-                     this.precomputed.paintMask(xx + textX + textLine.getX(), yy + textY + textLine.getY(), textLine.getMask(), background, 0, true);
-                  }
-               }
+                case ICON_LEFT_TEXT_RIGHT:
+                    assert pair != null;
+                    width = image.getWidth() + 3 + pair.element2.width;
+                    height = Math.max(image.getHeight(), pair.element2.height);
+                    textX = image.getWidth() + 3;
+                    textY = (height - pair.element2.height) >> 1;
+                    imageX = 0;
+                    imageY = (height - image.getHeight()) >> 1;
+                    break;
+                case ICON_ONLY_IF_EXISTS:
+                    width = image.getWidth();
+                    height = image.getHeight();
+                    imageX = 0;
+                    imageY = 0;
+                    break;
+                case ICON_UP_TEXT_BOTTOM:
+                    assert pair != null;
+                    width = Math.max(pair.element2.width, image.getWidth());
+                    height = image.getHeight() + 3 + pair.element2.height;
+                    textX = (width - pair.element2.width) >> 1;
+                    textY = image.getHeight() + 3;
+                    imageX = (width - image.getWidth()) >> 1;
+                    imageY = 0;
+                    break;
+                case TEXT_LEFT_ICON_RIGHT:
+                    assert pair != null;
+                    width = pair.element2.width + 3 + image.getWidth();
+                    height = Math.max(image.getHeight(), pair.element2.height);
+                    textX = 0;
+                    textY = (height - pair.element2.height) >> 1;
+                    imageX = pair.element2.width + 3;
+                    imageY = (height - image.getHeight()) >> 1;
+                    break;
+                case TEXT_OVER_ICON:
+                    assert pair != null;
+                    width = Math.max(pair.element2.width, image.getWidth());
+                    height = Math.max(image.getHeight(), pair.element2.height);
+                    textX = (width - pair.element2.width) >> 1;
+                    textY = (height - pair.element2.height) >> 1;
+                    imageX = (width - image.getWidth()) >> 1;
+                    imageY = (height - image.getHeight()) >> 1;
+                    break;
+                case TEXT_UP_ICON_BOTTOM:
+                    assert pair != null;
+                    width = Math.max(pair.element2.width, image.getWidth());
+                    height = pair.element2.height + 3 + image.getHeight();
+                    textX = (width - pair.element2.width) >> 1;
+                    textY = 0;
+                    imageX = (width - image.getWidth()) >> 1;
+                    imageY = pair.element2.height + 3;
+                    break;
             }
-         }
+        }
 
-         for(final JHelpTextLine textLine : pair.element1)
-         {
-            this.precomputed.paintMask(textX + textLine.getX(), textY + textLine.getY(), textLine.getMask(), this.foreground, 0, true);
-         }
-      }
+        this.precomputed = new JHelpImage(width, height);
+        this.precomputed.startDrawMode();
 
-      this.precomputed.endDrawMode();
-   }
+        if (image != null)
+        {
+            this.precomputed.drawImage(imageX, imageY, image);
+        }
 
-   /**
-    * Button preferred size <br>
-    * <br>
-    * <b>Parent documentation:</b><br>
-    * {@inheritDoc}
-    * 
-    * @return Button preferred size
-    * @see jhelp.gui.smooth.JHelpComponentSmooth#getPreferredSizeInternal()
-    */
-   @Override
-   protected Dimension getPreferredSizeInternal()
-   {
-      synchronized(this.lock)
-      {
-         this.computeImage();
+        if (pair != null)
+        {
+            if ((this.buttonAlign == JHelpButtonAlignSmooth.TEXT_OVER_ICON) && (image != null))
+            {
+                int background = this.getBackground();
 
-         return new Dimension(this.precomputed.getWidth(), this.precomputed.getHeight());
-      }
-   }
+                if (background == 0)
+                {
+                    background = 0xFF000000 | (this.foreground ^ 0x00FFFFFF);
+                }
 
-   /**
-    * Draw button <br>
-    * <br>
-    * <b>Parent documentation:</b><br>
-    * {@inheritDoc}
-    * 
-    * @param image
-    *           Image where draw
-    * @param x
-    *           X
-    * @param y
-    *           Y
-    * @param width
-    *           Width
-    * @param height
-    *           Height
-    * @param parentWidth
-    *           Parent width
-    * @param parentHeight
-    *           Parent height
-    * @see jhelp.gui.smooth.JHelpComponentSmooth#paint(jhelp.util.gui.JHelpImage, int, int, int, int, int, int)
-    */
-   @Override
-   protected void paint(final JHelpImage image, final int x, final int y, final int width, final int height, final int parentWidth, final int parentHeight)
-   {
-      this.drawBackground(image, x, y, width, height);
-      // Drawing background may have change the bounds
-      final Rectangle bounds = this.getBounds();
+                for (int yy = -1; yy <= 1; yy++)
+                {
+                    for (int xx = -1; xx <= 1; xx++)
+                    {
+                        for (final JHelpTextLineAlpha textLine : pair.element1)
+                        {
+                            this.precomputed.paintAlphaMask(xx + textX + textLine.getX(), yy + textY + textLine.getY(),
+                                                            textLine.getMask(), background);
+                        }
+                    }
+                }
+            }
 
-      synchronized(this.lock)
-      {
-         this.computeImage();
+            for (final JHelpTextLineAlpha textLine : pair.element1)
+            {
+                this.precomputed.paintAlphaMask(textX + textLine.getX(), textY + textLine.getY(), textLine.getMask(),
+                                                this.foreground);
+            }
+        }
 
-         image.drawImage(bounds.x + ((bounds.width - this.precomputed.getWidth()) >> 1), bounds.y + ((bounds.height - this.precomputed.getHeight()) >> 1),
-               this.precomputed, true);
+        this.precomputed.endDrawMode();
+    }
 
-         if(this.action.isEnabled() == false)
-         {
-            this.drawDisable(image, x, y, width, height);
-         }
-      }
-   }
+    /**
+     * Draw button <br>
+     * <br>
+     * <b>Parent documentation:</b><br>
+     * {@inheritDoc}
+     *
+     * @param image        Image where draw
+     * @param x            X
+     * @param y            Y
+     * @param width        Width
+     * @param height       Height
+     * @param parentWidth  Parent width
+     * @param parentHeight Parent height
+     * @see jhelp.gui.smooth.JHelpComponentSmooth#paint(jhelp.util.gui.JHelpImage, int, int, int, int, int, int)
+     */
+    @Override
+    protected void paint(final JHelpImage image, final int x, final int y, final int width, final int height,
+                         final int parentWidth, final int parentHeight)
+    {
+        this.drawBackground(image, x, y, width, height);
+        // Drawing background may have change the bounds
+        final Rectangle bounds = this.getBounds();
 
-   /**
-    * Process mouse events before dispatching <br>
-    * <br>
-    * <b>Parent documentation:</b><br>
-    * {@inheritDoc}
-    * 
-    * @param mouseInformation
-    *           Mouse event description
-    * @see jhelp.gui.smooth.JHelpComponentSmooth#processMouseEvent(jhelp.gui.smooth.event.SmoothMouseInformation)
-    */
-   @Override
-   protected void processMouseEvent(final SmoothMouseInformation mouseInformation)
-   {
-      if((mouseInformation.getType() == MouseEvent.MOUSE_CLICKED) && (this.action.isEnabled() == true))
-      {
-         this.action.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "CLICK"));
-      }
+        synchronized (this.lock)
+        {
+            this.computeImage();
 
-      super.processMouseEvent(mouseInformation);
-   }
+            image.drawImage(bounds.x + ((bounds.width - this.precomputed.getWidth()) >> 1),
+                            bounds.y + ((bounds.height - this.precomputed.getHeight()) >> 1),
+                            this.precomputed, true);
 
-   /**
-    * Button action
-    * 
-    * @return Button action
-    */
-   public final GenericAction getAction()
-   {
-      return this.action;
-   }
+            if (!this.action.isEnabled())
+            {
+                this.drawDisable(image, x, y, width, height);
+            }
+        }
+    }
 
-   /**
-    * How text and icon are placed
-    * 
-    * @return How text and icon are placed
-    */
-   public JHelpButtonAlignSmooth getButtonAlignSmooth()
-   {
-      return this.buttonAlign;
-   }
+    /**
+     * Process mouse events before dispatching <br>
+     * <br>
+     * <b>Parent documentation:</b><br>
+     * {@inheritDoc}
+     *
+     * @param mouseInformation Mouse event description
+     * @see jhelp.gui.smooth.JHelpComponentSmooth#processMouseEvent(jhelp.gui.smooth.event.SmoothMouseInformation)
+     */
+    @Override
+    protected void processMouseEvent(final SmoothMouseInformation mouseInformation)
+    {
+        if ((mouseInformation.getType() == MouseEvent.MOUSE_CLICKED) && (this.action.isEnabled()))
+        {
+            this.action.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "CLICK"));
+        }
 
-   /**
-    * Font used
-    * 
-    * @return Font
-    */
-   public JHelpFont getFont()
-   {
-      return this.font;
-   }
+        super.processMouseEvent(mouseInformation);
+    }
 
-   /**
-    * Foreground color
-    * 
-    * @return Foreground color
-    */
-   public int getForeground()
-   {
-      return this.foreground;
-   }
+    /**
+     * Button action
+     *
+     * @return Button action
+     */
+    public final GenericAction getAction()
+    {
+        return this.action;
+    }
 
-   /**
-    * Indicates if text is automatically put in upper case
-    * 
-    * @return {@code true} if text is automatically put in upper case
-    */
-   public boolean isForceUpperCase()
-   {
-      return this.forceUpperCase;
-   }
+    /**
+     * How text and icon are placed
+     *
+     * @return How text and icon are placed
+     */
+    public JHelpButtonAlignSmooth getButtonAlignSmooth()
+    {
+        return this.buttonAlign;
+    }
 
-   /**
-    * Called when action property changes <br>
-    * <br>
-    * <b>Parent documentation:</b><br>
-    * {@inheritDoc}
-    * 
-    * @param propertyChangeEvent
-    *           Property change event description
-    * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-    */
-   @Override
-   public void propertyChange(final PropertyChangeEvent propertyChangeEvent)
-   {
-      final String name = propertyChangeEvent.getPropertyName();
+    /**
+     * Change text and icon placement
+     *
+     * @param buttonAlign New text and icon placement
+     */
+    public void setButtonAlignSmooth(final JHelpButtonAlignSmooth buttonAlign)
+    {
+        if (buttonAlign == null)
+        {
+            throw new NullPointerException("buttonAlign musn't be null");
+        }
 
-      if((Action.NAME.equals(name) == true) || (Action.LARGE_ICON_KEY.equals(name) == true))
-      {
-         synchronized(this.lock)
-         {
+        synchronized (this.lock)
+        {
+            if (buttonAlign == this.buttonAlign)
+            {
+                return;
+            }
+
+            this.buttonAlign = buttonAlign;
             this.precomputed = null;
-         }
-      }
-   }
+        }
+    }
 
-   /**
-    * Change text and icon placement
-    * 
-    * @param buttonAlign
-    *           New text and icon placement
-    */
-   public void setButtonAlignSmooth(final JHelpButtonAlignSmooth buttonAlign)
-   {
-      if(buttonAlign == null)
-      {
-         throw new NullPointerException("buttonAlign musn't be null");
-      }
+    /**
+     * Font used
+     *
+     * @return Font
+     */
+    public JHelpFont getFont()
+    {
+        return this.font;
+    }
 
-      synchronized(this.lock)
-      {
-         if(buttonAlign == this.buttonAlign)
-         {
+    /**
+     * Change font
+     *
+     * @param font New font
+     */
+    public void setFont(final JHelpFont font)
+    {
+        if (font == null)
+        {
+            throw new NullPointerException("font musn't be null");
+        }
+
+        synchronized (this.lock)
+        {
+            if (this.font.equals(font))
+            {
+                return;
+            }
+
+            this.font = font;
+            this.precomputed = null;
+        }
+    }
+
+    /**
+     * Foreground color
+     *
+     * @return Foreground color
+     */
+    public int getForeground()
+    {
+        return this.foreground;
+    }
+
+    /**
+     * Change foreground color
+     *
+     * @param color New foreground color
+     */
+    public void setForeground(final int color)
+    {
+        synchronized (this.lock)
+        {
+            if (this.foreground == color)
+            {
+                return;
+            }
+
+            this.foreground = color;
+            this.precomputed = null;
+        }
+    }
+
+    /**
+     * Indicates if text is automatically put in upper case
+     *
+     * @return {@code true} if text is automatically put in upper case
+     */
+    public boolean isForceUpperCase()
+    {
+        return this.forceUpperCase;
+    }
+
+    /**
+     * Change the force upper case
+     *
+     * @param forceUpperCase Indicates if force text be upper case
+     */
+    public void setForceUpperCase(final boolean forceUpperCase)
+    {
+        if (forceUpperCase == this.forceUpperCase)
+        {
             return;
-         }
+        }
 
-         this.buttonAlign = buttonAlign;
-         this.precomputed = null;
-      }
-   }
+        synchronized (this.lock)
+        {
+            this.forceUpperCase = forceUpperCase;
+            this.precomputed = null;
+        }
+    }
 
-   /**
-    * Change font
-    * 
-    * @param font
-    *           New font
-    */
-   public void setFont(final JHelpFont font)
-   {
-      if(font == null)
-      {
-         throw new NullPointerException("font musn't be null");
-      }
+    /**
+     * Called when action property changes <br>
+     * <br>
+     * <b>Parent documentation:</b><br>
+     * {@inheritDoc}
+     *
+     * @param propertyChangeEvent Property change event description
+     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+     */
+    @Override
+    public void propertyChange(final PropertyChangeEvent propertyChangeEvent)
+    {
+        final String name = propertyChangeEvent.getPropertyName();
 
-      synchronized(this.lock)
-      {
-         if(this.font.equals(font) == true)
-         {
-            return;
-         }
-
-         this.font = font;
-         this.precomputed = null;
-      }
-   }
-
-   /**
-    * Change the force upper case
-    * 
-    * @param forceUpperCase
-    *           Indicates if force text be upper case
-    */
-   public void setForceUpperCase(final boolean forceUpperCase)
-   {
-      if(forceUpperCase == this.forceUpperCase)
-      {
-         return;
-      }
-
-      synchronized(this.lock)
-      {
-         this.forceUpperCase = forceUpperCase;
-         this.precomputed = null;
-      }
-   }
-
-   /**
-    * Change foreground color
-    * 
-    * @param color
-    *           New foreground color
-    */
-   public void setForeground(final int color)
-   {
-      synchronized(this.lock)
-      {
-         if(this.foreground == color)
-         {
-            return;
-         }
-
-         this.foreground = color;
-         this.precomputed = null;
-      }
-   }
+        if ((Action.NAME.equals(name)) || (Action.LARGE_ICON_KEY.equals(name)))
+        {
+            synchronized (this.lock)
+            {
+                this.precomputed = null;
+            }
+        }
+    }
 }

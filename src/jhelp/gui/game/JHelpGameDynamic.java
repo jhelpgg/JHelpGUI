@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui.game;
@@ -41,8 +41,8 @@ import jhelp.util.thread.ThreadManager;
 import jhelp.util.thread.ThreadedVerySimpleTask;
 
 /**
- * Frame that carray "dynamic game"
- * 
+ * Frame that carry "dynamic game"
+ *
  * @author JHelp
  */
 public class JHelpGameDynamic
@@ -50,7 +50,7 @@ public class JHelpGameDynamic
 {
    /**
     * Embed listener of mouse and keys
-    * 
+    *
     * @author JHelp
     */
    class MouseKeyListener
@@ -65,7 +65,7 @@ public class JHelpGameDynamic
 
       /**
        * Change mouse state
-       * 
+       *
        * @param mouseEvent
        *           Mouse event description
        */
@@ -86,7 +86,7 @@ public class JHelpGameDynamic
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
@@ -109,7 +109,7 @@ public class JHelpGameDynamic
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
@@ -117,7 +117,8 @@ public class JHelpGameDynamic
       @Override
       public void keyReleased(final KeyEvent event)
       {
-         if((JHelpGameDynamic.this.captureKeyCodeListener != null) && (JHelpGameDynamic.this.captureKeyCodeListener.canLooseFocus() == true))
+         if((JHelpGameDynamic.this.captureKeyCodeListener != null) && (JHelpGameDynamic.this.captureKeyCodeListener
+                                                                               .canLooseFocus()))
          {
             JHelpGameDynamic.this.captureKeyCodeListener = null;
 
@@ -132,7 +133,7 @@ public class JHelpGameDynamic
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
@@ -147,7 +148,7 @@ public class JHelpGameDynamic
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
@@ -163,7 +164,7 @@ public class JHelpGameDynamic
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
@@ -179,7 +180,7 @@ public class JHelpGameDynamic
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
@@ -195,7 +196,7 @@ public class JHelpGameDynamic
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
@@ -211,7 +212,7 @@ public class JHelpGameDynamic
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
@@ -227,7 +228,7 @@ public class JHelpGameDynamic
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
@@ -243,7 +244,7 @@ public class JHelpGameDynamic
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
@@ -269,11 +270,12 @@ public class JHelpGameDynamic
    private final ThreadedVerySimpleTask                eventManagerTask = new ThreadedVerySimpleTask()
                                                                         {
                                                                            /**
-                                                                            * Manage key and mouse events in separate thread <br>
+                                                                            * Manage key and mouse events in separate thread
+                                                                            * <br>
                                                                             * <br>
                                                                             * <b>Parent documentation:</b><br>
                                                                             * {@inheritDoc}
-                                                                            * 
+                                                                            *
                                                                             * @see jhelp.util.thread.ThreadedVerySimpleTask#doVerySimpleAction()
                                                                             */
                                                                            @Override
@@ -313,14 +315,14 @@ public class JHelpGameDynamic
    /** Listener that received the next pressed key code */
    CaptureKeyCodeListener                              captureKeyCodeListener;
    /** Indicates if game is initialized */
-   boolean                                             gameInitialzed;
+   final boolean                                             gameInitialzed;
    /** Actual mouse X position */
    int                                                 mouseX;
    /** Actual mouse Y position */
    int                                                 mouseY;
 
    /**
-    * Create a new instance of JHelpGame2D with default title
+    * Create a new instance of JHelpGameDynamic with default title
     */
    public JHelpGameDynamic()
    {
@@ -328,8 +330,8 @@ public class JHelpGameDynamic
    }
 
    /**
-    * Create a new instance of JHelpGame2D
-    * 
+    * Create a new instance of JHelpGameDynamic
+    *
     * @param title
     *           Game title/name
     */
@@ -339,8 +341,8 @@ public class JHelpGameDynamic
    }
 
    /**
-    * Create a new instance of JHelpGame2D
-    * 
+    * Create a new instance of JHelpGameDynamic
+    *
     * @param title
     *           Game title/name
     * @param resources
@@ -360,8 +362,8 @@ public class JHelpGameDynamic
       }
       else
       {
-         this.baseName = UtilText.removeWhiteCharacters(title).replace('-', '_').replace('/', '_').replace('\\', '_').replace('\'', '_').replace('"', '_').replace(
-               '$', '_');
+         this.baseName = UtilText.removeWhiteCharacters(title).replace('-', '_').replace('/', '_').replace('\\', '_').replace('\'', '_').replace('"',
+               '_').replace('$', '_');
 
          if(this.baseName.length() == 0)
          {
@@ -417,7 +419,7 @@ public class JHelpGameDynamic
 
    /**
     * Create an empty sprite
-    * 
+    *
     * @param x
     *           X start position
     * @param y
@@ -434,14 +436,14 @@ public class JHelpGameDynamic
 
       final boolean drawMode = image.isDrawMode();
 
-      if(drawMode == true)
+      if(drawMode)
       {
          image.endDrawMode();
       }
 
       final JHelpSprite sprite = image.createSprite(x, y, width, height);
 
-      if(drawMode == true)
+      if(drawMode)
       {
          image.startDrawMode();
       }
@@ -451,7 +453,7 @@ public class JHelpGameDynamic
 
    /**
     * Remove a sprite
-    * 
+    *
     * @param sprite
     *           Sprite to remove
     */
@@ -462,14 +464,14 @@ public class JHelpGameDynamic
 
       final boolean drawMode = image.isDrawMode();
 
-      if(drawMode == true)
+      if(drawMode)
       {
          image.endDrawMode();
       }
 
       image.removeSprite(sprite);
 
-      if(drawMode == true)
+      if(drawMode)
       {
          image.startDrawMode();
       }
@@ -477,7 +479,7 @@ public class JHelpGameDynamic
 
    /**
     * Change actual key state
-    * 
+    *
     * @param keyCode
     *           Key code
     * @param down
@@ -516,7 +518,7 @@ public class JHelpGameDynamic
 
       for(final MouseSensitiveArea mouseSensitiveArea : this.mouseSensitiveAreas)
       {
-         if((mouseSensitiveArea.isEnbale() == true) && (mouseSensitiveArea.contains(this.mouseX, this.mouseY) == true))
+         if((mouseSensitiveArea.isEnbale()) && (mouseSensitiveArea.contains(this.mouseX, this.mouseY)))
          {
             over = mouseSensitiveArea;
 
@@ -545,7 +547,8 @@ public class JHelpGameDynamic
 
          for(final MouseSensitiveAreaListener mouseSensitiveAreaListener : this.mouseSensitiveAreaListeners)
          {
-            mouseSensitiveAreaListener.mouseOverArea(over, relativeX, relativeY, this.mouseX, this.mouseY, this.buttonLeft, this.buttonMiddle, this.buttonRight);
+            mouseSensitiveAreaListener.mouseOverArea(over, relativeX, relativeY, this.mouseX, this.mouseY, this.buttonLeft, this.buttonMiddle,
+                  this.buttonRight);
          }
       }
 
@@ -570,8 +573,9 @@ public class JHelpGameDynamic
       {
          if(this.eventManager != null)
          {
-            if(this.eventManager.actionState(Collections.unmodifiableMap(this.actionStates), this.mouseX, this.mouseY, this.buttonLeft, this.buttonMiddle,
-                  this.buttonRight) == true)
+            if(this.eventManager.actionState(Collections.unmodifiableMap(this.actionStates), this.mouseX, this.mouseY,
+                                             this.buttonLeft, this.buttonMiddle,
+                                             this.buttonRight))
             {
                for(final ActionKey actionKey : this.actionStates.keySet())
                {
@@ -635,7 +639,7 @@ public class JHelpGameDynamic
 
    /**
     * add a mouse sensitive area
-    * 
+    *
     * @param mouseSensitiveArea
     *           Mouse sensitive area to add
     */
@@ -651,7 +655,7 @@ public class JHelpGameDynamic
 
    /**
     * Add a sensitive animation
-    * 
+    *
     * @param sensitiveAnimation
     *           Animation to add
     */
@@ -663,7 +667,7 @@ public class JHelpGameDynamic
    /**
     * Pass in special mode to be able to capture any next pressed key.<br>
     * Use full for settings action key by example
-    * 
+    *
     * @param captureKeyCodeListener
     *           Listener to call back when key is pressed
     */
@@ -674,7 +678,7 @@ public class JHelpGameDynamic
 
    /**
     * Find area by ID
-    * 
+    *
     * @param identifier
     *           ID searched
     * @return Area found
@@ -697,7 +701,7 @@ public class JHelpGameDynamic
     * It is the recommended external directory name to use for game data, use {@link UtilIO#obtainExternalFile(String)
     * UtilIO.obtainExternalFile(jhelpGame2D.getBaseName())} or {@link #obtainRecommendedExternalDirectory()} to have the
     * directory
-    * 
+    *
     * @return The base name of the game
     */
    public String getBaseName()
@@ -707,7 +711,7 @@ public class JHelpGameDynamic
 
    /**
     * The key action state and mouse state listener
-    * 
+    *
     * @return The key action state and mouse state listener
     */
    public EventManager getEventManager()
@@ -717,7 +721,7 @@ public class JHelpGameDynamic
 
    /**
     * Internal desired height
-    * 
+    *
     * @return Internal desired height
     */
    public int getInternalHeight()
@@ -727,7 +731,7 @@ public class JHelpGameDynamic
 
    /**
     * Internal desired width
-    * 
+    *
     * @return Internal desired width
     */
    public int getInternalWidth()
@@ -737,7 +741,7 @@ public class JHelpGameDynamic
 
    /**
     * Obtain the associate key code of a key action
-    * 
+    *
     * @param actionKey
     *           Key action to have its key code
     * @return Associated key code or -1 if not associated
@@ -746,7 +750,8 @@ public class JHelpGameDynamic
    {
       for(final Entry<Integer, ActionKey> entry : this.keyAssociations.entrySet())
       {
-         if(entry.getValue().equals(actionKey) == true)
+         if(entry.getValue()
+                 .equals(actionKey))
          {
             return entry.getKey();
          }
@@ -757,7 +762,7 @@ public class JHelpGameDynamic
 
    /**
     * Obtain the textual representation of the key code associated to a key action
-    * 
+    *
     * @param actionKey
     *           Key action to have its key code textual representation
     * @return Key code textual representation
@@ -769,7 +774,7 @@ public class JHelpGameDynamic
 
    /**
     * Preferences associates to the game.
-    * 
+    *
     * @return Preferences associates to the game
     */
    public Preferences getPreferences()
@@ -779,7 +784,7 @@ public class JHelpGameDynamic
 
    /**
     * Resources access link
-    * 
+    *
     * @return Resources access link
     */
    public Resources getResources()
@@ -789,7 +794,7 @@ public class JHelpGameDynamic
 
    /**
     * Recommended external directory where found external resources
-    * 
+    *
     * @return Recommended external directory where found external resources
     */
    public File obtainRecommendedExternalDirectory()
@@ -799,12 +804,13 @@ public class JHelpGameDynamic
          this.recommendedExternalDirectory = UtilIO.obtainExternalFile(this.getBaseName());
       }
 
+      UtilIO.createDirectory(this.recommendedExternalDirectory);
       return this.recommendedExternalDirectory;
    }
 
    /**
     * Add and play an animation
-    * 
+    *
     * @param dynamicAnimation
     *           Animation to play
     */
@@ -820,7 +826,7 @@ public class JHelpGameDynamic
 
    /**
     * Register a mouse sensitive area listener
-    * 
+    *
     * @param mouseSensitiveAreaListener
     *           Listener to register
     */
@@ -836,7 +842,7 @@ public class JHelpGameDynamic
 
    /**
     * Remove a mouse sensitive area
-    * 
+    *
     * @param mouseSensitiveArea
     *           Area to remove
     */
@@ -847,18 +853,18 @@ public class JHelpGameDynamic
 
    /**
     * Change areas visible status
-    * 
+    *
     * @param visible
     *           New areas visible status
     */
    public void setAreasVisible(final boolean visible)
    {
-      if((this.spriteShowAreas == null) && (visible == false))
+      if((this.spriteShowAreas == null) && (!visible))
       {
          return;
       }
 
-      if(visible == false)
+      if(!visible)
       {
          this.spriteShowAreas.setVisible(false);
          this.removeSprite(this.spriteShowAreas);
@@ -896,7 +902,7 @@ public class JHelpGameDynamic
 
    /**
     * Change the key action state and mouse state listener
-    * 
+    *
     * @param eventManager
     *           New key action state and mouse state listener
     */
@@ -920,7 +926,7 @@ public class JHelpGameDynamic
     * action have no more key code associated), then the desired association is done. We return the action that have loose is
     * association (or {@code null} if none) to let a chance to developer to alert the user that a key an action is unmapped and
     * do appropriate action.
-    * 
+    *
     * @param actionKey
     *           Action key to change its key code
     * @param keyCode
@@ -960,7 +966,7 @@ public class JHelpGameDynamic
    /**
     * Stop an animation.<br>
     * If the animation not playing, it does nothing
-    * 
+    *
     * @param dynamicAnimation
     *           Animation to stop
     */
@@ -976,7 +982,7 @@ public class JHelpGameDynamic
 
    /**
     * Unregister a mouse area listener
-    * 
+    *
     * @param mouseSensitiveAreaListener
     *           Listener to remove
     */

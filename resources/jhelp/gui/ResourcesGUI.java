@@ -128,7 +128,7 @@ public class ResourcesGUI
       final Dimension dimension = Toolkit.getDefaultToolkit().getBestCursorSize(32, 32);
       IS_CURSOR_SIZE_32x32 = ((dimension.width == 32) && (dimension.height == 32));
 
-      if(ResourcesGUI.IS_CURSOR_SIZE_32x32 == true)
+      if(ResourcesGUI.IS_CURSOR_SIZE_32x32)
       {
          TRANSLATE_CURSOR = -16;
       }
@@ -204,7 +204,7 @@ public class ResourcesGUI
       int x = 0;
       int y = 0;
 
-      if(ResourcesGUI.IS_CURSOR_SIZE_32x32 == true)
+      if(ResourcesGUI.IS_CURSOR_SIZE_32x32)
       {
          stringBuffer.append(ResourcesGUI.SIZE_32x32);
          x = 16;

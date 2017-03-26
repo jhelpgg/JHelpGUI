@@ -31,9 +31,9 @@ public enum OptionPaneMessageType
    /** Warning message type */
    WARNING("warning.png");
    /** Associted icon */
-   private JHelpImage image;
+   private       JHelpImage image;
    /** Resource where get the icon */
-   private String     resource;
+   private final String     resource;
 
    /**
     * Create a new instance of OptionPaneMessageType

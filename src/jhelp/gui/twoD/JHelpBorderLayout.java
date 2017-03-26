@@ -77,7 +77,7 @@ public class JHelpBorderLayout
       /** Place the element at top-left (1) */
       TOP_LEFT,
       /** Place the element at top-right (3) */
-      TOP_RIGHT;
+      TOP_RIGHT
    }
 
    /**
@@ -132,7 +132,7 @@ public class JHelpBorderLayout
 
       for(final Pair<JHelpComponent2D, JHelpConstraints> child : children)
       {
-         if(child.element1.isVisible() == false)
+         if(!child.element1.isVisible())
          {
             continue;
          }
@@ -204,7 +204,7 @@ public class JHelpBorderLayout
 
       for(final Pair<JHelpComponent2D, JHelpConstraints> child : children)
       {
-         if(child.element1.isVisible() == false)
+         if(!child.element1.isVisible())
          {
             continue;
          }

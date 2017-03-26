@@ -86,7 +86,7 @@ public class JHelpTableLayoutSmooth
          pair = container.getChildAndConstraints(i);
          componentSmooth = pair.element1;
 
-         if(componentSmooth.isVisible() == true)
+         if(componentSmooth.isVisible())
          {
             constraintsSmooth = (JHelpTableConstraintsSmooth) pair.element2;
             preferred = componentSmooth.getPreferredSize();
@@ -140,7 +140,7 @@ public class JHelpTableLayoutSmooth
          pair = container.getChildAndConstraints(i);
          componentSmooth = pair.element1;
 
-         if(componentSmooth.isVisible() == true)
+         if(componentSmooth.isVisible())
          {
             constraintsSmooth = (JHelpTableConstraintsSmooth) pair.element2;
             xMin = Math.min(xMin, constraintsSmooth.x);
@@ -160,7 +160,7 @@ public class JHelpTableLayoutSmooth
          pair = container.getChildAndConstraints(i);
          componentSmooth = pair.element1;
 
-         if(componentSmooth.isVisible() == true)
+         if(componentSmooth.isVisible())
          {
             constraintsSmooth = (JHelpTableConstraintsSmooth) pair.element2;
             componentSmooth.setBounds(x + ((constraintsSmooth.x - xMin) * cellWidth), y + ((constraintsSmooth.y - yMin) * cellHeight), constraintsSmooth.width

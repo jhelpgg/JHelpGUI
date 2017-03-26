@@ -77,7 +77,7 @@ public class XML2GUI
    @Override
    public void endMarkup(final String markupName) throws ExceptionXML
    {
-      if(Constants.MARKUP_FRAME.equals(markupName) == true)
+      if(Constants.MARKUP_FRAME.equals(markupName))
       {
          this.writeLine("}");
 
@@ -87,7 +87,7 @@ public class XML2GUI
             {
                this.bufferedWriter.flush();
             }
-            catch(final Exception exception)
+            catch(final Exception ignored)
             {
             }
 
@@ -95,7 +95,7 @@ public class XML2GUI
             {
                this.bufferedWriter.close();
             }
-            catch(final Exception exception)
+            catch(final Exception ignored)
             {
             }
          }
@@ -121,7 +121,7 @@ public class XML2GUI
    @Override
    public void startMakup(final String markupName, final Hashtable<String, String> parameters) throws ExceptionXML
    {
-      if(Constants.MARKUP_FRAME.equals(markupName) == true)
+      if(Constants.MARKUP_FRAME.equals(markupName))
       {
          if(this.currentFile != null)
          {
@@ -144,7 +144,7 @@ public class XML2GUI
 
          this.currentFile = new File(this.directory, name.replace('.', File.separatorChar) + ".java");
 
-         if(UtilIO.createFile(this.currentFile) == false)
+         if(!UtilIO.createFile(this.currentFile))
          {
             throw new ExceptionXML("Can't create the file : " + this.currentFile.getAbsolutePath());
          }

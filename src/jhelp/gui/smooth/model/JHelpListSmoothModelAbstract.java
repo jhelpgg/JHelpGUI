@@ -90,7 +90,7 @@ public abstract class JHelpListSmoothModelAbstract<ELEMENT>
    @Override
    public final void registerModelListener(final JHelpListSmoothModelListener<ELEMENT> listener)
    {
-      if((listener == null) || (this.listeners.contains(listener) == true))
+      if((listener == null) || (this.listeners.contains(listener)))
       {
          return;
       }

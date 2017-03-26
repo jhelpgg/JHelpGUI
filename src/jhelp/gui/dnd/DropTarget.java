@@ -49,7 +49,8 @@ public abstract class DropTarget
       Dimension size;
       for(final DropTarget dropTarget : DropTarget.arrayList)
       {
-         if(dropTarget.obtainDropComponent().isVisible() == true)
+         if(dropTarget.obtainDropComponent()
+                      .isVisible())
          {
             position = dropTarget.obtainDropComponent().getLocationOnScreen();
             size = dropTarget.obtainDropComponent().getSize();

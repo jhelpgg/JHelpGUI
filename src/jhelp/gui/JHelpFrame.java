@@ -95,7 +95,7 @@ public abstract class JHelpFrame
       super(title);
 
       this.setResizable(resizable);
-      this.setUndecorated(resizable == false);
+      this.setUndecorated(!resizable);
       this.setMinimumSize(new Dimension(512, 512));
 
       MemorySweeper.launch();
@@ -108,7 +108,7 @@ public abstract class JHelpFrame
 
       final Rectangle bounds = UtilGUI.getScreenBounds(0);
 
-      if(full == true)
+      if(full)
       {
          this.setLocation(bounds.x, bounds.y);
          this.setSize(bounds.width, bounds.height);
@@ -188,19 +188,19 @@ public abstract class JHelpFrame
     */
    public final void closeFrame()
    {
-      if(this.canCloseNow() == false)
+      if(!this.canCloseNow())
       {
          return;
       }
 
       this.setVisible(false);
 
-      if((this.disposeOnClose == true) || (this.exitAllOnClose == true))
+      if((this.disposeOnClose) || (this.exitAllOnClose))
       {
          this.dispose();
       }
 
-      if(this.exitAllOnClose == true)
+      if(this.exitAllOnClose)
       {
          MemorySweeper.exit(0);
       }

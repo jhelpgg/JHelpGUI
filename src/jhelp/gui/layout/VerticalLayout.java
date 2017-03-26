@@ -215,7 +215,8 @@ public class VerticalLayout
          final int nb = parent.getComponentCount();
          for(int i = 0; i < nb; i++)
          {
-            if(parent.getComponent(i).isVisible() == true)
+            if(parent.getComponent(i)
+                     .isVisible())
             {
                final Dimension dimension = UtilGUI.computeMinimumDimension(parent.getComponent(i));
                if(minimumSize.width < dimension.width)
@@ -249,7 +250,8 @@ public class VerticalLayout
          final int nb = parent.getComponentCount();
          for(int i = 0; i < nb; i++)
          {
-            if(parent.getComponent(i).isVisible() == true)
+            if(parent.getComponent(i)
+                     .isVisible())
             {
                final Dimension dimension = this.computeDimension(parent, i);
                if(preferredSize.width < dimension.width)

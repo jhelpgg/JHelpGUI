@@ -112,7 +112,7 @@ public class SensitiveAnimationBuilder
     */
    public void append(final SensitiveElement sensitiveElement, final SensitiveAnimationConstraints sensitiveAnimationConstraints)
    {
-      if(this.sensitiveAnimationLayout.isCompatible(sensitiveAnimationConstraints) == false)
+      if(!this.sensitiveAnimationLayout.isCompatible(sensitiveAnimationConstraints))
       {
          throw new IllegalArgumentException("The given constraints is not compatible with the current layout");
       }

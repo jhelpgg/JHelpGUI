@@ -133,7 +133,7 @@ public class SerializerGUI
    }
 
    /** Percentages list */
-   private static SortedArray<Percent> PERCENTS = new SortedArray<Percent>(Percent.class);
+   private static final SortedArray<Percent> PERCENTS = new SortedArray<Percent>(Percent.class);
 
    /**
     * Parse percentage from XML markup
@@ -147,7 +147,7 @@ public class SerializerGUI
     */
    public static void deseralizePercent(final String markupName, final Hashtable<String, String> parameters) throws ExceptionXML
    {
-      if(Constants.MARKUP_PERCENT.equals(markupName) == false)
+      if(!Constants.MARKUP_PERCENT.equals(markupName))
       {
          throw new ExceptionXML("The markup must be " + Constants.MARKUP_PERCENT + " not " + markupName);
       }
@@ -171,7 +171,7 @@ public class SerializerGUI
     */
    public static JHelpFont deserialzeFont(final String markupName, final Hashtable<String, String> parameters) throws ExceptionXML
    {
-      if(Constants.MARKUP_FONT.equals(markupName) == false)
+      if(!Constants.MARKUP_FONT.equals(markupName))
       {
          throw new ExceptionXML("The markup must be " + Constants.MARKUP_FONT + " not " + markupName);
       }
@@ -204,7 +204,7 @@ public class SerializerGUI
     */
    public static JHelpGradient deserialzeJHelpGradient(final String markupName, final Hashtable<String, String> parameters) throws ExceptionXML
    {
-      if(Constants.MARKUP_GRADIENT.equals(markupName) == false)
+      if(!Constants.MARKUP_GRADIENT.equals(markupName))
       {
          throw new ExceptionXML("The markup must be " + Constants.MARKUP_GRADIENT + " not " + markupName);
       }
@@ -228,7 +228,8 @@ public class SerializerGUI
     */
    public static JHelpPaint endDeseralizeGradientHorizontalOrVertical(final String markupName) throws ExceptionXML
    {
-      if((Constants.MARKUP_GRADIENT_HORIZONTAL.equals(markupName) == false) && (Constants.MARKUP_GRADIENT_VERTICAL.equals(markupName) == false))
+      if((!Constants.MARKUP_GRADIENT_HORIZONTAL.equals(markupName)) && (!Constants.MARKUP_GRADIENT_VERTICAL.equals(
+              markupName)))
       {
          throw new ExceptionXML("The markup must be " + Constants.MARKUP_GRADIENT_HORIZONTAL + " or " + Constants.MARKUP_GRADIENT_VERTICAL + " not "
                + markupName);
@@ -239,7 +240,7 @@ public class SerializerGUI
       Percent first = null;
       Percent last = null;
 
-      if(valid == true)
+      if(valid)
       {
          first = SerializerGUI.PERCENTS.getElement(0);
          last = SerializerGUI.PERCENTS.getElement(size - 1);
@@ -247,7 +248,7 @@ public class SerializerGUI
          valid = (first.percent == 0) && (last.percent == 100);
       }
 
-      if(valid == false)
+      if(!valid)
       {
          SerializerGUI.PERCENTS.clear();
 
@@ -258,7 +259,7 @@ public class SerializerGUI
       final int limit = size - 1;
       Percent percent;
 
-      if(Constants.MARKUP_GRADIENT_HORIZONTAL.equals(markupName) == true)
+      if(Constants.MARKUP_GRADIENT_HORIZONTAL.equals(markupName))
       {
          final JHelpGradientHorizontal gradientHorizontal = new JHelpGradientHorizontal(first.color, last.color);
 
@@ -347,7 +348,7 @@ public class SerializerGUI
    {
       dynamicWriteXML.openMarkup(Constants.MARKUP_GRADIENT_HORIZONTAL);
 
-      for(final JHelpGradientHorizontal.Percent percent : gradient.otainPercents())
+      for(final JHelpGradientHorizontal.Percent percent : gradient.obtainPercents())
       {
          dynamicWriteXML.openMarkup(Constants.MARKUP_PERCENT);
 
@@ -374,7 +375,7 @@ public class SerializerGUI
    {
       dynamicWriteXML.openMarkup(Constants.MARKUP_GRADIENT_VERTICAL);
 
-      for(final JHelpGradientVertical.Percent percent : gradient.otainPercents())
+      for(final JHelpGradientVertical.Percent percent : gradient.obtainPercents())
       {
          dynamicWriteXML.openMarkup(Constants.MARKUP_PERCENT);
 
@@ -399,7 +400,8 @@ public class SerializerGUI
     */
    public static void startDeseralizeGradientHorizontalOrVertical(final String markupName, final Hashtable<String, String> parameters) throws ExceptionXML
    {
-      if((Constants.MARKUP_GRADIENT_HORIZONTAL.equals(markupName) == false) && (Constants.MARKUP_GRADIENT_VERTICAL.equals(markupName) == false))
+      if((!Constants.MARKUP_GRADIENT_HORIZONTAL.equals(markupName)) && (!Constants.MARKUP_GRADIENT_VERTICAL.equals(
+              markupName)))
       {
          throw new ExceptionXML("The markup must be " + Constants.MARKUP_GRADIENT_HORIZONTAL + " or " + Constants.MARKUP_GRADIENT_VERTICAL + " not "
                + markupName);

@@ -145,7 +145,7 @@ public class JHelpHorizontalLayout
 
       for(final Pair<JHelpComponent2D, JHelpConstraints> child : children)
       {
-         if(child.element1.isVisible() == false)
+         if(!child.element1.isVisible())
          {
             continue;
          }
@@ -196,7 +196,7 @@ public class JHelpHorizontalLayout
 
       for(final Pair<JHelpComponent2D, JHelpConstraints> child : children)
       {
-         if(child.element1.isVisible() == false)
+         if(!child.element1.isVisible())
          {
             continue;
          }

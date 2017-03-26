@@ -22,5 +22,5 @@ public enum JHelpScrollModeSmooth
    /** Scroll horizontally only */
    SCROLL_HORIZONTAL,
    /** Scroll vertically only */
-   SCROLL_VERTICAL;
+   SCROLL_VERTICAL
 }

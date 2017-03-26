@@ -550,7 +550,7 @@ public abstract class JHelpFrameSmooth
 
                while(componentSmooth != null)
                {
-                  if((componentSmooth.isFocusable() == true) && (componentSmooth != this.focusableComponent))
+                  if((componentSmooth.isFocusable()) && (componentSmooth != this.focusableComponent))
                   {
                      if(this.focusableComponent != null)
                      {
@@ -561,7 +561,7 @@ public abstract class JHelpFrameSmooth
                      this.focusableComponent.gainFocus();
                   }
 
-                  if(componentSmooth.isFocusable() == true)
+                  if(componentSmooth.isFocusable())
                   {
                      break;
                   }
@@ -575,7 +575,7 @@ public abstract class JHelpFrameSmooth
          list.add(new SmoothMouseInformation(type, this.underMouseComponent, x - bounds.x, y - bounds.y, x, y, left, middle, right, count, whell));
       }
 
-      if(list.isEmpty() == true)
+      if(list.isEmpty())
       {
          return null;
       }
@@ -588,15 +588,15 @@ public abstract class JHelpFrameSmooth
     */
    void doRefreshFrame()
    {
-      if(((this.focusableComponent == null) && (this.needSearchFocusable == true))
-            || ((this.focusableComponent != null) && (this.focusableComponent.isFocusable() == false)))
+      if(((this.focusableComponent == null) && (this.needSearchFocusable))
+            || ((this.focusableComponent != null) && (!this.focusableComponent.isFocusable())))
       {
          this.goNextFocusable();
       }
 
       this.needSearchFocusable = false;
 
-      if((this.focusableComponent != null) && (this.forcedViewFocus == true))
+      if((this.focusableComponent != null) && (this.forcedViewFocus))
       {
          this.forcedViewFocus = false;
          this.focusableComponent.scrollToVisible();
@@ -653,7 +653,7 @@ public abstract class JHelpFrameSmooth
             // Do nothing for these keys
             return;
          case KeyEvent.VK_TAB:
-            if(shift == true)
+            if(shift)
             {
                this.goPreviousFocusable();
             }
@@ -664,9 +664,9 @@ public abstract class JHelpFrameSmooth
 
             return;
          case KeyEvent.VK_Z:
-            if(control == true)
+            if(control)
             {
-               if(UndoRedoManager.UNDO_REDO_MANAGER.canUndo() == true)
+               if(UndoRedoManager.UNDO_REDO_MANAGER.canUndo())
                {
                   UndoRedoManager.UNDO_REDO_MANAGER.undo();
                }
@@ -676,9 +676,9 @@ public abstract class JHelpFrameSmooth
 
          break;
          case KeyEvent.VK_Y:
-            if(control == true)
+            if(control)
             {
-               if(UndoRedoManager.UNDO_REDO_MANAGER.canRedo() == true)
+               if(UndoRedoManager.UNDO_REDO_MANAGER.canRedo())
                {
                   UndoRedoManager.UNDO_REDO_MANAGER.redo();
                }
@@ -798,7 +798,7 @@ public abstract class JHelpFrameSmooth
     */
    public void closeCurrentDialog()
    {
-      if(this.dialogStack.isEmpty() == true)
+      if(this.dialogStack.isEmpty())
       {
          return;
       }
@@ -901,7 +901,7 @@ public abstract class JHelpFrameSmooth
       int indexInParent;
       JHelpComponentSmooth component;
 
-      while(stack.isEmpty() == false)
+      while(!stack.isEmpty())
       {
          pair = stack.pop();
          current = pair.element1;
@@ -909,7 +909,7 @@ public abstract class JHelpFrameSmooth
 
          if((current == start) && (indexInParent == indexStart))
          {
-            if((this.focusableComponent != null) && (this.focusableComponent.isFocusable() == false))
+            if((this.focusableComponent != null) && (!this.focusableComponent.isFocusable()))
             {
                this.focusableComponent.lostFocus();
                this.focusableComponent = null;
@@ -926,7 +926,7 @@ public abstract class JHelpFrameSmooth
             {
                if(indexStart < 0)
                {
-                  if((this.focusableComponent != null) && (this.focusableComponent.isFocusable() == false))
+                  if((this.focusableComponent != null) && (!this.focusableComponent.isFocusable()))
                   {
                      this.focusableComponent.lostFocus();
                      this.focusableComponent = null;
@@ -962,7 +962,7 @@ public abstract class JHelpFrameSmooth
          }
          else
          {
-            if(component.isFocusable() == true)
+            if(component.isFocusable())
             {
                if(this.focusableComponent != null)
                {
@@ -1008,7 +1008,7 @@ public abstract class JHelpFrameSmooth
       int indexInParent;
       JHelpComponentSmooth component;
 
-      while(stack.isEmpty() == false)
+      while(!stack.isEmpty())
       {
          pair = stack.pop();
          current = pair.element1;
@@ -1016,7 +1016,7 @@ public abstract class JHelpFrameSmooth
 
          if((current == start) && (indexInParent == indexStart))
          {
-            if((this.focusableComponent != null) && (this.focusableComponent.isFocusable() == false))
+            if((this.focusableComponent != null) && (!this.focusableComponent.isFocusable()))
             {
                this.focusableComponent.lostFocus();
                this.focusableComponent = null;
@@ -1033,7 +1033,7 @@ public abstract class JHelpFrameSmooth
             {
                if(indexStart < 0)
                {
-                  if((this.focusableComponent != null) && (this.focusableComponent.isFocusable() == false))
+                  if((this.focusableComponent != null) && (!this.focusableComponent.isFocusable()))
                   {
                      this.focusableComponent.lostFocus();
                      this.focusableComponent = null;
@@ -1069,7 +1069,7 @@ public abstract class JHelpFrameSmooth
          }
          else
          {
-            if(component.isFocusable() == true)
+            if(component.isFocusable())
             {
                if(this.focusableComponent != null)
                {

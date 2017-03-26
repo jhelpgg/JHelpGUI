@@ -164,7 +164,7 @@ public class JHelpCheckbox2D
    {
       parent.drawRectangle(x, y, this.size, this.size, this.colorBox);
 
-      if(this.checked == true)
+      if(this.checked)
       {
          parent.drawLine(x, y, x + this.size, y + this.size, this.colorCheck);
          parent.drawLine(x, y + this.size, x + this.size, y, this.colorCheck);

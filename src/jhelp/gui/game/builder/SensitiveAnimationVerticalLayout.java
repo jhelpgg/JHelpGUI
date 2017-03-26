@@ -123,7 +123,7 @@ public class SensitiveAnimationVerticalLayout
 
       finalHeight += this.bottom;
 
-      if(elements.isEmpty() == false)
+      if(!elements.isEmpty())
       {
          finalHeight -= this.space;
       }

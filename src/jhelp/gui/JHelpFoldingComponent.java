@@ -99,7 +99,7 @@ class JHelpFoldingComponent
       // Create the text
       JHelpImage imageText = this.font.createImage(this.text, foreground, 0);
 
-      if(this.foldLocation.horizontal() == false)
+      if(!this.foldLocation.horizontal())
       {
          // Change orientation in vertical bars
          imageText = imageText.rotate270();
@@ -116,7 +116,7 @@ class JHelpFoldingComponent
             width = imageText.getWidth() + JHelpFoldingComponent.MARGIN_TRIANGLE + JHelpFoldingComponent.TRIANGLE_SIZE;
             height = Math.max(imageText.getHeight(), JHelpFoldingComponent.TRIANGLE_SIZE);
 
-            if(this.fold == true)
+            if(this.fold)
             {
                wayTriangle = WayTriangle.DOWN;
             }
@@ -129,7 +129,7 @@ class JHelpFoldingComponent
             width = Math.max(imageText.getWidth(), JHelpFoldingComponent.TRIANGLE_SIZE);
             height = imageText.getHeight() + JHelpFoldingComponent.MARGIN_TRIANGLE + JHelpFoldingComponent.TRIANGLE_SIZE;
 
-            if(this.fold == true)
+            if(this.fold)
             {
                wayTriangle = WayTriangle.RIGHT;
             }
@@ -142,7 +142,7 @@ class JHelpFoldingComponent
             width = Math.max(imageText.getWidth(), JHelpFoldingComponent.TRIANGLE_SIZE);
             height = imageText.getHeight() + JHelpFoldingComponent.MARGIN_TRIANGLE + JHelpFoldingComponent.TRIANGLE_SIZE;
 
-            if(this.fold == true)
+            if(this.fold)
             {
                wayTriangle = WayTriangle.LEFT;
             }
@@ -155,7 +155,7 @@ class JHelpFoldingComponent
             width = imageText.getWidth() + JHelpFoldingComponent.MARGIN_TRIANGLE + JHelpFoldingComponent.TRIANGLE_SIZE;
             height = Math.max(imageText.getHeight(), JHelpFoldingComponent.TRIANGLE_SIZE);
 
-            if(this.fold == true)
+            if(this.fold)
             {
                wayTriangle = WayTriangle.UP;
             }
@@ -174,7 +174,7 @@ class JHelpFoldingComponent
          this.image = new JHelpImage(width, height);
          this.image.startDrawMode();
 
-         if(this.foldLocation.horizontal() == true)
+         if(this.foldLocation.horizontal())
          {
             UtilImage.fillTriangle(0, (height - JHelpFoldingComponent.TRIANGLE_SIZE) >> 1, JHelpFoldingComponent.TRIANGLE_SIZE, this.image, wayTriangle,
                   foreground);

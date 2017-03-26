@@ -114,7 +114,7 @@ public class JHelpPanelSmooth
       {
          pair = this.children.get(index);
 
-         if(pair.element1.isVisible() == true)
+         if(pair.element1.isVisible())
          {
             bounds = pair.element1.getBounds();
             image.pushClipIntersect(Math.max(bounds.x, place.x), Math.max(bounds.y, place.y), Math.min(bounds.width, place.width),
@@ -146,7 +146,7 @@ public class JHelpPanelSmooth
          throw new NullPointerException("constraints musn't be null");
       }
 
-      if(this.layout.acceptConstraints(constraints) == false)
+      if(!this.layout.acceptConstraints(constraints))
       {
          throw new IllegalArgumentException("The given constraints " + constraints.getClass().getName() + " don't fit with the layout "
                + this.layout.getClass().getName());
@@ -216,7 +216,7 @@ public class JHelpPanelSmooth
       {
          pair = this.children.get(i);
 
-         if(pair.element1.equals(component) == true)
+         if(pair.element1.equals(component))
          {
             return i;
          }
@@ -262,7 +262,7 @@ public class JHelpPanelSmooth
          throw new NullPointerException("constraints musn't be null");
       }
 
-      if(this.layout.acceptConstraints(constraints) == false)
+      if(!this.layout.acceptConstraints(constraints))
       {
          throw new IllegalArgumentException("The given constraints " + constraints.getClass().getName() + " don't fit with the layout "
                + this.layout.getClass().getName());
@@ -304,7 +304,7 @@ public class JHelpPanelSmooth
    {
       final Rectangle bounds = this.getBounds();
 
-      if(bounds.contains(x, y) == true)
+      if(bounds.contains(x, y))
       {
          JHelpComponentSmooth componentSmooth;
 

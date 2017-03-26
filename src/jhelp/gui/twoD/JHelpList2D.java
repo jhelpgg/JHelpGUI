@@ -72,7 +72,7 @@ public class JHelpList2D<INFORMATION>
          final boolean control = e.isControlDown();
          final boolean alt = e.isAltDown();
 
-         if((JHelpList2D.this.specialKeyListener != null) && ((shift == true) || (control == true) || (alt == true)))
+         if((JHelpList2D.this.specialKeyListener != null) && ((shift) || (control) || (alt)))
          {
             INFORMATION information = null;
 
@@ -147,7 +147,7 @@ public class JHelpList2D<INFORMATION>
 
                JHelpList2D.this.setSelectedIndex(selection, 0);
             }
-            catch(final Exception exception2)
+            catch(final Exception ignored)
             {
             }
          }
@@ -213,6 +213,7 @@ public class JHelpList2D<INFORMATION>
       public void mouseClicked(final MouseEvent e)
       {
          final JHelpComponent2D component2d = UtilTwoD.getComponent2DFromMouseEvent(e);
+         assert component2d != null;
          JHelpList2D.this.setSelectedIndex(component2d.getId(), e.getClickCount());
       }
 
@@ -368,7 +369,7 @@ public class JHelpList2D<INFORMATION>
          JHelpImage image = null;
          String text = null;
 
-         if(JHelpList2D.this.listModel.useImageRepresentation(this.information) == true)
+         if(JHelpList2D.this.listModel.useImageRepresentation(this.information))
          {
             image = JHelpList2D.this.listModel.obtainImageRepresentation(this.information);
          }
@@ -516,7 +517,7 @@ public class JHelpList2D<INFORMATION>
     */
    public JHelpList2D(final boolean horizontal, final JHelpListModel<INFORMATION> listModel)
    {
-      super(new JHelpPanel2D(horizontal == true
+      super(new JHelpPanel2D(horizontal
             ? new JHelpHorizontalLayout()
             : new JHelpVerticalLayout()));
 
@@ -588,7 +589,7 @@ public class JHelpList2D<INFORMATION>
    {
       synchronized(this.canContinueRefresh)
       {
-         while(this.refreshing == true)
+         while(this.refreshing)
          {
             this.canContinueRefresh.set(false);
 
@@ -596,7 +597,7 @@ public class JHelpList2D<INFORMATION>
             {
                this.canContinueRefresh.wait();
             }
-            catch(final Exception exception)
+            catch(final Exception ignored)
             {
             }
          }
@@ -616,13 +617,13 @@ public class JHelpList2D<INFORMATION>
       INFORMATION information;
       JHelpBackgroundRoundRectangle backgroundRoundRectangle;
       ListItem listItem;
-      final JHelpConstraints constraints = this.horizontal == true
+      final JHelpConstraints constraints = this.horizontal
             ? JHelpHorizontalLayoutConstraints.EXPANDED
             : JHelpVerticalLayoutConstraints.EXPANDED;
 
       int mod = 1;
 
-      for(int i = 0; (i < size) && (this.canContinueRefresh.get() == true); i++)
+      for(int i = 0; (i < size) && (this.canContinueRefresh.get()); i++)
       {
          information = this.listModel.getElement(i);
 
@@ -650,7 +651,7 @@ public class JHelpList2D<INFORMATION>
       this.refreshing = false;
       synchronized(this.canContinueRefresh)
       {
-         if(this.canContinueRefresh.get() == true)
+         if(this.canContinueRefresh.get())
          {
             panel2d.invalidate();
             this.updateFinished();
@@ -698,7 +699,7 @@ public class JHelpList2D<INFORMATION>
    {
       super.paint(x, y, parent);
 
-      if((this.refreshing == true) && (JHelpList2D.LOADING_LENGTH > 0))
+      if((this.refreshing) && (JHelpList2D.LOADING_LENGTH > 0))
       {
          this.getBounds();
          final int xx = x + 3;
@@ -882,7 +883,7 @@ public class JHelpList2D<INFORMATION>
          throw new NullPointerException("font musn't be null");
       }
 
-      if(this.font.equals(font) == true)
+      if(this.font.equals(font))
       {
          return;
       }
@@ -928,7 +929,7 @@ public class JHelpList2D<INFORMATION>
     */
    public void setListModel(final JHelpListModel<INFORMATION> listModel)
    {
-      if(listModel.equals(this.listModel) == true)
+      if(listModel.equals(this.listModel))
       {
          return;
       }

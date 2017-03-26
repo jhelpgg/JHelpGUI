@@ -91,7 +91,7 @@ public abstract class JHelpBackground2D
    @Override
    protected final Dimension computePreferredSize(final int parentWidth, final int parentHeight)
    {
-      if(this.carryComponent.isVisible() == false)
+      if(!this.carryComponent.isVisible())
       {
          return new Dimension(this.left + this.right, this.top + this.bottom);
       }
@@ -117,7 +117,7 @@ public abstract class JHelpBackground2D
    @Override
    protected Pair<JHelpComponent2D, JHelpMouseListener> mouseOver(final int x, final int y)
    {
-      if(this.isVisible() == false)
+      if(!this.isVisible())
       {
          return null;
       }
@@ -129,7 +129,7 @@ public abstract class JHelpBackground2D
       final int yy = bounds.getyMin();
       bounds = bounds.intersect(new Bounds(xx + this.left, xx + this.right, yy + this.top, yy + this.bottom));
 
-      if(bounds.inside(x, y) == false)
+      if(!bounds.inside(x, y))
       {
          return pair;
       }
@@ -158,7 +158,7 @@ public abstract class JHelpBackground2D
 
       this.paintBackground(x, y, bounds.width, bounds.height, parent, this.top, this.left, this.right, this.bottom);
 
-      if(this.carryComponent.isVisible() == true)
+      if(this.carryComponent.isVisible())
       {
          this.carryComponent.setBounds(this.left, this.top, bounds.width - this.left - this.right, bounds.height - this.top - this.bottom);
          this.carryComponent.paintInternal(x + this.left, y + this.top, parent);

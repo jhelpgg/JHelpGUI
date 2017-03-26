@@ -5,7 +5,7 @@
  * You can use, modify, the code as your need for any usage. But you can't do any action that avoid me or other person use,
  * modify this code. The code is free for usage and modification, you can't change that fact.<br>
  * <br>
- * 
+ *
  * @author JHelp
  */
 package jhelp.gui.game;
@@ -49,7 +49,7 @@ import jhelp.util.thread.ThreadedVerySimpleTask;
  * The base name {@link #getBaseName()} is used to know the external directory name where stored preferences, it is a good idea
  * to store other game external things here, think about {@link UtilIO#obtainExternalFile(String)
  * UtilIO.obtainExternalFile(jhelpGame2D.getBaseName())} or {@link #obtainRecommendedExternalDirectory()} to have the directory.
- * 
+ *
  * @author JHelp
  */
 public abstract class JHelpGame2D
@@ -57,7 +57,7 @@ public abstract class JHelpGame2D
 {
    /**
     * Embed listener of mouse and keys
-    * 
+    *
     * @author JHelp
     */
    class MouseKeyListener
@@ -72,7 +72,7 @@ public abstract class JHelpGame2D
 
       /**
        * Change mouse state
-       * 
+       *
        * @param mouseEvent
        *           Mouse event description
        */
@@ -93,7 +93,7 @@ public abstract class JHelpGame2D
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
@@ -116,7 +116,7 @@ public abstract class JHelpGame2D
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
@@ -124,7 +124,7 @@ public abstract class JHelpGame2D
       @Override
       public void keyReleased(final KeyEvent event)
       {
-         if((JHelpGame2D.this.captureKeyCodeListener != null) && (JHelpGame2D.this.captureKeyCodeListener.canLooseFocus() == true))
+         if((JHelpGame2D.this.captureKeyCodeListener != null) && (JHelpGame2D.this.captureKeyCodeListener.canLooseFocus()))
          {
             JHelpGame2D.this.captureKeyCodeListener = null;
 
@@ -139,7 +139,7 @@ public abstract class JHelpGame2D
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
@@ -154,7 +154,7 @@ public abstract class JHelpGame2D
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
@@ -170,7 +170,7 @@ public abstract class JHelpGame2D
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
@@ -186,7 +186,7 @@ public abstract class JHelpGame2D
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
@@ -202,7 +202,7 @@ public abstract class JHelpGame2D
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
@@ -218,7 +218,7 @@ public abstract class JHelpGame2D
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
@@ -234,7 +234,7 @@ public abstract class JHelpGame2D
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
@@ -250,7 +250,7 @@ public abstract class JHelpGame2D
        * <br>
        * <b>Parent documentation:</b><br>
        * {@inheritDoc}
-       * 
+       *
        * @param event
        *           Event description
        * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
@@ -276,7 +276,7 @@ public abstract class JHelpGame2D
                                                                                 * <br>
                                                                                 * <b>Parent documentation:</b><br>
                                                                                 * {@inheritDoc}
-                                                                                * 
+                                                                                *
                                                                                 * @see jhelp.util.thread.ThreadedVerySimpleTask#doVerySimpleAction()
                                                                                 */
                                                                                @Override
@@ -295,11 +295,12 @@ public abstract class JHelpGame2D
    private final ThreadedVerySimpleTask                 eventManagerTask    = new ThreadedVerySimpleTask()
                                                                             {
                                                                                /**
-                                                                                * Manage key and mouse events in separate thread <br>
+                                                                                * Manage key and mouse events in separate thread
+                                                                                * <br>
                                                                                 * <br>
                                                                                 * <b>Parent documentation:</b><br>
                                                                                 * {@inheritDoc}
-                                                                                * 
+                                                                                *
                                                                                 * @see jhelp.util.thread.ThreadedVerySimpleTask#doVerySimpleAction()
                                                                                 */
                                                                                @Override
@@ -320,13 +321,13 @@ public abstract class JHelpGame2D
                                                                                 * <br>
                                                                                 * <b>Parent documentation:</b><br>
                                                                                 * {@inheritDoc}
-                                                                                * 
+                                                                                *
                                                                                 * @see jhelp.util.thread.ThreadedVerySimpleTask#doVerySimpleAction()
                                                                                 */
                                                                                @Override
                                                                                protected void doVerySimpleAction()
                                                                                {
-                                                                                  if(JHelpGame2D.this.gameInitialzed == true)
+                                                                                  if(JHelpGame2D.this.gameInitialzed)
                                                                                   {
                                                                                      JHelpGame2D.this.refreshGame();
                                                                                      return;
@@ -382,7 +383,7 @@ public abstract class JHelpGame2D
 
    /**
     * Create a new instance of JHelpGame2D
-    * 
+    *
     * @param title
     *           Game title/name
     */
@@ -395,7 +396,7 @@ public abstract class JHelpGame2D
 
    /**
     * Initialize the game frame
-    * 
+    *
     * @param name
     *           Game name
     */
@@ -411,8 +412,8 @@ public abstract class JHelpGame2D
       }
       else
       {
-         this.baseName = UtilText.removeWhiteCharacters(name).replace('-', '_').replace('/', '_').replace('\\', '_').replace('\'', '_').replace('"', '_').replace(
-               '$', '_');
+         this.baseName = UtilText.removeWhiteCharacters(name).replace('-', '_').replace('/', '_').replace('\\', '_').replace('\'', '_').replace('"',
+               '_').replace('$', '_');
 
          if(this.baseName.length() == 0)
          {
@@ -465,7 +466,6 @@ public abstract class JHelpGame2D
 
       this.constructGameInstance();
 
-      ThreadManager.THREAD_MANAGER.repeatThread(this.eventManagerTask, null, 1024, 1);
       ThreadManager.THREAD_MANAGER.delayedThread(this.gameImageManagement, null, 1024);
    }
 
@@ -489,7 +489,7 @@ public abstract class JHelpGame2D
          {
             pair = this.animations.get(i);
 
-            if(pair.element1.animate(pair.element2) == false)
+            if(!pair.element1.animate(pair.element2))
             {
                this.animations.remove(i);
                length--;
@@ -509,7 +509,7 @@ public abstract class JHelpGame2D
 
       this.getImage().update();
 
-      if(loop == true)
+      if(loop)
       {
          ThreadManager.THREAD_MANAGER.delayedThread(this.animator, null, 1000 / max);
       }
@@ -517,7 +517,7 @@ public abstract class JHelpGame2D
 
    /**
     * Change actual key state
-    * 
+    *
     * @param keyCode
     *           Key code
     * @param down
@@ -549,6 +549,7 @@ public abstract class JHelpGame2D
    {
       final JHelpImage image = this.getImage();
 
+      //noinspection SynchronizationOnLocalVariableOrMethodParameter
       synchronized(image)
       {
          image.startDrawMode();
@@ -561,6 +562,7 @@ public abstract class JHelpGame2D
       this.gameInitialzed = true;
 
       ThreadManager.THREAD_MANAGER.delayedThread(this.gameImageManagement, null, 1024);
+      ThreadManager.THREAD_MANAGER.repeatThread(this.eventManagerTask, null, 1024, 1);
    }
 
    /**
@@ -577,7 +579,7 @@ public abstract class JHelpGame2D
 
       for(final MouseSensitiveArea mouseSensitiveArea : this.mouseSensitiveAreas)
       {
-         if((mouseSensitiveArea.isEnbale() == true) && (mouseSensitiveArea.contains(this.mouseX, this.mouseY) == true))
+         if((mouseSensitiveArea.isEnbale()) && (mouseSensitiveArea.contains(this.mouseX, this.mouseY)))
          {
             over = mouseSensitiveArea;
 
@@ -606,7 +608,8 @@ public abstract class JHelpGame2D
 
          for(final MouseSensitiveAreaListener mouseSensitiveAreaListener : this.mouseSensitiveAreaListeners)
          {
-            mouseSensitiveAreaListener.mouseOverArea(over, relativeX, relativeY, this.mouseX, this.mouseY, this.buttonLeft, this.buttonMiddle, this.buttonRight);
+            mouseSensitiveAreaListener.mouseOverArea(over, relativeX, relativeY, this.mouseX, this.mouseY, this.buttonLeft, this.buttonMiddle,
+                  this.buttonRight);
          }
       }
 
@@ -631,8 +634,9 @@ public abstract class JHelpGame2D
       {
          if(this.eventManager != null)
          {
-            if(this.eventManager.actionState(Collections.unmodifiableMap(this.actionStates), this.mouseX, this.mouseY, this.buttonLeft, this.buttonMiddle,
-                  this.buttonRight) == true)
+            if(this.eventManager.actionState(Collections.unmodifiableMap(this.actionStates), this.mouseX, this.mouseY,
+                                             this.buttonLeft, this.buttonMiddle,
+                                             this.buttonRight))
             {
                for(final ActionKey actionKey : this.actionStates.keySet())
                {
@@ -655,6 +659,7 @@ public abstract class JHelpGame2D
       this.lastTime = System.currentTimeMillis();
       final JHelpImage image = this.getImage();
 
+      //noinspection SynchronizationOnLocalVariableOrMethodParameter
       synchronized(image)
       {
          image.startDrawMode();
@@ -684,7 +689,7 @@ public abstract class JHelpGame2D
 
    /**
     * Called when game initialization start
-    * 
+    *
     * @param image
     *           Game image where draw, already in draw mode
     */
@@ -692,7 +697,7 @@ public abstract class JHelpGame2D
 
    /**
     * Call at each game frame.
-    * 
+    *
     * @param image
     *           Game image where draw, already in draw mode
     */
@@ -700,7 +705,7 @@ public abstract class JHelpGame2D
 
    /**
     * add a mouse sensitive area
-    * 
+    *
     * @param mouseSensitiveArea
     *           Mouse sensitive area to add
     */
@@ -717,7 +722,7 @@ public abstract class JHelpGame2D
    /**
     * Pass in special mode to be able to capture any next pressed key.<br>
     * Use full for settings action key by example
-    * 
+    *
     * @param captureKeyCodeListener
     *           Listener to call back when key is pressed
     */
@@ -727,9 +732,10 @@ public abstract class JHelpGame2D
    }
 
    /**
-    * Create a sprite for embed image, this sprite can be animated with {@link #playAnimmation(JHelpAnimation, JHelpSprite)}.<br>
+    * Create a sprite for embed image, this sprite can be animated with {@link #playAnimmation(JHelpAnimation, JHelpSprite)}.
+    * <br>
     * Remember, sprite are by default hide, to show them, use {@link JHelpSprite#setVisible(boolean) sprite.setVisible(true);}
-    * 
+    *
     * @param x
     *           Start sprite X position
     * @param y
@@ -746,14 +752,14 @@ public abstract class JHelpGame2D
 
       final boolean drawMode = image.isDrawMode();
 
-      if(drawMode == true)
+      if(drawMode)
       {
          image.endDrawMode();
       }
 
       final JHelpSprite sprite = image.createSprite(x, y, width, height);
 
-      if(drawMode == true)
+      if(drawMode)
       {
          image.startDrawMode();
       }
@@ -763,7 +769,7 @@ public abstract class JHelpGame2D
 
    /**
     * Create an invisible sprite with a specific image
-    * 
+    *
     * @param x
     *           X position
     * @param y
@@ -778,14 +784,14 @@ public abstract class JHelpGame2D
 
       final boolean drawMode = image.isDrawMode();
 
-      if(drawMode == true)
+      if(drawMode)
       {
          image.endDrawMode();
       }
 
       final JHelpSprite sprite = image.createSprite(x, y, source);
 
-      if(drawMode == true)
+      if(drawMode)
       {
          image.startDrawMode();
       }
@@ -795,7 +801,7 @@ public abstract class JHelpGame2D
 
    /**
     * Find area by ID
-    * 
+    *
     * @param identifier
     *           ID searched
     * @return Area found
@@ -818,7 +824,7 @@ public abstract class JHelpGame2D
     * It is the recommended external directory name to use for game data, use {@link UtilIO#obtainExternalFile(String)
     * UtilIO.obtainExternalFile(jhelpGame2D.getBaseName())} or {@link #obtainRecommendedExternalDirectory()} to have the
     * directory
-    * 
+    *
     * @return The base name of the game
     */
    public String getBaseName()
@@ -828,7 +834,7 @@ public abstract class JHelpGame2D
 
    /**
     * The key action state and mouse state listener
-    * 
+    *
     * @return The key action state and mouse state listener
     */
    public EventManager getEventManager()
@@ -838,7 +844,7 @@ public abstract class JHelpGame2D
 
    /**
     * Actual game FPS
-    * 
+    *
     * @return Actual game FPS
     */
    public int getFps()
@@ -848,7 +854,7 @@ public abstract class JHelpGame2D
 
    /**
     * Obtain the associate key code of a key action
-    * 
+    *
     * @param actionKey
     *           Key action to have its key code
     * @return Associated key code or -1 if not associated
@@ -857,7 +863,8 @@ public abstract class JHelpGame2D
    {
       for(final Entry<Integer, ActionKey> entry : this.keyAssociations.entrySet())
       {
-         if(entry.getValue().equals(actionKey) == true)
+         if(entry.getValue()
+                 .equals(actionKey))
          {
             return entry.getKey();
          }
@@ -868,7 +875,7 @@ public abstract class JHelpGame2D
 
    /**
     * Obtain the textual representation of the key code associated to a key action
-    * 
+    *
     * @param actionKey
     *           Key action to have its key code textual representation
     * @return Key code textual representation
@@ -880,7 +887,7 @@ public abstract class JHelpGame2D
 
    /**
     * Preferences associates to the game.
-    * 
+    *
     * @return Preferences associates to the game
     */
    public Preferences getPreferences()
@@ -890,7 +897,7 @@ public abstract class JHelpGame2D
 
    /**
     * Recommended external directory where found external resources
-    * 
+    *
     * @return Recommended external directory where found external resources
     */
    public File obtainRecommendedExternalDirectory()
@@ -905,7 +912,7 @@ public abstract class JHelpGame2D
 
    /**
     * Launch an animation using a sprite
-    * 
+    *
     * @param animation
     *           Animation to play
     * @param sprite
@@ -931,7 +938,7 @@ public abstract class JHelpGame2D
       {
          this.animations.add(new Pair<JHelpAnimation, JHelpSprite>(animation, sprite));
 
-         launch = this.atLeastOneAnimationPlaying == false;
+         launch = !this.atLeastOneAnimationPlaying;
 
          this.atLeastOneAnimationPlaying = true;
       }
@@ -942,7 +949,7 @@ public abstract class JHelpGame2D
 
       animation.startAnimation(sprite);
 
-      if(launch == true)
+      if(launch)
       {
          ThreadManager.THREAD_MANAGER.delayedThread(this.animator, null, 1000 / animation.getFPS());
       }
@@ -950,7 +957,7 @@ public abstract class JHelpGame2D
 
    /**
     * Register a mouse sensitive area listener
-    * 
+    *
     * @param mouseSensitiveAreaListener
     *           Listener to register
     */
@@ -966,7 +973,7 @@ public abstract class JHelpGame2D
 
    /**
     * Remove a mouse sensitive area
-    * 
+    *
     * @param mouseSensitiveArea
     *           Area to remove
     */
@@ -977,7 +984,7 @@ public abstract class JHelpGame2D
 
    /**
     * Remove a sprite
-    * 
+    *
     * @param sprite
     *           Sprite to remove
     */
@@ -988,14 +995,14 @@ public abstract class JHelpGame2D
 
       final boolean drawMode = image.isDrawMode();
 
-      if(drawMode == true)
+      if(drawMode)
       {
          image.endDrawMode();
       }
 
       image.removeSprite(sprite);
 
-      if(drawMode == true)
+      if(drawMode)
       {
          image.startDrawMode();
       }
@@ -1003,18 +1010,18 @@ public abstract class JHelpGame2D
 
    /**
     * Change areas visible status
-    * 
+    *
     * @param visible
     *           New areas visible status
     */
    public void setAreasVisible(final boolean visible)
    {
-      if((this.spriteShowAreas == null) && (visible == false))
+      if((this.spriteShowAreas == null) && (!visible))
       {
          return;
       }
 
-      if(visible == false)
+      if(!visible)
       {
          this.spriteShowAreas.setVisible(false);
          this.removeSprite(this.spriteShowAreas);
@@ -1052,7 +1059,7 @@ public abstract class JHelpGame2D
 
    /**
     * Change the key action state and mouse state listener
-    * 
+    *
     * @param eventManager
     *           New key action state and mouse state listener
     */
@@ -1072,7 +1079,7 @@ public abstract class JHelpGame2D
 
    /**
     * Change game FPS
-    * 
+    *
     * @param fps
     *           New FPS
     */
@@ -1087,7 +1094,7 @@ public abstract class JHelpGame2D
     * action have no more key code associated), then the desired association is done. We return the action that have loose is
     * association (or {@code null} if none) to let a chance to developer to alert the user that a key an action is unmapped and
     * do appropriate action.
-    * 
+    *
     * @param actionKey
     *           Action key to change its key code
     * @param keyCode
@@ -1126,7 +1133,7 @@ public abstract class JHelpGame2D
 
    /**
     * Unregister a mouse area listener
-    * 
+    *
     * @param mouseSensitiveAreaListener
     *           Listener to remove
     */

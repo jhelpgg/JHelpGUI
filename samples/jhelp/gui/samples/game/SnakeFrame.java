@@ -410,34 +410,34 @@ public class SnakeFrame
          final boolean buttonMiddle, final boolean buttonRight)
    {
       // Exit action => Exit game
-      if(actionsStates.get(ActionKey.ACTION_EXIT) == true)
+      if(actionsStates.get(ActionKey.ACTION_EXIT))
       {
          this.closeFrame();
       }
 
       // Menu action => Show the change of key association (Changes are autmatically register in preferences)
-      if(actionsStates.get(ActionKey.ACTION_MENU) == true)
+      if(actionsStates.get(ActionKey.ACTION_MENU))
       {
          this.keyMapper.showInJHelpGame2D(this);
       }
 
       // /Arrows change snake direction
-      if((actionsStates.get(ActionKey.ACTION_LEFT) == true) && (this.wayX == 0))
+      if((actionsStates.get(ActionKey.ACTION_LEFT)) && (this.wayX == 0))
       {
          this.wayX = -1;
          this.wayY = 0;
       }
-      else if((actionsStates.get(ActionKey.ACTION_RIGHT) == true) && (this.wayX == 0))
+      else if((actionsStates.get(ActionKey.ACTION_RIGHT)) && (this.wayX == 0))
       {
          this.wayX = 1;
          this.wayY = 0;
       }
-      else if((actionsStates.get(ActionKey.ACTION_UP) == true) && (this.wayY == 0))
+      else if((actionsStates.get(ActionKey.ACTION_UP)) && (this.wayY == 0))
       {
          this.wayY = -1;
          this.wayX = 0;
       }
-      else if((actionsStates.get(ActionKey.ACTION_DOWN) == true) && (this.wayY == 0))
+      else if((actionsStates.get(ActionKey.ACTION_DOWN)) && (this.wayY == 0))
       {
          this.wayY = 1;
          this.wayX = 0;
