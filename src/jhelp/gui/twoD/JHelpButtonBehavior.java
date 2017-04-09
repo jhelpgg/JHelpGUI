@@ -1,3 +1,12 @@
+/*
+ * License :
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may cause.
+ * You can use, modify, the code as your need for any usage.
+ * But you can't do any action that avoid me or other person use, modify this code.
+ * The code is free for usage and modification, you can't change that fact.
+ * JHelp
+ */
+
 /**
  * <h1>License :</h1> <br>
  * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may
@@ -23,32 +32,17 @@ import jhelp.gui.JHelpMouseListener;
 public class JHelpButtonBehavior
       implements JHelpMouseListener
 {
-   /**
-    * Give to a component the button behavior
-    * 
-    * @param identifier
-    *           Behavior identifier
-    * @param component2d
-    *           Component to add the behavior
-    * @param actionListener
-    *           Listener to call if component id pressed
-    * @return The behavior instance
-    */
-   public static JHelpButtonBehavior giveButtonBehavior(final int identifier, final JHelpComponent2D component2d, final JHelpActionListener actionListener)
-   {
-      return new JHelpButtonBehavior(identifier, component2d, actionListener);
-   }
-
-   /** Listener to call if component id pressed */
+    /**
+     * Listener to call if component is pressed
+     */
    private final JHelpActionListener actionListener;
    /** Component with the added behavior */
    private final JHelpComponent2D    component2d;
    /** Identifier of the behavior */
    private final int                 identifier;
-
    /**
     * Create a new instance of JHelpButtonBehavior
-    * 
+    *
     * @param identifier
     *           Behavior identifier
     * @param component2d
@@ -58,22 +52,36 @@ public class JHelpButtonBehavior
     */
    private JHelpButtonBehavior(final int identifier, final JHelpComponent2D component2d, final JHelpActionListener actionListener)
    {
-      if(component2d == null)
-      {
-         throw new NullPointerException("component2d musn't be null");
-      }
+       if(component2d == null)
+       {
+           throw new NullPointerException("component2d musn't be null");
+       }
 
-      if(actionListener == null)
-      {
-         throw new NullPointerException("actionListener musn't be null");
-      }
+       if(actionListener == null)
+       {
+           throw new NullPointerException("actionListener musn't be null");
+       }
 
-      this.identifier = identifier;
-      this.component2d = component2d;
-      this.actionListener = actionListener;
+       this.identifier = identifier;
+       this.component2d = component2d;
+       this.actionListener = actionListener;
 
-      this.component2d.setMouseListener(this);
+       this.component2d.setMouseListener(this);
    }
+
+    /**
+     * Give to a component the button behavior
+     *
+     * @param identifier     Behavior identifier
+     * @param component2d    Component to add the behavior
+     * @param actionListener Listener to call if component is pressed
+     * @return The behavior instance
+     */
+    public static JHelpButtonBehavior giveButtonBehavior(final int identifier, final JHelpComponent2D component2d,
+                                                         final JHelpActionListener actionListener)
+    {
+        return new JHelpButtonBehavior(identifier, component2d, actionListener);
+    }
 
    /**
     * Called when mouse clicked <br>
@@ -92,26 +100,40 @@ public class JHelpButtonBehavior
    }
 
    /**
-    * Called when mouse dragged <br>
+    * Called when mouse moved <br>
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param e
     *           Mouse event description
-    * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
+    * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
     */
    @Override
-   public void mouseDragged(final MouseEvent e)
+   public void mousePressed(final MouseEvent e)
    {
    }
 
-   /**
-    * Called when mouse entered <br>
+    /**
+     * Called when mouse released <br>
+     * <br>
+     * <b>Parent documentation:</b><br>
+     * {@inheritDoc}
+     *
+     * @param e Mouse event description
+     * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+     */
+    @Override
+    public void mouseReleased(final MouseEvent e)
+    {
+    }
+
+    /**
+     * Called when mouse entered <br>
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param e
     *           Mouse event description
     * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
@@ -126,7 +148,7 @@ public class JHelpButtonBehavior
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
     * @param e
     *           Mouse event description
     * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
@@ -137,52 +159,37 @@ public class JHelpButtonBehavior
    }
 
    /**
-    * Called when mouse moved <br>
+    * Called when mouse dragged <br>
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
-    * 
+    *
+    * @param e
+    *           Mouse event description
+    * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
+    */
+   @Override
+   public void mouseDragged(final MouseEvent e)
+   {
+   }
+
+    /**
+     * Called when mouse moved <br>
+    * <br>
+    * <b>Parent documentation:</b><br>
+    * {@inheritDoc}
+    *
     * @param e
     *           Mouse event description
     * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
-    */
-   @Override
-   public void mouseMoved(final MouseEvent e)
-   {
-   }
+     */
+    @Override
+    public void mouseMoved(final MouseEvent e)
+    {
+    }
 
-   /**
-    * Called when mouse moved <br>
-    * <br>
-    * <b>Parent documentation:</b><br>
-    * {@inheritDoc}
-    * 
-    * @param e
-    *           Mouse event description
-    * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
-    */
-   @Override
-   public void mousePressed(final MouseEvent e)
-   {
-   }
-
-   /**
-    * Called when mouse released <br>
-    * <br>
-    * <b>Parent documentation:</b><br>
-    * {@inheritDoc}
-    * 
-    * @param e
-    *           Mouse event description
-    * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
-    */
-   @Override
-   public void mouseReleased(final MouseEvent e)
-   {
-   }
-
-   /**
-    * Called when mouse wheel moved <br>
+    /**
+     * Called when mouse wheel moved <br>
     * <br>
     * <b>Parent documentation:</b><br>
     * {@inheritDoc}
