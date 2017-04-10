@@ -7,6 +7,15 @@
  * JHelp
  */
 
+/*
+ * License :
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may cause.
+ * You can use, modify, the code as your need for any usage.
+ * But you can't do any action that avoid me or other person use, modify this code.
+ * The code is free for usage and modification, you can't change that fact.
+ * JHelp
+ */
+
 /**
  * <h1>License :</h1> <br>
  * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any
@@ -267,7 +276,7 @@ public class JHelpTable extends JPanel
     /**
      * Indicates if split, unify and move are allowed
      *
-     * @retrun {@code true} if split, unify and move are allowed
+     * @return {@code true} if split, unify and move are allowed
      */
     public boolean isCanUnifySplitOrMove()
     {
@@ -893,7 +902,7 @@ public class JHelpTable extends JPanel
     /**
      * Obtain numberOfColumns value
      *
-     * @retrun numberOfColumns value
+     * @return numberOfColumns value
      */
     public int getNumberOfColumns()
     {
@@ -903,7 +912,7 @@ public class JHelpTable extends JPanel
     /**
      * Obtain numberOfRows value
      *
-     * @retrun numberOfRows value
+     * @return numberOfRows value
      */
     public int getNumberOfRows()
     {
@@ -913,7 +922,7 @@ public class JHelpTable extends JPanel
     /**
      * Obtain lineColor value
      *
-     * @retrun lineColor value
+     * @return lineColor value
      */
     public Color getLineColor()
     {
@@ -940,7 +949,7 @@ public class JHelpTable extends JPanel
     /**
      * Obtain selectColor value
      *
-     * @retrun selectColor value
+     * @return selectColor value
      */
     public Color getSelectColor()
     {
@@ -967,7 +976,7 @@ public class JHelpTable extends JPanel
     /**
      * Obtain highlightColor value
      *
-     * @retrun highlightColor value
+     * @return highlightColor value
      */
     public Color getHighlightColor()
     {
@@ -992,7 +1001,7 @@ public class JHelpTable extends JPanel
     /**
      * Obtain lineThick value
      *
-     * @retrun lineThick value
+     * @return lineThick value
      */
     public int getLineThick()
     {
@@ -1379,7 +1388,7 @@ public class JHelpTable extends JPanel
     /**
      * Indicates if the special buttons for add/remove columns/rows are shown
      *
-     * @retrun {@code true} if the special buttons for add/remove columns/rows are shown
+     * @return {@code true} if the special buttons for add/remove columns/rows are shown
      */
     public boolean isShowColumnsRowsManipulation()
     {

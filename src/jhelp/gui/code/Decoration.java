@@ -9,6 +9,15 @@
 
 /*
  * License :
+ * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any damage it may cause.
+ * You can use, modify, the code as your need for any usage.
+ * But you can't do any action that avoid me or other person use, modify this code.
+ * The code is free for usage and modification, you can't change that fact.
+ * JHelp
+ */
+
+/*
+ * License :
  * The following code is deliver as is. I take care that code compile and work, but I am not responsible about any
  * damage it may cause.
  * You can use, modify, the code as your need for any usage.
@@ -96,7 +105,7 @@ public class Decoration
     /**
      * Text relative size
      *
-     * @retrun Text relative size
+     * @return Text relative size
      */
     public @NotNull
     TextSize getTextSize()
@@ -107,7 +116,7 @@ public class Decoration
     /**
      * Obtain bold value
      *
-     * @retrun bold value
+     * @return bold value
      */
     public boolean isBold()
     {
@@ -117,7 +126,7 @@ public class Decoration
     /**
      * Obtain italic value
      *
-     * @retrun italic value
+     * @return italic value
      */
     public boolean isItalic()
     {
@@ -127,7 +136,7 @@ public class Decoration
     /**
      * Obtain underline value
      *
-     * @retrun underline value
+     * @return underline value
      */
     public boolean isUnderline()
     {
@@ -137,7 +146,7 @@ public class Decoration
     /**
      * Obtain foreground value
      *
-     * @retrun foreground value
+     * @return foreground value
      */
     public @NotNull
     Color getForeground()
@@ -148,7 +157,7 @@ public class Decoration
     /**
      * Obtain background value
      *
-     * @retrun background value
+     * @return background value
      */
     public @NotNull
     Color getBackground()
